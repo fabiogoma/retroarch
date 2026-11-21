@@ -1,6 +1,6 @@
 # RetroArch tool configuration.
 # Put personal/machine-specific overrides (like your Apple TV IP) in
-# retroarch-tool.local.yaml (gitignored), or override via RETROARCH_<NAME>
+# config/retroarch-tool.local.yaml (gitignored), or override via RETROARCH_<NAME>
 # environment variables or CLI flags.
 
 # --- RetroArch device ---

@@ -16,7 +16,7 @@ import (
 	"github.com/fabiogoma/retroarch/internal/library"
 )
 
-// Defaults for every setting; retroarch-tool.yaml, retroarch-tool.local.yaml,
+// Defaults for every setting; config/retroarch-tool.yaml, config/retroarch-tool.local.yaml,
 // RETROARCH_* environment variables, and CLI flags override them in that order.
 var defaults = map[string]any{
 	"server":                "http://192.168.0.249",
@@ -67,7 +67,7 @@ func init() {
 	}
 	cobra.OnInitialize(initConfig)
 	f := rootCmd.PersistentFlags()
-	f.StringVar(&cfgFile, "config", "", "config file (default: retroarch-tool.yaml + optional retroarch-tool.local.yaml)")
+	f.StringVar(&cfgFile, "config", "", "config file (default: config/retroarch-tool.yaml + optional config/retroarch-tool.local.yaml)")
 	f.String("root", "", "project root (default: nearest parent containing config/curation.yaml)")
 	f.String("roms", "", "ROMs folder (overrides roms_dir in config)")
 	f.String("server", "", "RetroArch web server URL (overrides server in config)")
@@ -87,12 +87,12 @@ func initConfig() {
 			os.Exit(1)
 		}
 	} else {
-		root := projectRoot()
+		cfgDir := filepath.Join(projectRoot(), "config")
 		viper.SetConfigName("retroarch-tool")
 		viper.SetConfigType("yaml")
-		viper.AddConfigPath(root)
+		viper.AddConfigPath(cfgDir)
 		_ = viper.ReadInConfig()
-		localCfg := filepath.Join(root, "retroarch-tool.local.yaml")
+		localCfg := filepath.Join(cfgDir, "retroarch-tool.local.yaml")
 		if info, err := os.Stat(localCfg); err == nil && !info.IsDir() {
 			viper.SetConfigFile(localCfg)
 			if err := viper.MergeInConfig(); err != nil {

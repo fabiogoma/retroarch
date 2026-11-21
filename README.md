@@ -42,9 +42,9 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 
 ## Configuration
 
-All parameters live in `retroarch-tool.yaml` (server URL, local and remote directories, default Top sets, concurrency workers, timeouts, artwork URLs).
+All parameters live in `config/retroarch-tool.yaml` (server URL, local and remote directories, default Top sets, concurrency workers, timeouts, artwork URLs).
 
-For personal/machine-specific settings such as your Apple TV IP address, create `retroarch-tool.local.yaml` (gitignored — automatically merged on top of `retroarch-tool.yaml`), or override with `RETROARCH_*` environment variables or CLI flags (`--server`, `--roms`, `--workers`, `--top`).
+For personal/machine-specific settings such as your Apple TV IP address, create `config/retroarch-tool.local.yaml` (gitignored — automatically merged on top of `config/retroarch-tool.yaml`), or override with `RETROARCH_*` environment variables or CLI flags (`--server`, `--roms`, `--workers`, `--top`).
 
 Before updating any remote config file, `sync` downloads and backs up the current running RetroArch configuration to `state/config-backups/<timestamp>/` (configurable via `backup_dir`). To restore a backup if anything goes wrong:
 
@@ -53,6 +53,7 @@ go run . sync --restore-config state/config-backups/<timestamp>
 ```
 
 All custom configuration lives in `config/` (YAML for local project config; native `.cfg`/`.slangp`/`.opt` formats where required by RetroArch):
+- `config/retroarch-tool.yaml` (+ optional gitignored `config/retroarch-tool.local.yaml`) — CLI settings, server URL, paths, and concurrency.
 - `config/curation.yaml` — your game preferences and Top 30/40/50 ranking (re-run `go run . build --from-cache` after editing).
 - `config/consoles.yaml` & `config/apple_tv_cores.yaml` — console extensions and Apple TV core mappings.
 - `config/apple-tv.cfg`, `config/global.slangp`, `config/pce-six-button.opt` — RetroArch overrides, CRT shader preset, and PCE 6-button options.

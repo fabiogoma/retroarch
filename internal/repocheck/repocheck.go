@@ -12,7 +12,7 @@ import (
 )
 
 var rootFiles = map[string]bool{".gitignore": true, "README.md": true,
-	"go.mod": true, "go.sum": true, "main.go": true, "retroarch-tool.yaml": true}
+	"go.mod": true, "go.sum": true, "main.go": true}
 
 var configFiles = map[string]bool{
 	"apple-tv.cfg":        true,
@@ -21,6 +21,7 @@ var configFiles = map[string]bool{
 	"consoles.yaml":       true,
 	"curation.yaml":       true,
 	"apple_tv_cores.yaml": true,
+	"retroarch-tool.yaml": true,
 }
 
 func allowed(name string) bool {
@@ -32,7 +33,7 @@ func allowed(name string) bool {
 		return strings.HasSuffix(name, ".go")
 	case "config":
 		return len(parts) == 2 && configFiles[parts[1]] ||
-			name == "config/bezels/README.md" || name == "config/bezels/LICENSE" ||
+			name == "config/bezels/LICENSE" ||
 			name == "config/bezels/sources.yaml" ||
 			len(parts) >= 3 && parts[1] == "bezels" && strings.HasSuffix(name, ".cfg")
 	case ".github":

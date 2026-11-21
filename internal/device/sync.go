@@ -16,7 +16,7 @@ import (
 	"github.com/fabiogoma/retroarch/internal/util"
 )
 
-// Remote directories on the Apple TV RetroArch web file server (configurable via retroarch-tool.yaml).
+// Remote directories on the Apple TV RetroArch web file server (configurable via config/retroarch-tool.yaml).
 var (
 	RemoteROMRoot       = []string{"downloads", "ROMS"}
 	RemotePlaylistsDir  = "playlists"

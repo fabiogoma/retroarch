@@ -3,7 +3,6 @@
 !/.gitignore
 !/go.mod
 !/go.sum
-!/retroarch-tool.yaml
 !/main.go
 !/cmd/
 !/cmd/*.go
@@ -22,10 +21,10 @@
 !/config/consoles.yaml
 !/config/curation.yaml
 !/config/apple_tv_cores.yaml
+!/config/retroarch-tool.yaml
 !/config/bezels/
 /config/bezels/*
 !/config/bezels/*.cfg
-!/config/bezels/README.md
 !/config/bezels/LICENSE
 !/config/bezels/sources.yaml
 !/config/bezels/overrides/

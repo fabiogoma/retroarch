@@ -17,6 +17,7 @@ var rootFiles = map[string]bool{".gitignore": true, "README.md": true,
 var configFiles = map[string]bool{
 	"apple-tv.cfg":        true,
 	"global.slangp":       true,
+	"gba.slangp":          true,
 	"pce-six-button.opt":  true,
 	"consoles.yaml":       true,
 	"curation.yaml":       true,

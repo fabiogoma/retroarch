@@ -38,7 +38,7 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 - **2 original Sony DualShock 4 controllers** over Apple TV MFi (`input_joypad_driver = "mfi"`, `input_max_users = "2"`, ports 1 & 2 mapped to joypad indices `0` and `1`).
 - **Left analog stick as D-pad**: enabled (`input_player1_analog_dpad_mode = "1"`, `input_player2_analog_dpad_mode = "1"`) for all D-pad-only consoles (NES, SNES, Genesis, Master System, PC Engine, GBA), and disabled (`"0"`) via per-folder override on **Nintendo 64** so N64 uses the native analog stick cleanly.
 - **PC Engine 6-button**: `config/pce-six-button.opt` is synced automatically for Street Fighter II (both players) while other PC Engine games keep 2-button defaults.
-- **Video & Audio**: 60 Hz Vulkan output, 4:3 aspect ratio (3:2 per-folder override on GBA), CRT EasyMode (`config/global.slangp`), console bezels via per-folder overrides, and stable CoreAudio settings.
+- **Video & Audio**: 60 Hz Vulkan output, 4:3 aspect ratio (3:2 per-folder override on GBA), CRT EasyMode (`config/global.slangp`) with a per-folder handheld LCD Grid + GBA Color shader (`config/gba.slangp`), console bezels via per-folder overrides, and stable CoreAudio settings.
 - **iCloud Cloud Sync**: Automatic CloudKit sync (`cloud_sync_driver = "icloud"`) enabled for save files (`.srm`) and save states (non-destructive; configs/thumbnails/system disabled so they don't conflict with `sync`).
 
 ## Configuration
@@ -57,7 +57,7 @@ All custom configuration lives in `config/` (YAML for local project config; nati
 - `config/retroarch-tool.yaml` (+ optional gitignored `config/retroarch-tool.local.yaml`) — CLI settings, server URL, paths, and concurrency.
 - `config/curation.yaml` — your game preferences and Top 10–100 ranking (re-run `go run . build --from-cache` after editing).
 - `config/consoles.yaml` & `config/apple_tv_cores.yaml` — console extensions and Apple TV core mappings.
-- `config/apple-tv.cfg`, `config/global.slangp`, `config/pce-six-button.opt` — RetroArch overrides, CRT shader preset, and PCE 6-button options.
+- `config/apple-tv.cfg`, `config/global.slangp`, `config/gba.slangp`, `config/pce-six-button.opt` — RetroArch overrides, CRT/GBA LCD shader presets, and PCE 6-button options.
 - `config/bezels/` — console bezel metadata (`sources.yaml`) and per-console DualShock 4 + bezel overrides (`.cfg`).
 
 ## Testing

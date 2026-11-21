@@ -202,6 +202,7 @@ func TestSyncAllParallelROMsPlaylistsArtworkBezelsAndConfig(t *testing.T) {
 		"input_joypad_driver = \"mfi\"\ninput_max_users = \"2\"\ninput_player1_analog_dpad_mode = \"1\"\ninput_player2_analog_dpad_mode = \"1\"\n",
 	), 0o644)
 	os.WriteFile(filepath.Join(configDir, "global.slangp"), []byte("shaders = \"1\"\n"), 0o644)
+	os.WriteFile(filepath.Join(configDir, "gba.slangp"), []byte("shaders = \"2\"\n"), 0o644)
 
 	srv := newMemory(map[string]string{
 		"/downloads/ROMS/nes/Old.zip": "keep",
@@ -251,6 +252,9 @@ func TestSyncAllParallelROMsPlaylistsArtworkBezelsAndConfig(t *testing.T) {
 	}
 	if got["/config/global.slangp"] != "shaders = \"1\"\n" {
 		t.Fatalf("shader preset missing")
+	}
+	if got["/config/mGBA/gba.slangp"] != "shaders = \"2\"\n" {
+		t.Fatalf("GBA shader preset missing")
 	}
 
 	// Repeat sync should do zero writes.

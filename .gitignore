@@ -17,6 +17,7 @@
 /config/*
 !/config/apple-tv.cfg
 !/config/global.slangp
+!/config/gba.slangp
 !/config/pce-six-button.opt
 !/config/consoles.yaml
 !/config/curation.yaml

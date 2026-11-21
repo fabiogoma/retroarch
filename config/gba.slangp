@@ -1,0 +1,19 @@
+# Per-folder GBA handheld LCD shader preset for Apple TV (overrides global CRT preset).
+# Combines authentic GBA color correction with a crisp LCD subpixel grid.
+shaders = "2"
+
+shader0 = "../../shaders/shaders_slang/handheld/shaders/color/gba-color.slang"
+filter_linear0 = "false"
+wrap_mode0 = "clamp_to_border"
+mipmap_input0 = "false"
+scale_type0 = "source"
+scale0 = "1.000000"
+
+shader1 = "../../shaders/shaders_slang/handheld/shaders/lcd3x.slang"
+filter_linear1 = "false"
+wrap_mode1 = "clamp_to_border"
+mipmap_input1 = "false"
+scale_type1 = "viewport"
+scale1 = "1.000000"
+brighten_scanlines = "16.000000"
+brighten_lcd = "4.000000"

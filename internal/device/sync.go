@@ -628,6 +628,18 @@ func syncConfig(out io.Writer, server Remote, exportDir, configDir, backupDir st
 		}
 	}
 
+	// 2b. Sync per-folder GBA handheld LCD shader preset (overrides global CRT shader for mGBA).
+	gbaShaderPath := filepath.Join(configDir, "gba.slangp")
+	if gbaShaderData, err := os.ReadFile(gbaShaderPath); err == nil {
+		ch, err := syncSingleConfigFile(server, "/"+RemoteConfigDir+"/mGBA/gba.slangp", gbaShaderData, backupDir, dryRun)
+		if err != nil {
+			return 0, err
+		}
+		if ch != nil {
+			changes = append(changes, *ch)
+		}
+	}
+
 	// 3. Merge Street Fighter II 6-button PCE options for both P1 & P2,
 	// preserving any other existing Beetle PCE Fast core options on the device.
 	pceOptPath := filepath.Join(configDir, "pce-six-button.opt")

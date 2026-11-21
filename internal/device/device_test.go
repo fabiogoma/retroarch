@@ -279,6 +279,97 @@ func TestMergeConfigPreservesUnrelatedSettings(t *testing.T) {
 	}
 }
 
+func TestDiffConfigReportsAddedAndModifiedKeys(t *testing.T) {
+	base := []byte("keep = \"same\"\ninput_max_users = \"8\"\n")
+	merged := MergeConfig(base, []byte("keep = \"same\"\ninput_max_users = \"2\"\ninput_player2_analog_dpad_mode = \"1\"\n"))
+	diffs := DiffConfig(base, merged)
+	if len(diffs) != 2 {
+		t.Fatalf("got %d diffs (%+v), want 2", len(diffs), diffs)
+	}
+	if diffs[0].Key != "input_max_users" || diffs[0].Added || diffs[0].OldVal != `"8"` || diffs[0].NewVal != `"2"` {
+		t.Fatalf("diffs[0] = %+v", diffs[0])
+	}
+	if diffs[1].Key != "input_player2_analog_dpad_mode" || !diffs[1].Added || diffs[1].NewVal != `"1"` {
+		t.Fatalf("diffs[1] = %+v", diffs[1])
+	}
+}
+
+func TestSyncOutputIsConciseByDefaultAndDetailedWhenVerbose(t *testing.T) {
+	export := writeExport(t, map[string]string{"Super Mario Bros.zip": "aaa", "Zelda.zip": "bbbb"})
+	root := t.TempDir()
+	artworkDir := filepath.Join(root, "artwork")
+	configDir := filepath.Join(root, "config")
+	stateDir := filepath.Join(root, "state")
+
+	boxDir := filepath.Join(artworkDir, "Nintendo - Nintendo Entertainment System", "Named_Boxarts")
+	os.MkdirAll(boxDir, 0o755)
+	os.WriteFile(filepath.Join(boxDir, "Super Mario Bros.png"), []byte("png-a"), 0o644)
+
+	os.MkdirAll(configDir, 0o755)
+	os.WriteFile(filepath.Join(configDir, "apple-tv.cfg"), []byte("input_max_users = \"2\"\nconfig_save_on_exit = \"false\"\n"), 0o644)
+
+	srv := newMemory(map[string]string{
+		"/config/retroarch.cfg": "input_max_users = \"8\"\n",
+	})
+
+	var concise strings.Builder
+	opts := SyncOptions{
+		ExportDir: export, ArtworkDir: artworkDir, ConfigDir: configDir, StateDir: stateDir,
+		Workers: 2, DryRun: true, Out: &concise,
+		ROMs: true, Playlists: true, Artwork: true, Config: true,
+	}
+	if err := SyncAll(srv, opts); err != nil {
+		t.Fatalf("concise dry-run failed: %v", err)
+	}
+	out := concise.String()
+	// Individual ROM and artwork titles must not clutter default output.
+	if strings.Contains(out, "Super Mario Bros.zip") || strings.Contains(out, "Zelda.zip") || strings.Contains(out, "Super Mario Bros.png") {
+		t.Fatalf("concise output should not list individual ROM/artwork titles:\n%s", out)
+	}
+	// Summary, per-console breakdown, playlist change, and config key diff must be present.
+	for _, want := range []string{
+		"Sync preview (dry-run)",
+		"ROMs:      would upload 2",
+		"nes",
+		"Playlists: would sync 1",
+		"Artwork:   would upload 1",
+		"1 missing locally",
+		"Config:    would update 1 file(s)",
+		`~ input_max_users: "8" -> "2"`,
+		`+ config_save_on_exit = "false"`,
+		"Dry-run complete",
+	} {
+		if !strings.Contains(out, want) {
+			t.Fatalf("concise output missing %q:\n%s", want, out)
+		}
+	}
+
+	// Verbose mode should include individual file paths.
+	var verbose strings.Builder
+	opts.Verbose = true
+	opts.Out = &verbose
+	if err := SyncAll(srv, opts); err != nil {
+		t.Fatalf("verbose dry-run failed: %v", err)
+	}
+	if !strings.Contains(verbose.String(), "Super Mario Bros.zip") || !strings.Contains(verbose.String(), "Super Mario Bros.png") {
+		t.Fatalf("verbose output should list individual files:\n%s", verbose.String())
+	}
+
+	// After real sync, a subsequent dry-run should report everything up to date.
+	opts.DryRun, opts.Verbose, opts.Out = false, false, io.Discard
+	if err := SyncAll(srv, opts); err != nil {
+		t.Fatalf("real sync failed: %v", err)
+	}
+	var upToDate strings.Builder
+	opts.DryRun, opts.Out = true, &upToDate
+	if err := SyncAll(srv, opts); err != nil {
+		t.Fatalf("up-to-date dry-run failed: %v", err)
+	}
+	if !strings.Contains(upToDate.String(), "No changes needed (dry-run).") {
+		t.Fatalf("expected no-changes summary:\n%s", upToDate.String())
+	}
+}
+
 func TestConfigBackupAndRestoreRoundTrip(t *testing.T) {
 	export := writeExport(t, map[string]string{"A.zip": "aaa"})
 	root := t.TempDir()

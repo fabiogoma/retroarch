@@ -85,6 +85,7 @@ var syncCmd = &cobra.Command{
 			top, _ = c.Flags().GetInt("top")
 		}
 		only, _ := c.Flags().GetString("only")
+		verbose, _ := c.Flags().GetBool("verbose")
 		if export == "" {
 			export = exportDirFor(c, top)
 		}
@@ -97,6 +98,7 @@ var syncCmd = &cobra.Command{
 			BackupDir:  backupDir(),
 			Workers:    workersFor(c, "sync_workers"),
 			DryRun:     dry,
+			Verbose:    verbose,
 		}
 		if err := applyOnlyFilter(&opts, only); err != nil {
 			return err
@@ -152,4 +154,5 @@ func init() {
 	syncCmd.Flags().String("only", "", "comma-separated subset to sync: roms,playlists,artwork,bezels,config (default: all)")
 	syncCmd.Flags().String("restore-config", "", "restore a backed-up config folder to the RetroArch server")
 	syncCmd.Flags().Bool("dry-run", false, "preview without uploading")
+	syncCmd.Flags().BoolP("verbose", "v", false, "show per-file upload details")
 }

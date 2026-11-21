@@ -57,6 +57,41 @@ func MergeConfig(base, fragment []byte) []byte {
 	return []byte(strings.Join(lines, "\n") + "\n")
 }
 
+// ConfigChange describes a single key added or modified by MergeConfig.
+type ConfigChange struct {
+	Key    string
+	OldVal string
+	NewVal string
+	Added  bool
+}
+
+// DiffConfig returns the keys added or modified between base and merged configs,
+// in the order they appear in merged.
+func DiffConfig(base, merged []byte) []ConfigChange {
+	baseVals := map[string]string{}
+	for _, rawLine := range strings.Split(strings.ReplaceAll(string(base), "\r\n", "\n"), "\n") {
+		if k, v, ok := splitConfigLine(strings.TrimSpace(rawLine)); ok {
+			baseVals[k] = v
+		}
+	}
+	var changes []ConfigChange
+	seen := map[string]bool{}
+	for _, rawLine := range strings.Split(strings.ReplaceAll(string(merged), "\r\n", "\n"), "\n") {
+		k, v, ok := splitConfigLine(strings.TrimSpace(rawLine))
+		if !ok || seen[k] {
+			continue
+		}
+		seen[k] = true
+		oldVal, existed := baseVals[k]
+		if !existed {
+			changes = append(changes, ConfigChange{Key: k, NewVal: v, Added: true})
+		} else if oldVal != v {
+			changes = append(changes, ConfigChange{Key: k, OldVal: oldVal, NewVal: v})
+		}
+	}
+	return changes
+}
+
 func splitConfigLine(line string) (key, val string, ok bool) {
 	if line == "" || strings.HasPrefix(line, "#") {
 		return "", "", false

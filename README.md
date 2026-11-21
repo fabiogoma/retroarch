@@ -28,7 +28,7 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 |---|---|
 | `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `config/curation.yaml` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top30`, `AppleTV-Top40`, and `AppleTV-Top50` with ready-to-sync `.lpl` playlists. Use `--top 50` for a single set or `--unzip` to extract single-ROM ZIPs. |
 | `retroarch artwork` | Downloads missing game box art from Libretro's official thumbnail repositories into `artwork/<System>/Named_Boxarts/` and hash-pinned console bezel PNGs into `config/bezels/`. Runs in parallel (`--workers`). |
-| `retroarch sync` | Syncs **ROMs**, **playlists**, **artwork**, **bezels**, and **configuration** to RetroArch's web file server in parallel (`--workers`, default `4`). Supports `--top 30|40|50`, `--only roms,playlists,artwork,bezels,config`, and `--dry-run`. Never deletes remote ROMs and backs up replaced configs/playlists. |
+| `retroarch sync` | Syncs **ROMs**, **playlists**, **artwork**, **bezels**, and **configuration** to RetroArch's web file server in parallel (`--workers`, default `4`). Supports `--top 30\|40\|50`, `--only roms,playlists,artwork,bezels,config`, `--dry-run`, and `--verbose` (`-v`) for per-file details. Never deletes remote ROMs and backs up replaced configs/playlists. |
 | `retroarch check` | Verifies no ROMs, artwork, or local state are tracked in Git. |
 
 ## DualShock 4 (2 Controllers) Configuration

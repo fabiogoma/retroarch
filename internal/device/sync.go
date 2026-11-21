@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"path/filepath"
@@ -35,6 +36,8 @@ type SyncOptions struct {
 	BackupDir  string
 	Workers    int
 	DryRun     bool
+	Verbose    bool
+	Out        io.Writer
 	ROMs       bool
 	Playlists  bool
 	Artwork    bool
@@ -43,11 +46,20 @@ type SyncOptions struct {
 }
 
 type uploadJob struct {
+	group  string // console folder or category for grouped logging
 	folder string
 	local  string
 	size   int64
 	sha256 string // optional pre-upload local SHA-256 check
 }
+
+type consoleGroup struct {
+	name  string
+	jobs  []uploadJob
+	bytes int64
+}
+
+const maxConfigDiffLines = 8
 
 // SyncAll uploads ROMs, playlists, artwork, bezels, and configuration to the RetroArch
 // web file server, using parallel goroutines for bulk transfers.
@@ -55,44 +67,79 @@ func SyncAll(server Remote, o SyncOptions) error {
 	if o.Workers < 1 {
 		o.Workers = 4
 	}
+	out := o.Out
+	if out == nil {
+		out = os.Stdout
+	}
 	backupRoot := o.BackupDir
 	if backupRoot == "" {
 		backupRoot = filepath.Join(o.StateDir, "config-backups")
 	}
 	runBackupDir := filepath.Join(backupRoot, time.Now().UTC().Format("20060102T150405Z"))
 
+	exportName := filepath.Base(o.ExportDir)
+	if o.DryRun {
+		fmt.Fprintf(out, "Sync preview (dry-run) -> %s (%s)\n", server.URL(), exportName)
+	} else {
+		fmt.Fprintf(out, "Sync -> %s (%s)\n", server.URL(), exportName)
+	}
+
+	totalChanges := 0
+	configChanged := false
+
 	if o.ROMs {
-		if err := syncROMs(server, o.ExportDir, o.Workers, o.DryRun); err != nil {
+		n, err := syncROMs(out, server, o.ExportDir, o.Workers, o.DryRun, o.Verbose)
+		if err != nil {
 			return fmt.Errorf("sync roms: %w", err)
 		}
+		totalChanges += n
 	}
 	if o.Playlists {
-		if err := syncPlaylists(server, o.ExportDir, o.DryRun); err != nil {
+		n, err := syncPlaylists(out, server, o.ExportDir, o.DryRun)
+		if err != nil {
 			return fmt.Errorf("sync playlists: %w", err)
 		}
+		totalChanges += n
 	}
 	if o.Artwork {
-		if err := syncArtwork(server, o.ExportDir, o.ArtworkDir, o.Workers, o.DryRun); err != nil {
+		n, err := syncArtwork(out, server, o.ExportDir, o.ArtworkDir, o.Workers, o.DryRun, o.Verbose)
+		if err != nil {
 			return fmt.Errorf("sync artwork: %w", err)
 		}
+		totalChanges += n
 	}
 	if o.Bezels {
-		if err := syncBezels(server, o.BezelDir, runBackupDir, o.Workers, o.DryRun); err != nil {
+		n, err := syncBezels(out, server, o.BezelDir, runBackupDir, o.Workers, o.DryRun, o.Verbose)
+		if err != nil {
 			return fmt.Errorf("sync bezels: %w", err)
 		}
+		totalChanges += n
 	}
 	if o.Config {
-		if err := syncConfig(server, o.ExportDir, o.ConfigDir, runBackupDir, o.DryRun); err != nil {
+		n, err := syncConfig(out, server, o.ExportDir, o.ConfigDir, runBackupDir, o.DryRun, o.Verbose)
+		if err != nil {
 			return fmt.Errorf("sync config: %w", err)
 		}
+		totalChanges += n
+		configChanged = n > 0
+	}
+
+	if o.DryRun {
+		if totalChanges == 0 {
+			fmt.Fprintln(out, "No changes needed (dry-run).")
+		} else {
+			fmt.Fprintln(out, "Dry-run complete (no files modified).")
+		}
+	} else if configChanged {
+		fmt.Fprintln(out, "Fully restart RetroArch (without saving its in-memory config) to load the updated config.")
 	}
 	return nil
 }
 
-func syncROMs(server Remote, exportDir string, workers int, dryRun bool) error {
+func syncROMs(out io.Writer, server Remote, exportDir string, workers int, dryRun, verbose bool) (int, error) {
 	selections, err := library.LoadExportSelections(exportDir)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	consoles := make([]string, 0, len(selections))
 	for c := range selections {
@@ -101,6 +148,8 @@ func syncROMs(server Remote, exportDir string, workers int, dryRun bool) error {
 	sort.Strings(consoles)
 
 	var pending []uploadJob
+	var groups []consoleGroup
+	var totalBytes int64
 	skipped := 0
 	for _, console := range consoles {
 		picks := selections[console]
@@ -110,86 +159,104 @@ func syncROMs(server Remote, exportDir string, workers int, dryRun bool) error {
 		parts := append(append([]string{}, RemoteROMRoot...), console)
 		folder, err := server.EnsureFolder(parts, dryRun)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		remote := map[string]Entry{}
 		if folder != "" {
 			if remote, err = server.List(folder); err != nil {
-				return err
+				return 0, err
 			}
 		}
 		display := folder
 		if display == "" {
 			display = "/" + strings.Join(parts, "/") + "/"
 		}
+		grp := consoleGroup{name: console}
 		for _, p := range picks {
 			if !util.SafeName(p.File) {
-				return fmt.Errorf("invalid ROM name: %q", p.File)
+				return 0, fmt.Errorf("invalid ROM name: %q", p.File)
 			}
 			local := filepath.Join(exportDir, console, p.File)
 			info, err := os.Lstat(local)
 			if err != nil || !info.Mode().IsRegular() || info.Size() != p.Bytes {
-				return fmt.Errorf("local ROM does not match manifest: %s", local)
+				return 0, fmt.Errorf("local ROM does not match manifest: %s", local)
 			}
 			existing, ok := remote[p.File]
 			switch {
 			case !ok:
-				pending = append(pending, uploadJob{display, local, p.Bytes, p.ExportSHA256})
+				job := uploadJob{group: console, folder: display, local: local, size: p.Bytes, sha256: p.ExportSHA256}
+				pending = append(pending, job)
+				grp.jobs = append(grp.jobs, job)
+				grp.bytes += p.Bytes
+				totalBytes += p.Bytes
 			case existing.Size != nil && *existing.Size == p.Bytes:
 				skipped++
 			default:
-				return fmt.Errorf("remote file exists with a different size or type: %s%s", display, p.File)
+				return 0, fmt.Errorf("remote file exists with a different size or type: %s%s", display, p.File)
 			}
 		}
+		if len(grp.jobs) > 0 {
+			groups = append(groups, grp)
+		}
 	}
 
+	if len(pending) == 0 {
+		fmt.Fprintf(out, "ROMs:      up to date (%d already present)\n", skipped)
+		return 0, nil
+	}
+
+	if !dryRun {
+		// Verify local hashes in parallel before uploading.
+		if err := runParallel(workers, len(pending), func(_ context.Context, i int) error {
+			j := pending[i]
+			sum, err := util.FileSHA256(j.local)
+			if err != nil {
+				return err
+			}
+			if sum != j.sha256 {
+				return fmt.Errorf("local ROM hash mismatch: %s", j.local)
+			}
+			return nil
+		}); err != nil {
+			return 0, err
+		}
+
+		if err := uploadJobsParallel(server, pending, workers); err != nil {
+			return 0, err
+		}
+	}
+
+	verb := "uploaded"
 	if dryRun {
-		for _, j := range pending {
-			fmt.Printf("Would upload ROM %s%s\n", j.folder, filepath.Base(j.local))
-		}
-		fmt.Printf("ROMs: would upload %d, skip %d already present.\n", len(pending), skipped)
-		return nil
+		verb = "would upload"
 	}
-
-	// Verify local hashes in parallel before uploading.
-	if err := runParallel(workers, len(pending), func(_ context.Context, i int) error {
-		j := pending[i]
-		sum, err := util.FileSHA256(j.local)
-		if err != nil {
-			return err
-		}
-		if sum != j.sha256 {
-			return fmt.Errorf("local ROM hash mismatch: %s", j.local)
-		}
-		return nil
-	}); err != nil {
-		return err
-	}
-
-	if err := uploadJobsParallel(server, pending, workers, "ROM"); err != nil {
-		return err
-	}
-	fmt.Printf("ROMs: uploaded %d, skipped %d already present.\n", len(pending), skipped)
-	return nil
+	fmt.Fprintf(out, "ROMs:      %s %d (%s), %d already present\n", verb, len(pending), formatBytes(totalBytes), skipped)
+	writeGroupedUploads(out, groups, verbose)
+	return len(pending), nil
 }
 
-func syncPlaylists(server Remote, exportDir string, dryRun bool) error {
+func syncPlaylists(out io.Writer, server Remote, exportDir string, dryRun bool) (int, error) {
 	plDir := filepath.Join(exportDir, "playlists")
 	entries, err := os.ReadDir(plDir)
 	if err != nil {
-		return fmt.Errorf("read playlists in %s (run `build` first): %w", plDir, err)
+		return 0, fmt.Errorf("read playlists in %s (run `build` first): %w", plDir, err)
 	}
 	folder, err := server.EnsureFolder([]string{RemotePlaylistsDir}, dryRun)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	remote := map[string]Entry{}
 	if folder != "" {
 		if remote, err = server.List(folder); err != nil {
-			return err
+			return 0, err
 		}
 	}
-	updated, skipped := 0, 0
+	type plChange struct {
+		action string
+		path   string
+	}
+	var changes []plChange
+	skipped := 0
 	for _, e := range entries {
 		if e.IsDir() || !strings.HasSuffix(e.Name(), ".lpl") {
 			continue
@@ -197,44 +264,51 @@ func syncPlaylists(server Remote, exportDir string, dryRun bool) error {
 		local := filepath.Join(plDir, e.Name())
 		data, err := os.ReadFile(local)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		remotePath := "/" + RemotePlaylistsDir + "/" + e.Name()
+		action := "add"
 		if _, exists := remote[e.Name()]; exists {
 			cur, err := Fetch(server, remotePath)
 			if err != nil {
-				return err
+				return 0, err
 			}
 			if bytes.Equal(cur, data) {
 				skipped++
 				continue
 			}
+			action = "update"
 		}
-		if dryRun {
-			fmt.Printf("Would sync playlist %s\n", remotePath)
-			updated++
-			continue
+		if !dryRun {
+			if err := replaceRemoteFile(server, remotePath, data, "backup"); err != nil {
+				return 0, err
+			}
 		}
-		if err := replaceRemoteFile(server, remotePath, data, "backup"); err != nil {
-			return err
-		}
-		fmt.Printf("Synced playlist %s\n", remotePath)
-		updated++
+		changes = append(changes, plChange{action: action, path: remotePath})
+	}
+	if len(changes) == 0 {
+		fmt.Fprintf(out, "Playlists: up to date (%d identical)\n", skipped)
+		return 0, nil
 	}
 	verb := "synced"
 	if dryRun {
 		verb = "would sync"
 	}
-	fmt.Printf("Playlists: %s %d, skipped %d identical.\n", verb, updated, skipped)
-	return nil
+	fmt.Fprintf(out, "Playlists: %s %d, %d identical\n", verb, len(changes), skipped)
+	for _, ch := range changes {
+		fmt.Fprintf(out, "  %-6s %s\n", ch.action, ch.path)
+	}
+	return len(changes), nil
 }
 
-func syncArtwork(server Remote, exportDir, artworkDir string, workers int, dryRun bool) error {
+func syncArtwork(out io.Writer, server Remote, exportDir, artworkDir string, workers int, dryRun, verbose bool) (int, error) {
 	selections, err := library.LoadExportSelections(exportDir)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	var pending []uploadJob
+	var groups []consoleGroup
+	var totalBytes int64
 	skipped, missing := 0, 0
 	for _, c := range library.Consoles {
 		picks := selections[c.Folder]
@@ -244,18 +318,19 @@ func syncArtwork(server Remote, exportDir, artworkDir string, workers int, dryRu
 		parts := []string{RemoteThumbnailsDir, c.System, "Named_Boxarts"}
 		folder, err := server.EnsureFolder(parts, dryRun)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		remote := map[string]Entry{}
 		if folder != "" {
 			if remote, err = server.List(folder); err != nil {
-				return err
+				return 0, err
 			}
 		}
 		display := folder
 		if display == "" {
 			display = "/" + strings.Join(parts, "/") + "/"
 		}
+		grp := consoleGroup{name: c.Folder}
 		for _, p := range picks {
 			name := library.SanitizeThumbnailName(p.Title) + ".png"
 			local := filepath.Join(artworkDir, c.System, "Named_Boxarts", name)
@@ -268,23 +343,39 @@ func syncArtwork(server Remote, exportDir, artworkDir string, workers int, dryRu
 				skipped++
 				continue
 			}
-			pending = append(pending, uploadJob{folder: display, local: local, size: info.Size()})
+			job := uploadJob{group: c.Folder, folder: display, local: local, size: info.Size()}
+			pending = append(pending, job)
+			grp.jobs = append(grp.jobs, job)
+			grp.bytes += info.Size()
+			totalBytes += info.Size()
+		}
+		if len(grp.jobs) > 0 {
+			groups = append(groups, grp)
 		}
 	}
 
+	missingNote := ""
+	if missing > 0 {
+		missingNote = fmt.Sprintf(", %d missing locally", missing)
+	}
+	if len(pending) == 0 {
+		fmt.Fprintf(out, "Artwork:   up to date (%d already present%s)\n", skipped, missingNote)
+		return 0, nil
+	}
+
+	if !dryRun {
+		if err := uploadJobsParallel(server, pending, workers); err != nil {
+			return 0, err
+		}
+	}
+
+	verb := "uploaded"
 	if dryRun {
-		for _, j := range pending {
-			fmt.Printf("Would upload artwork %s%s\n", j.folder, filepath.Base(j.local))
-		}
-		fmt.Printf("Artwork: would upload %d, skip %d identical, %d missing locally.\n", len(pending), skipped, missing)
-		return nil
+		verb = "would upload"
 	}
-
-	if err := uploadJobsParallel(server, pending, workers, "artwork"); err != nil {
-		return err
-	}
-	fmt.Printf("Artwork: uploaded %d, skipped %d identical, %d missing locally.\n", len(pending), skipped, missing)
-	return nil
+	fmt.Fprintf(out, "Artwork:   %s %d (%s), %d already present%s\n", verb, len(pending), formatBytes(totalBytes), skipped, missingNote)
+	writeGroupedUploads(out, groups, verbose)
+	return len(pending), nil
 }
 
 // PrepareBezels verifies bezel PNG hashes and writes the overlay presets and per-core
@@ -353,28 +444,29 @@ func PrepareBezels(dir string) ([]struct{ Remote, Local string }, []struct{ Remo
 	return assets, overrides, nil
 }
 
-func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun bool) error {
+func syncBezels(out io.Writer, server Remote, bezelDir, backupDir string, workers int, dryRun, verbose bool) (int, error) {
 	assets, overrides, err := PrepareBezels(bezelDir)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	overlayFolder, err := server.EnsureFolder(RemoteOverlaysDir, dryRun)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	remoteOverlays := map[string]Entry{}
 	if overlayFolder != "" {
 		if remoteOverlays, err = server.List(overlayFolder); err != nil {
-			return err
+			return 0, err
 		}
 	}
 	var assetJobs []uploadJob
+	var assetBytes int64
 	var replaceAssets []struct{ Remote, Local string }
 	skipped := 0
 	for _, a := range assets {
 		info, err := os.Stat(a.Local)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		name := path.Base(a.Remote)
 		if existing, ok := remoteOverlays[name]; ok {
@@ -390,121 +482,146 @@ func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun b
 			display = "/" + strings.Join(RemoteOverlaysDir, "/") + "/"
 		}
 		assetJobs = append(assetJobs, uploadJob{folder: display, local: a.Local, size: info.Size()})
+		assetBytes += info.Size()
 	}
-	if dryRun {
-		for _, j := range assetJobs {
-			fmt.Printf("Would upload bezel asset %s%s\n", j.folder, filepath.Base(j.local))
-		}
-		for _, a := range replaceAssets {
-			fmt.Printf("Would replace bezel asset %s\n", a.Remote)
-		}
-	} else {
-		if err := uploadJobsParallel(server, assetJobs, workers, "bezel"); err != nil {
-			return err
+	if !dryRun {
+		if err := uploadJobsParallel(server, assetJobs, workers); err != nil {
+			return 0, err
 		}
 		for _, a := range replaceAssets {
 			data, err := os.ReadFile(a.Local)
 			if err != nil {
-				return err
+				return 0, err
 			}
 			if err := replaceRemoteFile(server, a.Remote, data, "backup"); err != nil {
-				return err
+				return 0, err
 			}
-			fmt.Printf("Replaced bezel asset %s\n", a.Remote)
 		}
 	}
 
-	ovUpdated := 0
+	type ovChange struct {
+		action string
+		path   string
+	}
+	var ovChanges []ovChange
 	for _, ov := range overrides {
 		data, err := os.ReadFile(ov.Local)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		parts := strings.Split(strings.Trim(path.Dir(ov.Remote), "/"), "/")
 		folder, err := server.EnsureFolder(parts, dryRun)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		var existingData []byte
+		action := "add"
 		if folder != "" {
 			listing, err := server.List(folder)
 			if err != nil {
-				return err
+				return 0, err
 			}
 			if _, ok := listing[path.Base(ov.Remote)]; ok {
 				cur, err := Fetch(server, ov.Remote)
 				if err != nil {
-					return err
+					return 0, err
 				}
 				if bytes.Equal(cur, data) {
 					skipped++
 					continue
 				}
 				existingData = cur
+				action = "update"
 			}
 		}
-		if dryRun {
-			fmt.Printf("Would sync override %s\n", ov.Remote)
-			ovUpdated++
-			continue
-		}
-		if existingData != nil {
-			if err := saveLocalBackup(backupDir, ov.Remote, existingData); err != nil {
-				return err
+		if !dryRun {
+			if existingData != nil {
+				if err := saveLocalBackup(backupDir, ov.Remote, existingData); err != nil {
+					return 0, err
+				}
+			}
+			if err := replaceRemoteFile(server, ov.Remote, data, "backup"); err != nil {
+				return 0, err
 			}
 		}
-		if err := replaceRemoteFile(server, ov.Remote, data, "backup"); err != nil {
-			return err
-		}
-		fmt.Printf("Synced override %s\n", ov.Remote)
-		ovUpdated++
+		ovChanges = append(ovChanges, ovChange{action: action, path: ov.Remote})
+	}
+
+	assetTotal := len(assetJobs) + len(replaceAssets)
+	totalChanged := assetTotal + len(ovChanges)
+	if totalChanged == 0 {
+		fmt.Fprintf(out, "Bezels:    up to date (%d identical)\n", skipped)
+		return 0, nil
 	}
 	verb := "synced"
 	if dryRun {
 		verb = "would sync"
 	}
-	fmt.Printf("Bezels: %s %d assets and %d overrides, skipped %d identical.\n", verb, len(assetJobs)+len(replaceAssets), ovUpdated, skipped)
-	return nil
+	fmt.Fprintf(out, "Bezels:    %s %d assets, %d overrides (%d identical)\n", verb, assetTotal, len(ovChanges), skipped)
+	if len(assetJobs) > 0 {
+		fmt.Fprintf(out, "  assets:  +%d new (%s)\n", len(assetJobs), formatBytes(assetBytes))
+		if verbose {
+			for _, j := range assetJobs {
+				fmt.Fprintf(out, "    + %s%s (%s)\n", j.folder, filepath.Base(j.local), formatBytes(j.size))
+			}
+		}
+	}
+	for _, a := range replaceAssets {
+		fmt.Fprintf(out, "  replace  %s\n", a.Remote)
+	}
+	for _, ov := range ovChanges {
+		fmt.Fprintf(out, "  %-8s %s\n", ov.action, ov.path)
+	}
+	return totalChanged, nil
 }
 
-func syncConfig(server Remote, exportDir, configDir, backupDir string, dryRun bool) error {
+type configFileChange struct {
+	action string
+	path   string
+	diffs  []ConfigChange
+}
+
+func syncConfig(out io.Writer, server Remote, exportDir, configDir, backupDir string, dryRun, verbose bool) (int, error) {
+	var changes []configFileChange
+
 	// 1. Download current running /config/retroarch.cfg and back it up locally before any changes.
 	mainRemote := "/" + RemoteConfigDir + "/retroarch.cfg"
 	fragment, err := os.ReadFile(filepath.Join(configDir, "apple-tv.cfg"))
 	if err != nil {
-		return err
+		return 0, err
 	}
 	current, err := Fetch(server, mainRemote)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	merged := MergeConfig(current, fragment)
-	if dryRun {
-		if bytes.Equal(current, merged) {
-			fmt.Printf("Config: %s already up to date.\n", mainRemote)
-		} else {
-			fmt.Printf("Would back up %s to %s and update (%d -> %d bytes).\n", mainRemote, backupDir, len(current), len(merged))
-		}
-	} else {
+	if !dryRun {
 		if err := saveLocalBackup(backupDir, mainRemote, current); err != nil {
-			return err
+			return 0, err
 		}
-		if bytes.Equal(current, merged) {
-			fmt.Printf("Config: %s already up to date (backup saved to %s).\n", mainRemote, backupDir)
-		} else {
+	}
+	if !bytes.Equal(current, merged) {
+		if !dryRun {
 			if err := replaceRemoteFile(server, mainRemote, merged, "backup"); err != nil {
-				return err
+				return 0, err
 			}
-			fmt.Printf("Config: updated %s (backup saved to %s)\n", mainRemote, backupDir)
-			fmt.Println("Fully restart RetroArch (without saving its in-memory config) to load the updated config.")
 		}
+		changes = append(changes, configFileChange{
+			action: "update",
+			path:   mainRemote,
+			diffs:  DiffConfig(current, merged),
+		})
 	}
 
 	// 2. Sync CRT shader preset config/global.slangp (backing up any existing remote copy first).
 	shaderPath := filepath.Join(configDir, "global.slangp")
 	if shaderData, err := os.ReadFile(shaderPath); err == nil {
-		if err := syncSingleConfigFile(server, "/"+RemoteConfigDir+"/global.slangp", shaderData, backupDir, dryRun); err != nil {
-			return err
+		ch, err := syncSingleConfigFile(server, "/"+RemoteConfigDir+"/global.slangp", shaderData, backupDir, dryRun)
+		if err != nil {
+			return 0, err
+		}
+		if ch != nil {
+			changes = append(changes, *ch)
 		}
 	}
 
@@ -519,95 +636,168 @@ func syncConfig(server Remote, exportDir, configDir, backupDir string, dryRun bo
 				}
 				stem := strings.TrimSuffix(p.File, filepath.Ext(p.File))
 				remote := "/" + RemoteConfigDir + "/Beetle PCE Fast/" + stem + ".opt"
-				if err := mergeSingleConfigFile(server, remote, optData, backupDir, dryRun); err != nil {
-					return err
+				ch, err := mergeSingleConfigFile(server, remote, optData, backupDir, dryRun)
+				if err != nil {
+					return 0, err
+				}
+				if ch != nil {
+					changes = append(changes, *ch)
 				}
 			}
 		}
 	}
-	return nil
+
+	if len(changes) == 0 {
+		if dryRun {
+			fmt.Fprintln(out, "Config:    up to date")
+		} else {
+			fmt.Fprintf(out, "Config:    up to date (backup saved to %s)\n", backupDir)
+		}
+		return 0, nil
+	}
+
+	if dryRun {
+		fmt.Fprintf(out, "Config:    would update %d file(s)\n", len(changes))
+	} else {
+		fmt.Fprintf(out, "Config:    updated %d file(s) (backup saved to %s)\n", len(changes), backupDir)
+	}
+	for _, ch := range changes {
+		if len(ch.diffs) > 0 {
+			fmt.Fprintf(out, "  %-6s %s (%d setting(s) changed)\n", ch.action, ch.path, len(ch.diffs))
+			writeConfigDiff(out, ch.diffs, verbose)
+		} else {
+			fmt.Fprintf(out, "  %-6s %s\n", ch.action, ch.path)
+		}
+	}
+	return len(changes), nil
 }
 
-func mergeSingleConfigFile(server Remote, remote string, fragment []byte, backupDir string, dryRun bool) error {
+func mergeSingleConfigFile(server Remote, remote string, fragment []byte, backupDir string, dryRun bool) (*configFileChange, error) {
 	parts := strings.Split(strings.Trim(path.Dir(remote), "/"), "/")
 	folder, err := server.EnsureFolder(parts, dryRun)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	var existingData []byte
 	if folder != "" {
 		listing, err := server.List(folder)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if _, ok := listing[path.Base(remote)]; ok {
 			cur, err := Fetch(server, remote)
 			if err != nil {
-				return err
+				return nil, err
 			}
 			existingData = cur
 		}
 	}
+	action := "add"
 	targetData := fragment
+	var diffs []ConfigChange
 	if existingData != nil {
 		targetData = MergeConfig(existingData, fragment)
 		if bytes.Equal(existingData, targetData) {
-			return nil
+			return nil, nil
+		}
+		action = "update"
+		diffs = DiffConfig(existingData, targetData)
+	}
+	if !dryRun {
+		if existingData != nil {
+			if err := saveLocalBackup(backupDir, remote, existingData); err != nil {
+				return nil, err
+			}
+		}
+		if err := replaceRemoteFile(server, remote, targetData, "backup"); err != nil {
+			return nil, err
 		}
 	}
-	if dryRun {
-		fmt.Printf("Would sync %s\n", remote)
-		return nil
-	}
-	if existingData != nil {
-		if err := saveLocalBackup(backupDir, remote, existingData); err != nil {
-			return err
-		}
-	}
-	if err := replaceRemoteFile(server, remote, targetData, "backup"); err != nil {
-		return err
-	}
-	fmt.Printf("Synced %s\n", remote)
-	return nil
+	return &configFileChange{action: action, path: remote, diffs: diffs}, nil
 }
 
-func syncSingleConfigFile(server Remote, remote string, data []byte, backupDir string, dryRun bool) error {
+func syncSingleConfigFile(server Remote, remote string, data []byte, backupDir string, dryRun bool) (*configFileChange, error) {
 	parts := strings.Split(strings.Trim(path.Dir(remote), "/"), "/")
 	folder, err := server.EnsureFolder(parts, dryRun)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	var existingData []byte
+	action := "add"
 	if folder != "" {
 		listing, err := server.List(folder)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if _, ok := listing[path.Base(remote)]; ok {
 			cur, err := Fetch(server, remote)
 			if err != nil {
-				return err
+				return nil, err
 			}
 			if bytes.Equal(cur, data) {
-				return nil
+				return nil, nil
 			}
 			existingData = cur
+			action = "update"
 		}
 	}
-	if dryRun {
-		fmt.Printf("Would sync %s\n", remote)
-		return nil
-	}
-	if existingData != nil {
-		if err := saveLocalBackup(backupDir, remote, existingData); err != nil {
-			return err
+	if !dryRun {
+		if existingData != nil {
+			if err := saveLocalBackup(backupDir, remote, existingData); err != nil {
+				return nil, err
+			}
+		}
+		if err := replaceRemoteFile(server, remote, data, "backup"); err != nil {
+			return nil, err
 		}
 	}
-	if err := replaceRemoteFile(server, remote, data, "backup"); err != nil {
-		return err
+	return &configFileChange{action: action, path: remote}, nil
+}
+
+func writeGroupedUploads(out io.Writer, groups []consoleGroup, verbose bool) {
+	for _, g := range groups {
+		fmt.Fprintf(out, "  %-14s +%d (%s)\n", g.name, len(g.jobs), formatBytes(g.bytes))
+		if verbose {
+			for _, j := range g.jobs {
+				fmt.Fprintf(out, "    + %s%s (%s)\n", j.folder, filepath.Base(j.local), formatBytes(j.size))
+			}
+		}
 	}
-	fmt.Printf("Synced %s\n", remote)
-	return nil
+}
+
+func writeConfigDiff(out io.Writer, diffs []ConfigChange, verbose bool) {
+	limit := len(diffs)
+	if !verbose && limit > maxConfigDiffLines {
+		limit = maxConfigDiffLines
+	}
+	for _, d := range diffs[:limit] {
+		if d.Added {
+			fmt.Fprintf(out, "    + %s = %s\n", d.Key, d.NewVal)
+		} else {
+			fmt.Fprintf(out, "    ~ %s: %s -> %s\n", d.Key, d.OldVal, d.NewVal)
+		}
+	}
+	if remaining := len(diffs) - limit; remaining > 0 {
+		fmt.Fprintf(out, "    ... and %d more (use --verbose to show all)\n", remaining)
+	}
+}
+
+func formatBytes(n int64) string {
+	const (
+		kb = 1024
+		mb = 1024 * kb
+		gb = 1024 * mb
+	)
+	switch {
+	case n >= gb:
+		return fmt.Sprintf("%.2f GB", float64(n)/gb)
+	case n >= mb:
+		return fmt.Sprintf("%.1f MB", float64(n)/mb)
+	case n >= kb:
+		return fmt.Sprintf("%.1f KB", float64(n)/kb)
+	default:
+		return fmt.Sprintf("%d B", n)
+	}
 }
 
 func saveLocalBackup(backupDir, remotePath string, data []byte) error {
@@ -662,7 +852,7 @@ func RestoreConfig(server Remote, backupDir string, dryRun bool) error {
 
 // uploadJobsParallel uploads files concurrently using goroutines and verifies
 // each folder's uploaded files by listing once per folder after uploads finish.
-func uploadJobsParallel(server Remote, jobs []uploadJob, workers int, label string) error {
+func uploadJobsParallel(server Remote, jobs []uploadJob, workers int) error {
 	if len(jobs) == 0 {
 		return nil
 	}
@@ -671,7 +861,6 @@ func uploadJobsParallel(server Remote, jobs []uploadJob, workers int, label stri
 		if err := server.Upload(j.folder, j.local, j.size); err != nil {
 			return fmt.Errorf("%s%s: %w", j.folder, filepath.Base(j.local), err)
 		}
-		fmt.Printf("Uploaded %s %s%s\n", label, j.folder, filepath.Base(j.local))
 		return nil
 	}); err != nil {
 		return err

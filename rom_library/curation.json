@@ -95,38 +95,6 @@
       ]
     },
     {
-      "title": "Excitebike",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "racing",
-      "reason": "Simple arcade bike racing offers quick sessions and a track editor.",
-      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": []
-    },
-    {
-      "title": "R.C. Pro-Am II",
-      "aliases": [],
-      "play_mode": "Up to 4 players; simultaneous competition",
-      "genre": "racing",
-      "reason": "Toy-car racing and power-ups match your interest in Mario Kart-style races.",
-      "family_notes": "Four-player mode needs the appropriate emulated multitap; two controllers are easier to start.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": []
-    },
-    {
-      "title": "Kirby's Adventure",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "gentle",
-      "reason": "Playful visuals and accessible short sessions suit family watching.",
-      "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
       "title": "DuckTales",
       "aliases": [
         "Duck Tales"
@@ -187,20 +155,6 @@
       "sources": []
     },
     {
-      "title": "Mega Man 2",
-      "aliases": [
-        "Megaman II"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "action",
-      "reason": "Fast real-time action offers a strong parent-led adventure.",
-      "family_notes": "Combat and demanding stages; parent-led play.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
       "title": "Chip 'n Dale Rescue Rangers 2",
       "aliases": [],
       "play_mode": "2 players; simultaneous co-op",
@@ -241,6 +195,308 @@
       "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
+    },
+    {
+      "title": "Batman",
+      "aliases": [
+        "Batman - The Video Game"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Batman - Return of the Joker",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Dr. Mario",
+      "aliases": [],
+      "play_mode": "2 players; competitive",
+      "genre": "puzzle",
+      "reason": "Short, repeatable sessions balance the action games.",
+      "family_notes": "Explain the rules first; later stages can be fast.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Zelda II - The Adventure of Link",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "adventure",
+      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
+      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Mario Bros.",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons - Bart vs. the Space Mutants",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons, The - Bart Vs. the World",
+      "aliases": [
+        "Simpsons The - Bart Vs. the World"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons, The - Bartman Meets Radioactive Man",
+      "aliases": [
+        "Simpsons The - Bartman Meets Radioactive Man"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Teenage Mutant Ninja Turtles",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Battletoads",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Famously very hard; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Battletoads & Double Dragon - The Ultimate Team",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Captain America and The Avengers",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man - Return of the Sinister Six",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Uncanny X-Men, The",
+      "aliases": [
+        "Uncanny X-Men The"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Wolverine",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Superman",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "TaleSpin",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Aladdin",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Lion King, The",
+      "aliases": [
+        "Lion King The"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Jungle Book, The",
+      "aliases": [
+        "Jungle Book The"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Who Framed Roger Rabbit",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Batman Returns",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Teenage Mutant Ninja Turtles - Tournament Fighters",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mario & Yoshi",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Excitebike",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "racing",
+      "reason": "Simple arcade bike racing offers quick sessions and a track editor.",
+      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "R.C. Pro-Am II",
+      "aliases": [],
+      "play_mode": "Up to 4 players; simultaneous competition",
+      "genre": "racing",
+      "reason": "Toy-car racing and power-ups match your interest in Mario Kart-style races.",
+      "family_notes": "Four-player mode needs the appropriate emulated multitap; two controllers are easier to start.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "Kirby's Adventure",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "gentle",
+      "reason": "Playful visuals and accessible short sessions suit family watching.",
+      "family_notes": "Good starting point with a parent; difficulty still varies.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Mega Man 2",
+      "aliases": [
+        "Megaman II"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Fast real-time action offers a strong parent-led adventure.",
+      "family_notes": "Combat and demanding stages; parent-led play.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
+      ]
     },
     {
       "title": "Bubble Bobble",
@@ -291,28 +547,6 @@
       "genre": "brawler",
       "reason": "Direct beat-em-up action matches your taste, especially shared play.",
       "family_notes": "Frequent punching and weapon combat; preview before family play.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Batman",
-      "aliases": [
-        "Batman - The Video Game"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Batman - Return of the Joker",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
     },
@@ -381,36 +615,12 @@
       "sources": []
     },
     {
-      "title": "Dr. Mario",
-      "aliases": [],
-      "play_mode": "2 players; competitive",
-      "genre": "puzzle",
-      "reason": "Short, repeatable sessions balance the action games.",
-      "family_notes": "Explain the rules first; later stages can be fast.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
       "title": "Tetris",
       "aliases": [],
       "play_mode": "1 player; take turns",
       "genre": "puzzle",
       "reason": "Short, repeatable sessions balance the action games.",
       "family_notes": "Explain the rules first; later stages can be fast.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
-      "title": "Zelda II - The Adventure of Link",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "adventure",
-      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
-      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
       "popularity": "Listed among platform million-sellers",
       "sources": [
         "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_Entertainment_System_video_games"
@@ -480,16 +690,6 @@
     },
     {
       "title": "Ice Climber",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Mario Bros.",
       "aliases": [],
       "play_mode": "2 players; simultaneous co-op",
       "genre": "platform",
@@ -649,30 +849,6 @@
       ]
     },
     {
-      "title": "Top Gear",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous split-screen",
-      "genre": "racing",
-      "reason": "Your explicitly named favorite: fast road racing and shared split-screen play.",
-      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": [
-        "https://www.retrogames.cz/manualy/SNES/Top_Gear_-_SNES_-_Manual.pdf"
-      ]
-    },
-    {
-      "title": "Donkey Kong Country",
-      "aliases": [],
-      "play_mode": "2 players; alternating turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
       "title": "Teenage Mutant Ninja Turtles IV - Turtles in Time",
       "aliases": [
         "Teenage Mutant Hero Turtles IV - Turtles in Time"
@@ -697,46 +873,12 @@
       "sources": []
     },
     {
-      "title": "Top Gear 2",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous split-screen",
-      "genre": "racing",
-      "reason": "More Top Gear road racing, with upgrades and two-player competition.",
-      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": [
-        "https://www.retrogames.cz/manualy/SNES/Top_Gear_2_-_SNES_-_Manual.pdf"
-      ]
-    },
-    {
-      "title": "Rock 'N Roll Racing",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous competition",
-      "genre": "racing",
-      "reason": "Isometric arcade racing with weapons provides a Mario Kart-style competitive alternative.",
-      "family_notes": "Vehicle weapons and explosions; parent discretion; isometric steering takes practice.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": []
-    },
-    {
       "title": "Super Mario World 2 - Yoshi's Island",
       "aliases": [],
       "play_mode": "1 player; take turns",
       "genre": "gentle",
       "reason": "Playful visuals and accessible short sessions suit family watching.",
       "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
-      "title": "Donkey Kong Country 2 - Diddy's Kong Quest",
-      "aliases": [],
-      "play_mode": "2 players; alternating turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
       "popularity": "Listed among platform million-sellers",
       "sources": [
         "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
@@ -755,18 +897,6 @@
       ]
     },
     {
-      "title": "Kirby Super Star",
-      "aliases": [
-        "Kirby's Fun Pak"
-      ],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "gentle",
-      "reason": "Playful visuals and accessible short sessions suit family watching.",
-      "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "Disney's Aladdin",
       "aliases": [
         "Aladdin"
@@ -775,18 +905,6 @@
       "genre": "disney",
       "reason": "Disney characters plus action/platform play match your interests.",
       "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
-      "title": "Donkey Kong Country 3 - Dixie Kong's Double Trouble!",
-      "aliases": [],
-      "play_mode": "2 players; alternating turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
       "popularity": "Listed among platform million-sellers",
       "sources": [
         "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
@@ -805,28 +923,6 @@
       ]
     },
     {
-      "title": "Secret of Mana",
-      "aliases": [],
-      "play_mode": "Up to 3 players; co-op (unlocks during story)",
-      "genre": "adventure",
-      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
-      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
-      ]
-    },
-    {
-      "title": "Mega Man X",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "action",
-      "reason": "Fast real-time action offers a strong parent-led adventure.",
-      "family_notes": "Combat and demanding stages; parent-led play.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "Street Fighter II Turbo",
       "aliases": [
         "Street Fighter II Turbo - Hyper Fighting"
@@ -839,46 +935,6 @@
       "sources": [
         "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
       ]
-    },
-    {
-      "title": "Super Bomberman 2",
-      "aliases": [],
-      "play_mode": "Up to 4 players; competitive",
-      "genre": "puzzle",
-      "reason": "Short, repeatable sessions balance the action games.",
-      "family_notes": "Explain the rules first; later stages can be fast.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Kirby's Dream Land 3",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "gentle",
-      "reason": "Playful visuals and accessible short sessions suit family watching.",
-      "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Kirby's Dream Course",
-      "aliases": [],
-      "play_mode": "2 players; competitive",
-      "genre": "gentle",
-      "reason": "Playful visuals and accessible short sessions suit family watching.",
-      "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Tetris Attack",
-      "aliases": [],
-      "play_mode": "2 players; competitive",
-      "genre": "puzzle",
-      "reason": "Short, repeatable sessions balance the action games.",
-      "family_notes": "Explain the rules first; later stages can be fast.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
     },
     {
       "title": "Lion King, The",
@@ -931,6 +987,360 @@
       "sources": []
     },
     {
+      "title": "Captain Commando",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Daffy Duck - The Marvin Missions",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons - Bart's Nightmare, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons - Virtual Bart, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Teenage Mutant Ninja Turtles - Tournament Fighters",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Battletoads in Battlemaniacs",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Battletoads & Double Dragon - The Ultimate Team",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Killer Instinct",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat II",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat 3",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Street Fighter II - The World Warrior",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Super Street Fighter II - The New Challengers",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man & Venom - Maximum Carnage",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man & X-Men - Arcade's Revenge",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Captain America and the Avengers",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Death and Return of Superman, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Justice League Task Force",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Adventures of Batman & Robin, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Toy Story",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Jungle Book, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Top Gear",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous split-screen",
+      "genre": "racing",
+      "reason": "Your explicitly named favorite: fast road racing and shared split-screen play.",
+      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": [
+        "https://www.retrogames.cz/manualy/SNES/Top_Gear_-_SNES_-_Manual.pdf"
+      ]
+    },
+    {
+      "title": "Donkey Kong Country",
+      "aliases": [],
+      "play_mode": "2 players; alternating turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Top Gear 2",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous split-screen",
+      "genre": "racing",
+      "reason": "More Top Gear road racing, with upgrades and two-player competition.",
+      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": [
+        "https://www.retrogames.cz/manualy/SNES/Top_Gear_2_-_SNES_-_Manual.pdf"
+      ]
+    },
+    {
+      "title": "Rock 'N Roll Racing",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous competition",
+      "genre": "racing",
+      "reason": "Isometric arcade racing with weapons provides a Mario Kart-style competitive alternative.",
+      "family_notes": "Vehicle weapons and explosions; parent discretion; isometric steering takes practice.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "Donkey Kong Country 2 - Diddy's Kong Quest",
+      "aliases": [],
+      "play_mode": "2 players; alternating turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Kirby Super Star",
+      "aliases": [
+        "Kirby's Fun Pak"
+      ],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "gentle",
+      "reason": "Playful visuals and accessible short sessions suit family watching.",
+      "family_notes": "Good starting point with a parent; difficulty still varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Donkey Kong Country 3 - Dixie Kong's Double Trouble!",
+      "aliases": [],
+      "play_mode": "2 players; alternating turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Secret of Mana",
+      "aliases": [],
+      "play_mode": "Up to 3 players; co-op (unlocks during story)",
+      "genre": "adventure",
+      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
+      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Super_Nintendo_Entertainment_System_video_games"
+      ]
+    },
+    {
+      "title": "Mega Man X",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Fast real-time action offers a strong parent-led adventure.",
+      "family_notes": "Combat and demanding stages; parent-led play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Super Bomberman 2",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "puzzle",
+      "reason": "Short, repeatable sessions balance the action games.",
+      "family_notes": "Explain the rules first; later stages can be fast.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Kirby's Dream Land 3",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "gentle",
+      "reason": "Playful visuals and accessible short sessions suit family watching.",
+      "family_notes": "Good starting point with a parent; difficulty still varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Kirby's Dream Course",
+      "aliases": [],
+      "play_mode": "2 players; competitive",
+      "genre": "gentle",
+      "reason": "Playful visuals and accessible short sessions suit family watching.",
+      "family_notes": "Good starting point with a parent; difficulty still varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Tetris Attack",
+      "aliases": [],
+      "play_mode": "2 players; competitive",
+      "genre": "puzzle",
+      "reason": "Short, repeatable sessions balance the action games.",
+      "family_notes": "Explain the rules first; later stages can be fast.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
       "title": "Super Metroid",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -952,16 +1362,6 @@
     },
     {
       "title": "Super Double Dragon",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "brawler",
-      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
-      "family_notes": "Frequent punching and weapon combat; preview before family play.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Captain Commando",
       "aliases": [],
       "play_mode": "2 players; simultaneous co-op",
       "genre": "brawler",
@@ -1044,16 +1444,6 @@
     },
     {
       "title": "Tiny Toon Adventures - Buster Busts Loose!",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Daffy Duck - The Marvin Missions",
       "aliases": [],
       "play_mode": "1 player; take turns",
       "genre": "platform",
@@ -1214,36 +1604,6 @@
       ]
     },
     {
-      "title": "Top Gear 2",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous split-screen",
-      "genre": "racing",
-      "reason": "The Genesis version of your preferred arcade racing series.",
-      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": []
-    },
-    {
-      "title": "OutRun",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "racing",
-      "reason": "Scenic arcade road racing fits the Top Gear side of your taste.",
-      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": []
-    },
-    {
-      "title": "Micro Machines 2 - Turbo Tournament",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous competition (additional multiplayer options)",
-      "genre": "racing",
-      "reason": "Toy vehicles and playful tabletop courses suit family arcade competition.",
-      "family_notes": "Tiny vehicles and sudden track edges need practice; two controllers are a simple starting setup.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
-      "sources": []
-    },
-    {
       "title": "Sonic & Knuckles",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -1266,16 +1626,6 @@
       "sources": [
         "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
       ]
-    },
-    {
-      "title": "Gunstar Heroes",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "shooter",
-      "reason": "Action classic for short sessions or watching a parent play.",
-      "family_notes": "Frequent shooting/explosions; parent discretion and assistance.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
     },
     {
       "title": "Teenage Mutant Ninja Turtles - The Hyperstone Heist",
@@ -1332,16 +1682,6 @@
       "sources": []
     },
     {
-      "title": "Ristar",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "gentle",
-      "reason": "Playful visuals and accessible short sessions suit family watching.",
-      "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "QuackShot Starring Donald Duck",
       "aliases": [
         "QuackShot Starring Donald Duck ~ QuackShot - Guruzia Ou no Hihou"
@@ -1350,6 +1690,356 @@
       "genre": "disney",
       "reason": "Disney characters plus action/platform play match your interests.",
       "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "X-Men 2 - Clone Wars",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "X-Men",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
+      ]
+    },
+    {
+      "title": "Adventures of Batman & Robin, The",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Batman",
+      "aliases": [
+        "Batman - The Video Game"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Lion King, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney_hard",
+      "reason": "A familiar Disney story makes a lively shared viewing adventure.",
+      "family_notes": "Notably difficult despite the friendly license; parent-led play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Street Fighter II' - Special Champion Edition",
+      "aliases": [],
+      "play_mode": "2 players; competitive",
+      "genre": "fight",
+      "reason": "Arcade-style fighting matches your fighting-game preference.",
+      "family_notes": "Frequent fighting; discuss cartoon combat and preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Sonic 3D Blast",
+      "aliases": [
+        "Sonic 3D Blast ~ Sonic 3D Flickies' Island"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
+      ]
+    },
+    {
+      "title": "Sonic Spinball",
+      "aliases": [],
+      "play_mode": "2 players; alternating turns",
+      "genre": "puzzle",
+      "reason": "Short, repeatable sessions balance the action games.",
+      "family_notes": "Explain the rules first; later stages can be fast.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
+      ]
+    },
+    {
+      "title": "Simpsons, The - Bart Vs The Space Mutants",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons, The - Bart's Nightmare",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Teenage Mutant Ninja Turtles - Tournament Fighters",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Battletoads",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Battletoads & Double Dragon",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat II",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat 3",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Super Street Fighter II - The New Challengers",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Donald in Maui Mallard",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Pocahontas",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Toy Story",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Jungle Book, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "TaleSpin",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man and Venom - Maximum Carnage",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Captain America and the Avengers",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Superman",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Death and Return of Superman, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Justice League Task Force",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Batman Returns",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Top Gear 2",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous split-screen",
+      "genre": "racing",
+      "reason": "The Genesis version of your preferred arcade racing series.",
+      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "OutRun",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "racing",
+      "reason": "Scenic arcade road racing fits the Top Gear side of your taste.",
+      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "Micro Machines 2 - Turbo Tournament",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous competition (additional multiplayer options)",
+      "genre": "racing",
+      "reason": "Toy vehicles and playful tabletop courses suit family arcade competition.",
+      "family_notes": "Tiny vehicles and sudden track edges need practice; two controllers are a simple starting setup.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "Gunstar Heroes",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "shooter",
+      "reason": "Action classic for short sessions or watching a parent play.",
+      "family_notes": "Frequent shooting/explosions; parent discretion and assistance.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Ristar",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "gentle",
+      "reason": "Playful visuals and accessible short sessions suit family watching.",
+      "family_notes": "Good starting point with a parent; difficulty still varies.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
     },
@@ -1424,70 +2114,6 @@
       "sources": []
     },
     {
-      "title": "X-Men 2 - Clone Wars",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "X-Men",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
-      ]
-    },
-    {
-      "title": "Adventures of Batman & Robin, The",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Batman",
-      "aliases": [
-        "Batman - The Video Game"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Lion King, The",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "disney_hard",
-      "reason": "A familiar Disney story makes a lively shared viewing adventure.",
-      "family_notes": "Notably difficult despite the friendly license; parent-led play.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Street Fighter II' - Special Champion Edition",
-      "aliases": [],
-      "play_mode": "2 players; competitive",
-      "genre": "fight",
-      "reason": "Arcade-style fighting matches your fighting-game preference.",
-      "family_notes": "Frequent fighting; discuss cartoon combat and preview first.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "Rocket Knight Adventures",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -1536,32 +2162,6 @@
       "family_notes": "Combat and demanding stages; parent-led play.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
-    },
-    {
-      "title": "Sonic 3D Blast",
-      "aliases": [
-        "Sonic 3D Blast ~ Sonic 3D Flickies' Island"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
-      ]
-    },
-    {
-      "title": "Sonic Spinball",
-      "aliases": [],
-      "play_mode": "2 players; alternating turns",
-      "genre": "puzzle",
-      "reason": "Short, repeatable sessions balance the action games.",
-      "family_notes": "Explain the rules first; later stages can be fast.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games"
-      ]
     },
     {
       "title": "Ms. Pac-Man",
@@ -1640,18 +2240,6 @@
       "mickey": true
     },
     {
-      "title": "Wonder Boy III - The Dragon's Trap",
-      "aliases": [
-        "Wonder Boy III - The Dragons Trap"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "adventure",
-      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
-      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "Sonic the Hedgehog",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -1659,16 +2247,6 @@
       "reason": "Colorful platform adventure; recognizable characters and exploration.",
       "family_notes": "Some stages demand precise timing; parent helps with bosses.",
       "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "OutRun",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "racing",
-      "reason": "A scenic arcade road racer in the spirit of your Top Gear preference.",
-      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
-      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
       "sources": []
     },
     {
@@ -1680,30 +2258,6 @@
       "family_notes": "Some stages demand precise timing; parent helps with bosses.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
-    },
-    {
-      "title": "Alex Kidd in Miracle World",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Featured in an editorial best-games guide; sales unverified",
-      "sources": [
-        "https://www.timeextension.com/guides/best-sega-master-system-games-of-all-time"
-      ]
-    },
-    {
-      "title": "Asterix",
-      "aliases": [],
-      "play_mode": "2 players; alternating turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Featured in an editorial best-games guide; sales unverified",
-      "sources": [
-        "https://www.timeextension.com/guides/best-sega-master-system-games-of-all-time"
-      ]
     },
     {
       "title": "Lucky Dime Caper Starring Donald Duck, The",
@@ -1722,46 +2276,6 @@
       "genre": "disney",
       "reason": "Disney characters plus action/platform play match your interests.",
       "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Wonder Boy in Monster Land",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "adventure",
-      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
-      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Wonder Boy in Monster World",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "adventure",
-      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
-      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Wonder Boy",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Bubble Bobble",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "gentle",
-      "reason": "Playful visuals and accessible short sessions suit family watching.",
-      "family_notes": "Good starting point with a parent; difficulty still varies.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
     },
@@ -1812,16 +2326,6 @@
       ]
     },
     {
-      "title": "Double Dragon",
-      "aliases": [],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "brawler",
-      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
-      "family_notes": "Frequent punching and weapon combat; preview before family play.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "Sonic Chaos",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -1860,6 +2364,274 @@
       "genre": "disney_hard",
       "reason": "A familiar Disney story makes a lively shared viewing adventure.",
       "family_notes": "Notably difficult despite the friendly license; parent-led play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Batman Returns",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man",
+      "aliases": [
+        "Spider-Man vs. The Kingpin"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
+      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons, The - Bart vs. The Space Mutants",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Simpsons, The - Bart vs. The World",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat II",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat 3",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Street Fighter II'",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Sonic Blast",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Sonic Spinball",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Spider-Man - Return of the Sinister Six",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Superman - The Man of Steel",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Incredible Hulk, The",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "X-Men - Mojo World",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Ariel - The Little Mermaid",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Dick Tracy",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Daffy Duck in Hollywood",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Character platformer from a franchise you asked for.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Wonder Boy III - The Dragon's Trap",
+      "aliases": [
+        "Wonder Boy III - The Dragons Trap"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "adventure",
+      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
+      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "OutRun",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "racing",
+      "reason": "A scenic arcade road racer in the spirit of your Top Gear preference.",
+      "family_notes": "Speed and steering need practice; use easier settings and help younger players.",
+      "popularity": "Preference pick: arcade racing; no verified bestseller claim",
+      "sources": []
+    },
+    {
+      "title": "Alex Kidd in Miracle World",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Featured in an editorial best-games guide; sales unverified",
+      "sources": [
+        "https://www.timeextension.com/guides/best-sega-master-system-games-of-all-time"
+      ]
+    },
+    {
+      "title": "Asterix",
+      "aliases": [],
+      "play_mode": "2 players; alternating turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Featured in an editorial best-games guide; sales unverified",
+      "sources": [
+        "https://www.timeextension.com/guides/best-sega-master-system-games-of-all-time"
+      ]
+    },
+    {
+      "title": "Wonder Boy in Monster Land",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "adventure",
+      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
+      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Wonder Boy in Monster World",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "adventure",
+      "reason": "Real-time exploration and combat fit your Zelda-style preference.",
+      "family_notes": "Reading, puzzles and fantasy combat; parent leads for younger children.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Wonder Boy",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Bubble Bobble",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "gentle",
+      "reason": "Playful visuals and accessible short sessions suit family watching.",
+      "family_notes": "Good starting point with a parent; difficulty still varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Double Dragon",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
     },
@@ -1914,28 +2686,6 @@
       "genre": "platform",
       "reason": "Colorful platform adventure; recognizable characters and exploration.",
       "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Batman Returns",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Spider-Man",
-      "aliases": [
-        "Spider-Man vs. The Kingpin"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "hero",
-      "reason": "Superhero action fits your Marvel/DC and fighting interests.",
-      "family_notes": "Combat and threatening villains; can be difficult; preview first.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
     },
@@ -2154,6 +2904,280 @@
       ]
     },
     {
+      "title": "Mario Party 2",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "party",
+      "reason": "Minigames and multiplayer offer shared family sessions.",
+      "family_notes": "Reading/menus and some dexterity challenges need an adult.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
+      ]
+    },
+    {
+      "title": "Mario Tennis",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "sports",
+      "reason": "Recognizable sports and short matches offer family variety.",
+      "family_notes": "Learning the controls takes practice.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
+      ]
+    },
+    {
+      "title": "Toy Story 2 - Buzz Lightyear to the Rescue!",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mario Party 3",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "party",
+      "reason": "Minigames and multiplayer offer shared family sessions.",
+      "family_notes": "Reading/menus and some dexterity challenges need an adult.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
+      ]
+    },
+    {
+      "title": "Mario Golf",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "sports",
+      "reason": "Recognizable sports and short matches offer family variety.",
+      "family_notes": "Learning the controls takes practice.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
+      ]
+    },
+    {
+      "title": "Mario Party",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "party",
+      "reason": "Minigames and multiplayer offer shared family sessions.",
+      "family_notes": "Reading/menus and some dexterity challenges need an adult.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
+      ]
+    },
+    {
+      "title": "Daffy Duck Starring as Duck Dodgers",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Legend of Zelda, The - Majora's Mask",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "spooky",
+      "reason": "An exploration classic for parent-led real-time adventure.",
+      "family_notes": "Spooky atmosphere and intense scenes; preview away from young children.",
+      "popularity": "Listed among platform million-sellers",
+      "sources": [
+        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
+      ]
+    },
+    {
+      "title": "Disney's Tarzan",
+      "aliases": [
+        "Tarzan"
+      ],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "A Bug's Life",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Killer Instinct Gold",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat Trilogy",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat 4",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Mortal Kombat Mythologies - Sub-Zero",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Donald Duck - Quack Attack",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Superman",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Batman of the Future - Return of the Joker",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Legend of Zelda, The - Ocarina of Time - Master Quest",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Tigger's Honey Hunt",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Hercules - The Legendary Journeys",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Tom and Jerry in Fists of Furry",
+      "aliases": [],
+      "play_mode": "2 players; versus",
+      "genre": "fight",
+      "reason": "Blockbuster fighting franchise you asked to include.",
+      "family_notes": "Versus fighting with violence; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Excitebike 64",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "racing",
+      "reason": "Character racing matches your preferences.",
+      "family_notes": "Cartoon peril; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Pilotwings 64",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Star Wars Episode I - Racer",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "racing",
+      "reason": "Character racing matches your preferences.",
+      "family_notes": "Cartoon peril; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Star Wars - Shadows of the Empire",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
+      "title": "Micro Machines 64 Turbo",
+      "aliases": [],
+      "play_mode": "Up to 4 players; competitive",
+      "genre": "racing",
+      "reason": "Character racing matches your preferences.",
+      "family_notes": "Cartoon peril; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": []
+    },
+    {
       "title": "Diddy Kong Racing",
       "aliases": [],
       "play_mode": "Up to 4 players; competitive",
@@ -2210,30 +3234,6 @@
       "family_notes": "Good starting point with a parent; difficulty still varies.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
-    },
-    {
-      "title": "Mario Party 2",
-      "aliases": [],
-      "play_mode": "Up to 4 players; competitive",
-      "genre": "party",
-      "reason": "Minigames and multiplayer offer shared family sessions.",
-      "family_notes": "Reading/menus and some dexterity challenges need an adult.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
-      ]
-    },
-    {
-      "title": "Mario Tennis",
-      "aliases": [],
-      "play_mode": "Up to 4 players; competitive",
-      "genre": "sports",
-      "reason": "Recognizable sports and short matches offer family variety.",
-      "family_notes": "Learning the controls takes practice.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
-      ]
     },
     {
       "title": "Beetle Adventure Racing!",
@@ -2360,16 +3360,6 @@
       "sources": []
     },
     {
-      "title": "Toy Story 2 - Buzz Lightyear to the Rescue!",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "disney",
-      "reason": "Disney characters plus action/platform play match your interests.",
-      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
       "title": "Rayman 2 - The Great Escape",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -2400,18 +3390,6 @@
       "genre": "gentle",
       "reason": "Playful visuals and accessible short sessions suit family watching.",
       "family_notes": "Good starting point with a parent; difficulty still varies.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
-      ]
-    },
-    {
-      "title": "Mario Party 3",
-      "aliases": [],
-      "play_mode": "Up to 4 players; competitive",
-      "genre": "party",
-      "reason": "Minigames and multiplayer offer shared family sessions.",
-      "family_notes": "Reading/menus and some dexterity challenges need an adult.",
       "popularity": "Listed among platform million-sellers",
       "sources": [
         "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
@@ -2470,52 +3448,6 @@
       "sources": []
     },
     {
-      "title": "Mario Golf",
-      "aliases": [],
-      "play_mode": "Up to 4 players; competitive",
-      "genre": "sports",
-      "reason": "Recognizable sports and short matches offer family variety.",
-      "family_notes": "Learning the controls takes practice.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
-      ]
-    },
-    {
-      "title": "Mario Party",
-      "aliases": [],
-      "play_mode": "Up to 4 players; competitive",
-      "genre": "party",
-      "reason": "Minigames and multiplayer offer shared family sessions.",
-      "family_notes": "Reading/menus and some dexterity challenges need an adult.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
-      ]
-    },
-    {
-      "title": "Daffy Duck Starring as Duck Dodgers",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "Legend of Zelda, The - Majora's Mask",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "spooky",
-      "reason": "An exploration classic for parent-led real-time adventure.",
-      "family_notes": "Spooky atmosphere and intense scenes; preview away from young children.",
-      "popularity": "Listed among platform million-sellers",
-      "sources": [
-        "https://en.wikipedia.org/wiki/List_of_best-selling_Nintendo_64_video_games"
-      ]
-    },
-    {
       "title": "Star Wars - Rogue Squadron",
       "aliases": [],
       "play_mode": "1 player; take turns",
@@ -2546,28 +3478,6 @@
       "family_notes": "Timing/steering need practice; help younger players.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": []
-    },
-    {
-      "title": "Disney's Tarzan",
-      "aliases": [
-        "Tarzan"
-      ],
-      "play_mode": "1 player; take turns",
-      "genre": "disney",
-      "reason": "Disney characters plus action/platform play match your interests.",
-      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
-    },
-    {
-      "title": "A Bug's Life",
-      "aliases": [],
-      "play_mode": "1 player; take turns",
-      "genre": "disney",
-      "reason": "Disney characters plus action/platform play match your interests.",
-      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": []
     }
   ],
   "PC Engine": [
@@ -2593,6 +3503,154 @@
       "genre": "platform",
       "reason": "Colorful platform adventure; recognizable characters and exploration.",
       "family_notes": "Some stages demand precise timing; parent helps with bosses. Japanese releases may need help with menus.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Bonk 3 - Bonk's Big Adventure",
+      "aliases": [
+        "PC Genjin 3",
+        "Bonk III - Bonk's Big Adventure"
+      ],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "platform",
+      "reason": "Colorful platform adventure; recognizable characters and exploration.",
+      "family_notes": "Some stages demand precise timing; parent helps with bosses. Japanese releases may need help with menus.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Street Fighter II' - Champion Edition",
+      "aliases": [],
+      "play_mode": "2 players; competitive",
+      "genre": "fight",
+      "reason": "Arcade-style fighting matches your fighting-game preference.",
+      "family_notes": "Frequent fighting; discuss cartoon combat and preview first. Japanese releases may need help with menus.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Batman",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "hero",
+      "reason": "Marvel/DC superhero licence matches your interests.",
+      "family_notes": "Comic-book combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Darkwing Duck",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "TaleSpin",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "disney",
+      "reason": "Disney characters plus action/platform play match your interests.",
+      "family_notes": "Cartoon peril and some demanding jumps; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Legendary Axe, The",
+      "aliases": [
+        "Legendary Axe, The"
+      ],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Legendary Axe II, The",
+      "aliases": [],
+      "play_mode": "2 players; simultaneous co-op",
+      "genre": "brawler",
+      "reason": "Direct beat-em-up action matches your taste, especially shared play.",
+      "family_notes": "Frequent punching and weapon combat; preview before family play.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Aero Blasters",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "shooter",
+      "reason": "Classic arcade-style shooter.",
+      "family_notes": "Fast action; difficulty varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Alien Crush",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Devil's Crush",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Space Harrier",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "shooter",
+      "reason": "Classic arcade-style shooter.",
+      "family_notes": "Fast action; difficulty varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Dragon Spirit",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "shooter",
+      "reason": "Classic arcade-style shooter.",
+      "family_notes": "Fast action; difficulty varies.",
+      "popularity": "Preference pick; no verified sales claim",
+      "sources": [],
+      "allow_japanese": true
+    },
+    {
+      "title": "Tiger Road",
+      "aliases": [],
+      "play_mode": "1 player; take turns",
+      "genre": "action",
+      "reason": "Action game fitting your tastes.",
+      "family_notes": "Moderate difficulty; parent helps.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": [],
       "allow_japanese": true
@@ -2650,20 +3708,6 @@
       "genre": "racing",
       "reason": "Quick races offer shared family competition.",
       "family_notes": "Timing/steering need practice; help younger players. Japanese releases may need help with menus.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": [],
-      "allow_japanese": true
-    },
-    {
-      "title": "Bonk 3 - Bonk's Big Adventure",
-      "aliases": [
-        "PC Genjin 3",
-        "Bonk III - Bonk's Big Adventure"
-      ],
-      "play_mode": "2 players; simultaneous co-op",
-      "genre": "platform",
-      "reason": "Colorful platform adventure; recognizable characters and exploration.",
-      "family_notes": "Some stages demand precise timing; parent helps with bosses. Japanese releases may need help with menus.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": [],
       "allow_japanese": true
@@ -2894,17 +3938,6 @@
       "genre": "sports",
       "reason": "Recognizable sports and short matches offer family variety.",
       "family_notes": "Learning the controls takes practice. Japanese releases may need help with menus.",
-      "popularity": "Preference pick; no verified sales claim",
-      "sources": [],
-      "allow_japanese": true
-    },
-    {
-      "title": "Street Fighter II' - Champion Edition",
-      "aliases": [],
-      "play_mode": "2 players; competitive",
-      "genre": "fight",
-      "reason": "Arcade-style fighting matches your fighting-game preference.",
-      "family_notes": "Frequent fighting; discuss cartoon combat and preview first. Japanese releases may need help with menus.",
       "popularity": "Preference pick; no verified sales claim",
       "sources": [],
       "allow_japanese": true

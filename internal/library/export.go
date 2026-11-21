@@ -2,6 +2,7 @@ package library
 
 import (
 	"archive/zip"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,8 +10,10 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/fabiogoma/retroarch/internal/util"
@@ -177,11 +180,7 @@ func (l *Library) Export(roms, state string, db DB, count int, unzip bool) (repo
 		if err != nil {
 			return nil, err
 		}
-		type pick struct {
-			entry Entry
-			game  game
-		}
-		var ranked []pick
+		var ranked []rankedPick
 		used := map[string]bool{}
 		for _, entry := range l.Curated[console] {
 			keys := map[string]bool{Normalized(entry.Title): true}
@@ -203,39 +202,18 @@ func (l *Library) Export(roms, state string, db DB, count int, unzip bool) (repo
 			if len(ranked) >= count {
 				continue
 			}
-			ranked = append(ranked, pick{entry, *best})
+			ranked = append(ranked, rankedPick{entry, *best})
 			used[best.SHA256] = true
 		}
 
-		manifest := []Selection{}
+		manifest := make([]Selection, len(ranked))
+		if err := exportRankedParallel(ranked, folder, unzip, manifest); err != nil {
+			return nil, err
+		}
 		for i, p := range ranked {
-			g := p.game
-			suffix := strings.ToLower(filepath.Ext(g.Path))
-			if unzip && g.Member != "" {
-				suffix = strings.ToLower(filepath.Ext(g.Member))
-			}
-			filename := badFileChars.ReplaceAllString(p.entry.Title, "-") + suffix
-			out := filepath.Join(folder, filename)
-			if unzip && g.Member != "" {
-				if err := extractMember(g.Path, g.Member, out); err != nil {
-					return nil, err
-				}
-			} else if err := copyFile(g.Path, out); err != nil {
-				return nil, err
-			}
-			sha, size, err := hashFile(out)
-			if err != nil {
-				return nil, err
-			}
-			note := "Preferred USA/World/Europe variant; language inferred from filename"
-			if g.RegionScore < 0 {
-				note = "Japanese source; menus may need help"
-			}
-			item := Selection{Rank: i + 1, Entry: p.entry, File: filename, Source: g.Path, ArchiveMember: g.Member,
-				LanguageNote: note, ROMSHA256: g.SHA256, ExportSHA256: sha, Bytes: size}
-			manifest = append(manifest, item)
+			item := manifest[i]
 			details, _ := json.Marshal(item)
-			if _, err := db.Exec("INSERT INTO selections VALUES (?,?,?,?,?)", console, item.Rank, g.ID, p.entry.Title, string(details)); err != nil {
+			if _, err := db.Exec("INSERT INTO selections VALUES (?,?,?,?,?)", console, item.Rank, p.game.ID, p.entry.Title, string(details)); err != nil {
 				return nil, err
 			}
 		}
@@ -322,6 +300,96 @@ func (l *Library) Export(roms, state string, db DB, count int, unzip bool) (repo
 		return nil, err
 	}
 	return reports, nil
+}
+
+type rankedPick struct {
+	entry Entry
+	game  game
+}
+
+func workerCount(n int) int {
+	w := runtime.GOMAXPROCS(0) * 2
+	if w < 4 {
+		w = 4
+	}
+	if w > 8 {
+		w = 8
+	}
+	if n < w {
+		w = n
+	}
+	return w
+}
+
+func exportRankedParallel(ranked []rankedPick, folder string, unzip bool, manifest []Selection) error {
+	if len(ranked) == 0 {
+		return nil
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	jobs := make(chan int, len(ranked))
+	for i := range ranked {
+		jobs <- i
+	}
+	close(jobs)
+
+	var (
+		wg       sync.WaitGroup
+		errOnce  sync.Once
+		firstErr error
+	)
+	workers := workerCount(len(ranked))
+	for range workers {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for i := range jobs {
+				if ctx.Err() != nil {
+					return
+				}
+				p := ranked[i]
+				g := p.game
+				suffix := strings.ToLower(filepath.Ext(g.Path))
+				if unzip && g.Member != "" {
+					suffix = strings.ToLower(filepath.Ext(g.Member))
+				}
+				filename := badFileChars.ReplaceAllString(p.entry.Title, "-") + suffix
+				out := filepath.Join(folder, filename)
+				var err error
+				if unzip && g.Member != "" {
+					err = extractMember(g.Path, g.Member, out)
+				} else {
+					err = copyFile(g.Path, out)
+				}
+				if err != nil {
+					errOnce.Do(func() {
+						firstErr = err
+						cancel()
+					})
+					return
+				}
+				sha, size, err := hashFile(out)
+				if err != nil {
+					errOnce.Do(func() {
+						firstErr = err
+						cancel()
+					})
+					return
+				}
+				note := "Preferred USA/World/Europe variant; language inferred from filename"
+				if g.RegionScore < 0 {
+					note = "Japanese source; menus may need help"
+				}
+				manifest[i] = Selection{
+					Rank: i + 1, Entry: p.entry, File: filename, Source: g.Path, ArchiveMember: g.Member,
+					LanguageNote: note, ROMSHA256: g.SHA256, ExportSHA256: sha, Bytes: size,
+				}
+			}
+		}()
+	}
+	wg.Wait()
+	return firstErr
 }
 
 func extractMember(zipPath, member, out string) error {

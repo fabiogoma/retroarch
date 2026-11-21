@@ -2,7 +2,7 @@
 
 A Go command-line tool (`retroarch`, built with cobra and viper) and configuration for preparing a curated cartridge library and
 managing RetroArch on Apple TV from a Mac or Linux host. The current curation
-targets 40 games each for NES, SNES, Nintendo 64, Genesis, Master System and
+targets 50 games each for NES, SNES, Nintendo 64, Genesis, Master System and
 PC Engine, with family/multiplayer notes and explicit core choices.
 
 The repository contains **source code, curation, configuration and documentation**.
@@ -21,7 +21,7 @@ kept in place.
   global flags; they can also be set with `RETROARCH_*` environment variables
   or the committed `retroarch-tool.yaml` in the project root (server, count, export prefix, device home, remote ROM root, timeouts, download cap, user agent).
 - Subcommands: `catalog`, `playlists`, `sync`, `profile backup|restore`,
-  `download list|manifest|bezels|master-system`, `bezels install`, `check`.
+  `download list|manifest|bezels`, `bezels install`, `check`.
 - RetroArch installed on Apple TV with the appropriate cores and its web file
   server running. Use the address displayed by your device with `--server`.
 - Internet access for downloads; cataloging/exporting work offline afterward.
@@ -62,7 +62,7 @@ go test ./...
    go run . catalog
    ```
 
-   Review `ROMs/AppleTV-Top40/summary.json` for missing games and archive issues.
+   Review `ROMs/AppleTV-Top50/summary.json` for missing games and archive issues.
    Existing originals are never moved/deleted. A full scan reads every source
    and may hydrate iCloud placeholders; it is unnecessary just to inspect an
    existing setup.

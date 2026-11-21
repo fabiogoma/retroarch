@@ -6,7 +6,7 @@ Read `README.md`, then `docs/OPERATIONS.md`. `COPILOT_HANDOFF.md` preserves hist
 
 - This is the source repository for RetroArch Apple TV setup tooling: https://github.com/fabiogoma/retroarch. ROMs, artwork, BIOS, device snapshots, exports, local configs and state must never be committed. Use the source allowlist and run `go run . check` before publishing.
 - Use `go run . download` and an explicit local Archive manifest for new downloads. Complete sources for all consoles/artwork have not been supplied; do not invent them or bypass access denial. Known bezels may be fetched from their pinned upstream sources.
-- Active export: `ROMs/AppleTV-Top40`, 40 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (240 total). `ROMs/AppleTV-Top30` is historical.
+- Active export: `ROMs/AppleTV-Top50`, 50 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (300 total). `ROMs/AppleTV-Top30` is historical.
 - Go CLI (cobra + viper); every task is a subcommand (`catalog`, `playlists`, `sync`, `profile`, `download`, `bezels`, `check`). Archive support is pure Go. Commands run from the project root (ROM files live in `ROMs/`).
 - Device file server last used: `http://192.168.0.249`. It requires RetroArch to be open with its web server enabled. Availability and the IP can change.
 

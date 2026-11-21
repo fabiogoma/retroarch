@@ -15,12 +15,12 @@ go run . catalog
 
 Go 1.24+ is required (`go run . <command>`); archive support is pure Go with no system libraries. Raw `.xz`/`.gz`/`.bz2` single-file archives are unsupported and reported as issues. Cataloging and playlist generation work offline. The ROM sync and optional Master System downloader use the network.
 
-The script rescans every console folder recursively, refreshes the SQLite catalog, and rebuilds `ROMs/AppleTV-Top40` with copies of the selected games. Original files are never moved or deleted. The previous generated export is retained at `rom_library/state/previous-export`; the next successful run replaces that backup. Do not put personal files inside either generated export directory. Managed extraction caches remain in `rom_library/state/extracted`; originals may already have identical extracted copies, and the catalog preserves those source records while export chooses one variant per curated title. SHA-256 hashes identify the actual ROM bytes, including inside ZIPs. This checks file consistency, not authenticity against a preservation DAT.
+The script rescans every console folder recursively, refreshes the SQLite catalog, and rebuilds `ROMs/AppleTV-Top50` with copies of the selected games. Original files are never moved or deleted. The previous generated export is retained at `rom_library/state/previous-export`; the next successful run replaces that backup. Do not put personal files inside either generated export directory. Managed extraction caches remain in `rom_library/state/extracted`; originals may already have identical extracted copies, and the catalog preserves those source records while export chooses one variant per curated title. SHA-256 hashes identify the actual ROM bytes, including inside ZIPs. This checks file consistency, not authenticity against a preservation DAT.
 
 ## Outputs
 
-- `../ROMs/AppleTV-Top40/<console>/`: the ROMs to upload, plus `TOP40.md` and `selection.json` explaining every selection, multiplayer mode, family notes, source file, hashes, language inference and popularity evidence.
-- `../ROMs/AppleTV-Top40/summary.json`: counts, unavailable curated games, incomplete downloads and archive problems.
+- `../ROMs/AppleTV-Top50/<console>/`: the ROMs to upload, plus `TOP50.md` and `selection.json` explaining every selection, multiplayer mode, family notes, source file, hashes, language inference and popularity evidence.
+- `../ROMs/AppleTV-Top50/summary.json`: counts, unavailable curated games, incomplete downloads and archive problems.
 - `state/catalog.sqlite`: one catalog across all consoles. `files` inventories physical inputs, `archives` records every archive member and extraction decision, `games` records playable file variants, `titles` is the canonical normalized-title view, and `selections` records this export's choices. `issues` records failed archive reads. Game IDs are regenerated per scan; use `(console, title_key)` or SHA-256 as durable references.
 - `state/catalog.csv`: all playable source variants; `state/titles.csv`: normalized title catalog. Different regional titles and compilations can still have different normalized identities. This is filename-based identification, not an authoritative game database match.
 - `curation.json`: editable ordered recommendations, aliases, genre, family notes, language allowance and evidence. Order expresses personal suitability, not a fabricated sales ranking.
@@ -37,7 +37,7 @@ The reader explicitly selects the outer RAR/7z/ZIP format: the format is chosen 
 
 ## Selection policy and future additions
 
-Add complete games anywhere inside a console folder and rerun. The script searches the ordered curation list, chooses up to 40 available titles, prefers USA, then World, then Europe variants, and avoids filename-marked prototypes, samples, hacks and bad dumps. Japanese releases are allowed for reviewed PC Engine and Mickey entries that explicitly opt in and are marked in manifests; menu/text assistance may be needed. Prefer English adventure releases when acquiring new games.
+Add complete games anywhere inside a console folder and rerun. The script searches the ordered curation list, chooses up to 50 available titles, prefers USA, then World, then Europe variants, and avoids filename-marked prototypes, samples, hacks and bad dumps. Japanese releases are allowed for reviewed PC Engine and Mickey entries that explicitly opt in and are marked in manifests; menu/text assistance may be needed. Prefer English adventure releases when acquiring new games.
 
 Mickey games are placed first in each reviewed console list so available releases make the cut. This includes starring roles, the Disneyland game Mickey hosts, the Genesis compilation containing Castle of Illusion, and the preserved SNES Playtown prototype. Known Mickey titles missing from the local collection appear in the export summary. The PC Engine list has no matching Mickey release in the local library. Use `--count N` to generate a separate `ROMs/AppleTV-TopN` export.
 
@@ -56,14 +56,7 @@ SELECT * FROM issues;
 
 ## Master System source
 
-The supplied source is https://archive.org/download/master_system . The existing collection already contained 372 single-game ZIPs. The metadata endpoint was accessible, but missing-game download attempts returned HTTP 401/403; no additional games were downloaded. Details are in `state/master_system_downloads.json` and the metadata snapshot in `state/master_system_metadata.json`. Once the source permits access, the optional command below downloads titles absent from the current Master System collection, validates advertised size/SHA-1 and ZIP CRC, and does not overwrite existing title files:
-
-```sh
-go run . download master-system
-go run . catalog
-```
-
-The downloader stops on authorization failures. It has no authentication-bypass behavior. Alternate regional/renamed titles can differ in the source's filenames; comparison uses normalized names.
+The supplied source is https://archive.org/download/master_system . The existing collection already contained 372 single-game ZIPs. The metadata endpoint was accessible, but missing-game download attempts returned HTTP 401/403; no additional games were downloaded. Details are in `state/master_system_downloads.json` and the metadata snapshot in `state/master_system_metadata.json`.  The dedicated `download master-system` command has been removed; use `download manifest` for any new downloads.
 
 ## Apple TV
 

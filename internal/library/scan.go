@@ -15,6 +15,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"sync"
 
 	_ "modernc.org/sqlite"
 )
@@ -276,6 +277,12 @@ func (l *Library) scanFile(path, folder, state string, db DB, seen map[string]bo
 			return issue(err)
 		}
 	}
+	type uniqueCand struct {
+		c       candidate
+		name    string
+		console string
+	}
+	var unique []uniqueCand
 	for _, c := range cands {
 		name := c.member
 		if name == "" {
@@ -287,19 +294,54 @@ func (l *Library) scanFile(path, folder, state string, db DB, seen map[string]bo
 			continue
 		}
 		seen[id] = true
-		var sha string
-		var size int64
-		if c.member != "" {
-			sha, size, err = hashZipMember(c.path, c.member)
+		unique = append(unique, uniqueCand{c: c, name: name, console: console})
+	}
+	if len(unique) == 0 {
+		return nil
+	}
+	type hashedCand struct {
+		sha  string
+		size int64
+		err  error
+	}
+	results := make([]hashedCand, len(unique))
+	if len(unique) == 1 {
+		u := unique[0]
+		if u.c.member != "" {
+			results[0].sha, results[0].size, results[0].err = hashZipMember(u.c.path, u.c.member)
 		} else {
-			sha, size, err = hashFile(c.path)
+			results[0].sha, results[0].size, results[0].err = hashFile(u.c.path)
 		}
-		if err != nil {
-			return issue(err)
+	} else {
+		jobs := make(chan int, len(unique))
+		for i := range unique {
+			jobs <- i
 		}
-		title := TitleOf(name)
+		close(jobs)
+		var wg sync.WaitGroup
+		for range workerCount(len(unique)) {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				for i := range jobs {
+					u := unique[i]
+					if u.c.member != "" {
+						results[i].sha, results[i].size, results[i].err = hashZipMember(u.c.path, u.c.member)
+					} else {
+						results[i].sha, results[i].size, results[i].err = hashFile(u.c.path)
+					}
+				}
+			}()
+		}
+		wg.Wait()
+	}
+	for i, u := range unique {
+		if results[i].err != nil {
+			return issue(results[i].err)
+		}
+		title := TitleOf(u.name)
 		_, err = db.Exec("INSERT OR IGNORE INTO games(console,title,title_key,path,member,sha256,bytes,region_score) VALUES (?,?,?,?,?,?,?,?)",
-			console, title, Normalized(title), c.path, c.member, sha, size, RegionScore(name))
+			u.console, title, Normalized(title), u.c.path, u.c.member, results[i].sha, results[i].size, RegionScore(u.name))
 		if err != nil {
 			return err
 		}

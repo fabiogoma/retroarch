@@ -23,7 +23,8 @@ var catalogCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, _ []string) error {
 		count := viper.GetInt("count")
 		unzip, _ := c.Flags().GetBool("unzip-export")
-		return library.RunCatalog(dataDir(), romsDir(), count, unzip)
+		fromCatalog, _ := c.Flags().GetBool("from-catalog")
+		return library.RunCatalog(dataDir(), romsDir(), count, unzip, fromCatalog)
 	},
 }
 
@@ -196,6 +197,7 @@ func init() {
 	viper.BindPFlag("count", catalogCmd.Flags().Lookup("count"))
 	viper.BindPFlag("device_home", playlistsCmd.Flags().Lookup("device-home"))
 	catalogCmd.Flags().Bool("unzip-export", false, "extract single-ROM archives in the export")
+	catalogCmd.Flags().Bool("from-catalog", false, "reuse existing catalog (catalog.sqlite or catalog.csv) without rescanning source folders")
 
 	playlistsCmd.Flags().String("export", "", "export folder (default: <roms>/<export_prefix><count>)")
 	playlistsCmd.Flags().String("output", "", "output folder (default: rom_library/state/apple-tv-playlists)")

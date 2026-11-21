@@ -19,7 +19,7 @@ import (
 // Defaults for every setting; retroarch-tool.yaml, RETROARCH_* variables and flags override them.
 var defaults = map[string]any{
 	"server":             "http://192.168.0.249",
-	"count":              40,
+	"count":              50,
 	"export_prefix":      "AppleTV-Top",
 	"device_home":        "~",
 	"remote_rom_root":    []string{"downloads", "ROMS"},

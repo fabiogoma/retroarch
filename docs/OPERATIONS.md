@@ -10,7 +10,7 @@ Run commands from the project root (ROM files live in `ROMs/`). Read `COPILOT_HA
 
 ## Inspect and test
 
-Start with `ROMs/AppleTV-Top40/summary.json`, its six `selection.json` files, and `rom_library/state/apple-tv-playlists/*.lpl`. Use `docs/handoff-snapshot.json` for dated file hashes and local export validation. CSV source paths may contain the old workspace root; the SQLite catalog was absent at handoff.
+Start with `ROMs/AppleTV-Top50/summary.json`, its six `selection.json` files, and `rom_library/state/apple-tv-playlists/*.lpl`. Use `docs/handoff-snapshot.json` for dated file hashes and local export validation. CSV source paths may contain the old workspace root; the SQLite catalog was absent at handoff.
 
 ```sh
 go version
@@ -28,16 +28,17 @@ Edit `rom_library/curation.json` to change picks. Do not edit a generated select
 go run . catalog
 ```
 
-This performs a full recursive source scan, refreshes catalog outputs and rebuilds `ROMs/AppleTV-Top40`. It can hydrate many iCloud files and take substantial time. Original ROMs remain in place. The last generated export is retained at `rom_library/state/previous-export`; a subsequent successful rebuild replaces that backup. Keep personal files outside managed exports/cache directories.
+This performs a full recursive source scan, refreshes catalog outputs and rebuilds `ROMs/AppleTV-Top50`. It can hydrate many iCloud files and take substantial time. Original ROMs remain in place. The last generated export is retained at `rom_library/state/previous-export`; a subsequent successful rebuild replaces that backup. Keep personal files outside managed exports/cache directories.
 
 Optional modes:
 
 ```sh
+go run . catalog --from-catalog
 go run . catalog --unzip-export
 go run . catalog --count 30
 ```
 
-The second example intentionally generates a separate Top 30 export. Normal operation defaults to 40. A single recognized ROM in a ZIP stays compressed; collection ZIPs and RAR/7z bundles are safely extracted to managed cache. Preserve path/link rejection, nesting/size limits and forced outer-format selection. SHA-256 checks consistency, not preservation-DAT authenticity. Disc sets, arcade ZIPs and BIOS workflows need separate profile support.
+`--from-catalog` reuses the existing `catalog.sqlite` (or imports `catalog.csv`, remapping moved paths) and skips re-scanning multi-gigabyte source archives. The third example intentionally generates a separate Top 30 export. Normal operation defaults to 50. A single recognized ROM in a ZIP stays compressed; collection ZIPs and RAR/7z bundles are safely extracted to managed cache. Preserve path/link rejection, nesting/size limits and forced outer-format selection. SHA-256 checks consistency, not preservation-DAT authenticity. Disc sets, arcade ZIPs and BIOS workflows need separate profile support.
 
 After rebuilding, inspect counts, missing picks and issues in `summary.json`; verify exported file sizes and `export_sha256` hashes against each manifest. New consoles require reviewed curation and suitable profiles.
 
@@ -76,9 +77,9 @@ This command does **not** install playlists, thumbnails, shaders, controller opt
 go run . playlists
 ```
 
-This writes local `.lpl` files and `generation.json` in `rom_library/state/apple-tv-playlists/`. Default export is Top 40. Optional arguments: `--export`, `--output`, `--device-home` (default `~`). It does not upload.
+This writes local `.lpl` files and `generation.json` in `rom_library/state/apple-tv-playlists/`. Default export is Top 50. Optional arguments: `--export`, `--output`, `--device-home` (default `~`). It does not upload.
 
-For device installation, first download/back up all active `/playlists/<system>.lpl` files. Upload staged replacements and activate them only after checking the live server's supported behavior. Verify active files by downloading them again, parsing JSON and checking 40 entries, ROM/member paths and core framework bundle paths. Preserve original playlists remotely and locally. Merely uploading additional ROMs does not change menu counts.
+For device installation, first download/back up all active `/playlists/<system>.lpl` files. Upload staged replacements and activate them only after checking the live server's supported behavior. Verify active files by downloading them again, parsing JSON and checking 50 entries, ROM/member paths and core framework bundle paths. Preserve original playlists remotely and locally. Merely uploading additional ROMs does not change menu counts.
 
 The existing server has been observed numbering duplicate uploaded names rather than replacing the active file. Its supported `/move` endpoint was used previously with form fields `oldPath` and `newPath`. Inspect the current server's JavaScript or stored `rom_library/state/crt-quality/file-server-index.js` before relying on this behavior; there is no maintained playlist installer CLI.
 
@@ -109,3 +110,12 @@ To remove Street Fighter's six-button override, remove only the two game `.opt` 
 ## Report results accurately
 
 Separate local checks, remote read-back verification and user-observed gameplay. A byte-identical config does not prove that the picture looks good or the controller works. Update the handoff after material changes, preserving the date and evidence. New remote reads are necessary to establish current device state; the saved installation reports are historical.
+
+## Push the main config
+
+```sh
+go run . config push --dry-run
+go run . config push            # uploads ./retroarch.cfg
+```
+
+Replaces `/config/retroarch.cfg` with `--file` (default `<root>/retroarch.cfg`). The current device file is saved to `rom_library/state/config-backups/` and kept remotely as `retroarch.cfg.push-backup-<id>`. The upload is staged under a unique name, hash-verified, then swapped in and read back. It stops if the remote file changes mid-push. Fully restart RetroArch afterwards without saving its in-memory config.

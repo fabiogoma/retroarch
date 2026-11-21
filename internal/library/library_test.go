@@ -207,6 +207,46 @@ func TestNormalizedAndRegionScore(t *testing.T) {
 	}
 }
 
+func TestRunCatalogFromCSVRemapsMovedPaths(t *testing.T) {
+	root := t.TempDir()
+	dataDir := filepath.Join(root, "rom_library")
+	stateDir := filepath.Join(dataDir, "state")
+	romsDir := filepath.Join(root, "ROMs")
+	if err := os.MkdirAll(filepath.Join(romsDir, "nes"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(stateDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	romPath := filepath.Join(romsDir, "nes", "Super Mario Bros. (USA).nes")
+	if err := os.WriteFile(romPath, []byte("NES-ROM-DATA"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	sha, err := hashFileOnly(romPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dataDir, "consoles.json"), []byte(`{"nes":{"extensions":[".nes"],"folder_aliases":["nes"]}}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dataDir, "curation.json"), []byte(`{"nes":[{"title":"Super Mario Bros.","aliases":[],"play_mode":"2P","genre":"Platformer","reason":"Classic","family_notes":"Friendly","popularity":"Best seller","sources":[]}]}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	// Simulate a moved workspace path in catalog.csv while catalog.sqlite has no rows yet.
+	csvContent := "id,console,title,title_key,path,member,sha256,bytes,region_score\n" +
+		"1,nes,Super Mario Bros.,super mario bros,/old/workspace/ROMs/nes/Super Mario Bros. (USA).nes,," + sha + ",12,30\n"
+	if err := os.WriteFile(filepath.Join(stateDir, "catalog.csv"), []byte(csvContent), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := RunCatalog(dataDir, romsDir, 1, false, true); err != nil {
+		t.Fatalf("RunCatalog(--from-catalog) failed: %v", err)
+	}
+	exported := filepath.Join(romsDir, "AppleTV-Top1", "nes", "Super Mario Bros..nes")
+	if _, err := os.Stat(exported); err != nil {
+		t.Fatalf("expected exported ROM at %s: %v", exported, err)
+	}
+}
+
 func hashFileOnly(path string) (string, error) {
 	sum, _, err := hashFile(path)
 	return sum, err

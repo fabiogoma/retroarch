@@ -1,34 +1,20 @@
-# ROM library project instructions
+# RetroArch Apple TV project instructions
 
-Read `README.md`, then `docs/OPERATIONS.md`. `COPILOT_HANDOFF.md` preserves historical local context. Its evidence snapshot, state files, exports and device profile are ignored and may be absent in a fresh checkout. No access to prior chats/tools is required.
+Read `README.md`.
 
 ## Project
 
-- This is the source repository for RetroArch Apple TV setup tooling: https://github.com/fabiogoma/retroarch. ROMs, artwork, BIOS, device snapshots, exports, local configs and state must never be committed. Use the source allowlist and run `go run . check` before publishing.
-- Use `go run . download` and an explicit local Archive manifest for new downloads. Complete sources for all consoles/artwork have not been supplied; do not invent them or bypass access denial. Known bezels may be fetched from their pinned upstream sources.
-- Active export: `ROMs/AppleTV-Top50`, 50 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (300 total). `ROMs/AppleTV-Top30` is historical.
-- Go CLI (cobra + viper); every task is a subcommand (`catalog`, `playlists`, `sync`, `profile`, `download`, `bezels`, `check`). Archive support is pure Go. Commands run from the project root (ROM files live in `ROMs/`).
-- Device file server last used: `http://192.168.0.249`. It requires RetroArch to be open with its web server enabled. Availability and the IP can change.
+- Go CLI (cobra + viper) with 4 subcommands: `build`, `artwork`, `sync`, `check`.
+- Builds curated Top 30, Top 40, and Top 50 export folders (`ROMs/AppleTV-Top30`, `AppleTV-Top40`, `AppleTV-Top50`) with Apple TV `.lpl` playlists from local ROMs using `rom_library/curation.json`.
+- Downloads box art from Libretro's official `libretro-thumbnails` repos and hash-pinned bezel PNGs locally (`artwork/` and `rom_library/bezels/`).
+- Syncs ROMs, playlists, artwork, bezels, and RetroArch configuration in parallel with goroutines to the Apple TV web file server (default `http://192.168.0.249`).
+- Never commit ROMs, artwork, exports, or local state. Run `go run . check` and `go test ./...`.
 
 ## Preserve these decisions
 
-- Never move/delete original ROMs. Edit selection policy in `rom_library/curation.json`, not generated manifests. Preserve family/multiplayer notes, Mickey priority, arcade racing preferences and the Super Mario RPG exception.
-- Do not start a complete rescan just to learn the project. Many source files are iCloud placeholders. Read manifests/CSV snapshots first; `rom_library/state/catalog.sqlite` was absent at handoff.
-- Generated exports and `state/previous-export` are replaceable outputs. Keep personal files out of them. Preserve extraction safety checks and explicit outer archive format selection.
-- Sync is additive: skip equal name/size, stop on differing size, never delete remote ROMs. This is not cryptographic validation of existing remote files. Sync does not update playlists, artwork or settings.
-- Device playlist paths use `~/Library/Caches/RetroArch/...`; cores use `:/Frameworks/<core>.framework` bundle paths. Never substitute desktop paths or append framework executable names.
-- Before replacing device config/playlists, fetch and back up the current remote files, merge only intended changes, then download and verify the result. Duplicate uploads may receive numbered names; do not assume an upload replaced the active file.
-- Keep current 60 Hz output, audio stability settings, global CRT preset and console bezels unless the requested change calls for adjustment. The main config disables overlays globally; directory overrides enable console bezels. That is intentional.
-- Save-on-exit is disabled. After external config changes, fully restart RetroArch without saving its stale in-memory configuration first.
-- Controller is an original Sony DualShock 4 with the MFi driver. Street Fighter II uses game-specific six-button PCE options; other PCE games retain two-button defaults. Rewind is currently disabled despite the old hotkey record saying enabled.
-- Distinguish file verification from gameplay validation. SNES audio improvement at 60 Hz was user-confirmed. CRT appearance, bezel appearance and PCE six-button gameplay still need on-device checks.
+- Never move or delete original ROMs in `ROMs/`. Edit selection policy in `rom_library/curation.json`.
+- Sync is additive for ROMs and artwork (never deletes remote files); playlists and configs are staged under unique names, backed up, and swapped via `/move`.
+- Device playlist paths use `~/Library/Caches/RetroArch/...`; cores use `:/Frameworks/<core>.framework` bundle paths.
+- Controllers: 2 original Sony DualShock 4 controllers via Apple TV MFi (`input_max_users = "2"`, ports 1 & 2 mapped to joypad indices `0` and `1`). D-pad-only consoles enable `analog_dpad_mode = "1"` for both players; N64 overrides it to `"0"`. Street Fighter II (PC Engine) uses 6-button options for both players.
+- Save-on-exit is disabled (`config_save_on_exit = "false"`). Restart RetroArch after config sync without saving stale in-memory settings.
 
-## Working commands
-
-```sh
-go test ./...
-go run . check
-go run . sync --dry-run
-```
-
-The full test suite includes a real PC Engine RAR fixture that can trigger iCloud download. See the runbook before exporting, uploading or installing. Make requested changes directly within scope, preserve unrelated settings, and update the handoff when material state changes.

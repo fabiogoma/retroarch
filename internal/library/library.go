@@ -16,6 +16,51 @@ var archiveExts = map[string]bool{".zip": true, ".7z": true, ".rar": true, ".tar
 
 const maxExtract = 32 << 30
 
+// ConsoleInfo describes one supported Apple TV console.
+type ConsoleInfo struct {
+	Slug         string
+	Folder       string
+	Core         string
+	System       string
+	LibretroRepo string
+	DPadOnly     bool
+}
+
+// Consoles is the single source of truth for every supported console.
+var Consoles = []ConsoleInfo{
+	{Slug: "nes", Folder: "nes", Core: "Nestopia", System: "Nintendo - Nintendo Entertainment System", LibretroRepo: "Nintendo_-_Nintendo_Entertainment_System", DPadOnly: true},
+	{Slug: "snes", Folder: "snes", Core: "Snes9x", System: "Nintendo - Super Nintendo Entertainment System", LibretroRepo: "Nintendo_-_Super_Nintendo_Entertainment_System", DPadOnly: true},
+	{Slug: "genesis", Folder: "genesis", Core: "Genesis Plus GX", System: "Sega - Mega Drive - Genesis", LibretroRepo: "Sega_-_Mega_Drive_-_Genesis", DPadOnly: true},
+	{Slug: "master-system", Folder: "master system", Core: "Genesis Plus GX", System: "Sega - Master System - Mark III", LibretroRepo: "Sega_-_Master_System_-_Mark_III", DPadOnly: true},
+	{Slug: "pc-engine", Folder: "PC Engine", Core: "Beetle PCE Fast", System: "NEC - PC Engine - TurboGrafx 16", LibretroRepo: "NEC_-_PC_Engine_-_TurboGrafx_16", DPadOnly: true},
+	{Slug: "n64", Folder: "n64", Core: "Mupen64Plus-Next", System: "Nintendo - Nintendo 64", LibretroRepo: "Nintendo_-_Nintendo_64", DPadOnly: false},
+}
+
+// ConsoleByFolder looks up console metadata by its ROM folder name.
+func ConsoleByFolder(folder string) (ConsoleInfo, bool) {
+	for _, c := range Consoles {
+		if c.Folder == folder {
+			return c, true
+		}
+	}
+	return ConsoleInfo{}, false
+}
+
+// SanitizeThumbnailName matches RetroArch's thumbnail filename sanitization rules.
+func SanitizeThumbnailName(label string) string {
+	var b strings.Builder
+	b.Grow(len(label))
+	for _, r := range label {
+		switch r {
+		case '&', '*', '/', ':', '`', '<', '>', '?', '\\', '|':
+			b.WriteByte('_')
+		default:
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
 // Profile describes how a console's files are recognised.
 type Profile struct {
 	Extensions    []string `json:"extensions"`

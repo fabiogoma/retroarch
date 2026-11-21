@@ -11,11 +11,10 @@ import (
 	"unicode/utf8"
 )
 
-var rootFiles = map[string]bool{".gitignore": true, "README.md": true, "COPILOT_HANDOFF.md": true,
-	"RESUME_WITH_COPILOT.md": true, "go.mod": true, "go.sum": true, "main.go": true, "retroarch-tool.yaml": true}
+var rootFiles = map[string]bool{".gitignore": true, "README.md": true,
+	"go.mod": true, "go.sum": true, "main.go": true, "retroarch-tool.yaml": true}
 
-var libraryFiles = map[string]bool{"README.md": true, "consoles.json": true, "curation.json": true,
-	"apple_tv_cores.json": true, "archive_sources.example.json": true}
+var libraryFiles = map[string]bool{"consoles.json": true, "curation.json": true, "apple_tv_cores.json": true}
 
 func allowed(name string) bool {
 	parts := strings.Split(name, "/")
@@ -29,8 +28,6 @@ func allowed(name string) bool {
 			name == "rom_library/bezels/README.md" || name == "rom_library/bezels/LICENSE" ||
 			name == "rom_library/bezels/sources.json" ||
 			len(parts) >= 3 && parts[1] == "bezels" && strings.HasSuffix(name, ".cfg")
-	case "docs":
-		return name == "docs/OPERATIONS.md" || name == "docs/DOWNLOADS.md"
 	case "config":
 		return name == "config/apple-tv.cfg" || name == "config/global.slangp" || name == "config/pce-six-button.opt"
 	case ".github":

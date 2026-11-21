@@ -58,6 +58,7 @@ func NewServer(rawURL string) *Server {
 		client: &http.Client{Transport: &http.Transport{
 			DialContext:           (&net.Dialer{Timeout: ConnectTimeout}).DialContext,
 			ResponseHeaderTimeout: ResponseTimeout,
+			MaxIdleConnsPerHost:   16,
 		}},
 	}
 }

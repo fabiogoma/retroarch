@@ -1,4 +1,4 @@
-# Source allowlist: downloaded content and device snapshots stay local.
+# Source allowlist: ROMs, artwork, exports, and local state stay outside Git.
 /*
 !/.gitignore
 !/go.mod
@@ -10,23 +10,15 @@
 !/internal/
 !/internal/**
 !/README.md
-!/COPILOT_HANDOFF.md
-!/RESUME_WITH_COPILOT.md
 !/.github/
 !/.github/copilot-instructions.md
 !/.github/workflows/
 !/.github/workflows/checks.yml
-!/docs/
-/docs/*
-!/docs/OPERATIONS.md
-!/docs/DOWNLOADS.md
 !/rom_library/
 /rom_library/*
-!/rom_library/README.md
 !/rom_library/consoles.json
 !/rom_library/curation.json
 !/rom_library/apple_tv_cores.json
-!/rom_library/archive_sources.example.json
 !/rom_library/bezels/
 /rom_library/bezels/*
 !/rom_library/bezels/*.cfg

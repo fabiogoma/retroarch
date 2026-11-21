@@ -16,18 +16,15 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/fabiogoma/retroarch/internal/library"
 	"github.com/fabiogoma/retroarch/internal/util"
 )
 
 // memory mimics the RetroArch file server, including numbering of duplicate uploads.
 type memory struct {
-	mu            sync.Mutex
-	files         map[string][]byte
-	writes        []string
-	corruptUpload bool
-	failMove      func(old, new string) bool
-	failDownload  func(remote string) bool
-	hook          func(remote string)
+	mu     sync.Mutex
+	files  map[string][]byte
+	writes []string
 }
 
 func newMemory(files map[string]string) *memory {
@@ -40,7 +37,7 @@ func newMemory(files map[string]string) *memory {
 
 func (m *memory) URL() string { return "memory://" }
 
-func (m *memory) dirs() map[string]bool {
+func (m *memory) dirsLocked() map[string]bool {
 	d := map[string]bool{"/": true}
 	for p := range m.files {
 		for dir := path.Dir(p); dir != "/"; dir = path.Dir(dir) {
@@ -54,12 +51,15 @@ func (m *memory) List(folder string) (map[string]Entry, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	out := map[string]Entry{}
-	if !m.dirs()[folder] {
+	if !m.dirsLocked()[folder] {
 		return nil, fmt.Errorf("HTTP 404")
 	}
 	for p, data := range m.files {
 		if strings.HasPrefix(p, folder) {
 			rest := p[len(folder):]
+			if rest == ".dir" {
+				continue
+			}
 			if i := strings.Index(rest, "/"); i >= 0 {
 				out[rest[:i]] = Entry{Name: rest[:i], Path: folder + rest[:i] + "/"}
 			} else {
@@ -73,14 +73,11 @@ func (m *memory) List(folder string) (map[string]Entry, error) {
 
 func (m *memory) Download(remote string, w io.Writer) (int64, string, error) {
 	m.mu.Lock()
-	defer m.mu.Unlock()
-	if m.failDownload != nil && m.failDownload(remote) {
-		return 0, "", errors.New("Backup download interrupted")
-	}
-	if m.hook != nil {
-		m.hook(remote)
-	}
 	data, ok := m.files[remote]
+	if ok {
+		data = append([]byte(nil), data...)
+	}
+	m.mu.Unlock()
 	if !ok {
 		return 0, "", errors.New("HTTP 404")
 	}
@@ -90,28 +87,29 @@ func (m *memory) Download(remote string, w io.Writer) (int64, string, error) {
 }
 
 func (m *memory) Move(oldPath, newPath string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	m.writes = append(m.writes, "move")
-	if m.failMove != nil && m.failMove(oldPath, newPath) {
-		return errors.New("Rename interrupted")
-	}
 	m.files[newPath] = m.files[oldPath]
 	delete(m.files, oldPath)
 	return nil
 }
 
 func (m *memory) EnsureFolder(parts []string, dryRun bool) (string, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	folder := "/"
 	for _, name := range parts {
 		child := folder + name + "/"
 		if _, isFile := m.files[folder+name]; isFile {
 			return "", fmt.Errorf("Remote path is not a directory: %s", child)
 		}
-		if !m.dirs()[child] {
+		if !m.dirsLocked()[child] {
 			if dryRun {
 				return "", nil
 			}
 			m.writes = append(m.writes, "create")
-			m.files[child+".dir"] = nil // placeholder so empty folders exist
+			m.files[child+".dir"] = nil
 		}
 		folder = child
 	}
@@ -119,15 +117,13 @@ func (m *memory) EnsureFolder(parts []string, dryRun bool) (string, error) {
 }
 
 func (m *memory) Upload(folder, localPath string, size int64) error {
-	m.writes = append(m.writes, "upload")
 	data, err := os.ReadFile(localPath)
 	if err != nil {
 		return err
 	}
-	if m.corruptUpload {
-		data = append([]byte{}, data...)
-		data[0] ^= 0xff
-	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.writes = append(m.writes, "upload")
 	name := filepath.Base(localPath)
 	target := folder + name
 	for i := 1; ; i++ {
@@ -141,6 +137,8 @@ func (m *memory) Upload(folder, localPath string, size int64) error {
 }
 
 func (m *memory) visible() map[string]string {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	out := map[string]string{}
 	for p, d := range m.files {
 		if !strings.HasSuffix(p, "/.dir") {
@@ -155,66 +153,129 @@ func writeExport(t *testing.T, files map[string]string) string {
 	export := t.TempDir()
 	folder := filepath.Join(export, "nes")
 	os.MkdirAll(folder, 0o755)
-	var sel string
+	os.MkdirAll(filepath.Join(export, "playlists"), 0o755)
+	var sel []string
 	var names []string
 	for n := range files {
 		names = append(names, n)
 	}
 	sort.Strings(names)
-	for i, n := range names {
+	for _, n := range names {
 		os.WriteFile(filepath.Join(folder, n), []byte(files[n]), 0o644)
-		if i > 0 {
-			sel += ","
-		}
-		sel += fmt.Sprintf(`{"file":%q,"bytes":%d,"export_sha256":%q}`, n, len(files[n]), util.SHA256Hex([]byte(files[n])))
+		title := strings.TrimSuffix(n, filepath.Ext(n))
+		sel = append(sel, fmt.Sprintf(`{"title":%q,"file":%q,"bytes":%d,"export_sha256":%q}`, title, n, len(files[n]), util.SHA256Hex([]byte(files[n]))))
 	}
-	os.WriteFile(filepath.Join(folder, "selection.json"), []byte("["+sel+"]"), 0o644)
+	os.WriteFile(filepath.Join(folder, "selection.json"), []byte("["+strings.Join(sel, ",")+"]"), 0o644)
 	os.WriteFile(filepath.Join(export, "summary.json"), []byte(fmt.Sprintf(`{"consoles":[{"console":"nes","selected":%d}]}`, len(files))), 0o644)
+	os.WriteFile(filepath.Join(export, "playlists", "Nintendo - Nintendo Entertainment System.lpl"), []byte(`{"version":"1.5","items":[]}`), 0o644)
 	return export
 }
 
-func TestSyncIsAdditiveAndRepeatable(t *testing.T) {
-	export := writeExport(t, map[string]string{"A.zip": "aaa", "B.zip": "bbbb"})
-	groups, err := LoadExport(export)
-	if err != nil {
-		t.Fatal(err)
+func TestSyncAllParallelROMsPlaylistsArtworkBezelsAndConfig(t *testing.T) {
+	export := writeExport(t, map[string]string{"A.zip": "aaa", "B.zip": "bbbb", "C.zip": "ccccc"})
+	root := t.TempDir()
+	artworkDir := filepath.Join(root, "artwork")
+	bezelDir := filepath.Join(root, "bezels")
+	configDir := filepath.Join(root, "config")
+	stateDir := filepath.Join(root, "state")
+
+	// Prepare local box art for A and B (C intentionally missing locally).
+	boxDir := filepath.Join(artworkDir, "Nintendo - Nintendo Entertainment System", "Named_Boxarts")
+	os.MkdirAll(boxDir, 0o755)
+	os.WriteFile(filepath.Join(boxDir, "A.png"), []byte("png-a"), 0o644)
+	os.WriteFile(filepath.Join(boxDir, "B.png"), []byte("png-b"), 0o644)
+
+	// Prepare all 6 console bezel PNGs + sources.json + LICENSE.
+	os.MkdirAll(bezelDir, 0o755)
+	sources := map[string]map[string]string{}
+	for _, c := range library.Consoles {
+		body := []byte("png-" + c.Slug)
+		os.WriteFile(filepath.Join(bezelDir, c.Slug+".png"), body, 0o644)
+		sources[c.Slug] = map[string]string{"sha256": util.SHA256Hex(body)}
 	}
-	srv := newMemory(map[string]string{"/downloads/ROMS/nes/Old.zip": "keep"})
-	if err := Sync(srv, groups, true); err != nil || len(srv.writes) != 0 {
-		t.Fatalf("dry-run wrote: %v %v", err, srv.writes)
+	util.WriteJSON(filepath.Join(bezelDir, "sources.json"), sources)
+	os.WriteFile(filepath.Join(bezelDir, "LICENSE"), []byte("MIT"), 0o644)
+
+	// Prepare config files.
+	os.MkdirAll(configDir, 0o755)
+	os.WriteFile(filepath.Join(configDir, "apple-tv.cfg"), []byte(
+		"input_joypad_driver = \"mfi\"\ninput_max_users = \"2\"\ninput_player1_analog_dpad_mode = \"1\"\ninput_player2_analog_dpad_mode = \"1\"\n",
+	), 0o644)
+	os.WriteFile(filepath.Join(configDir, "global.slangp"), []byte("shaders = \"1\"\n"), 0o644)
+
+	srv := newMemory(map[string]string{
+		"/downloads/ROMS/nes/Old.zip": "keep",
+		"/config/retroarch.cfg":       "custom_keep = \"yes\"\ninput_max_users = \"8\"\n",
+	})
+
+	opts := SyncOptions{
+		ExportDir: export, ArtworkDir: artworkDir, BezelDir: bezelDir,
+		ConfigDir: configDir, StateDir: stateDir, Workers: 4,
+		ROMs: true, Playlists: true, Artwork: true, Bezels: true, Config: true,
 	}
-	if err := Sync(srv, groups, false); err != nil {
-		t.Fatal(err)
+
+	// Dry run must not write anything.
+	dryOpts := opts
+	dryOpts.DryRun = true
+	if err := SyncAll(srv, dryOpts); err != nil || len(srv.writes) != 0 {
+		t.Fatalf("dry-run wrote: err=%v writes=%v", err, srv.writes)
+	}
+
+	// Real parallel sync.
+	if err := SyncAll(srv, opts); err != nil {
+		t.Fatalf("SyncAll failed: %v", err)
 	}
 	got := srv.visible()
 	if got["/downloads/ROMS/nes/A.zip"] != "aaa" || got["/downloads/ROMS/nes/Old.zip"] != "keep" {
-		t.Fatalf("remote = %v", got)
+		t.Fatalf("ROMs mismatch: %v", got)
 	}
+	if got["/playlists/Nintendo - Nintendo Entertainment System.lpl"] != `{"version":"1.5","items":[]}` {
+		t.Fatalf("playlist missing")
+	}
+	if got["/thumbnails/Nintendo - Nintendo Entertainment System/Named_Boxarts/A.png"] != "png-a" {
+		t.Fatalf("artwork missing")
+	}
+	if !strings.Contains(got["/config/Nestopia/nes.cfg"], `input_player1_analog_dpad_mode = "1"`) {
+		t.Fatalf("NES override missing left-stick D-pad mode: %s", got["/config/Nestopia/nes.cfg"])
+	}
+	if !strings.Contains(got["/config/Mupen64Plus-Next/n64.cfg"], `input_player1_analog_dpad_mode = "0"`) {
+		t.Fatalf("N64 override should disable left-stick D-pad mode: %s", got["/config/Mupen64Plus-Next/n64.cfg"])
+	}
+	cfg := got["/config/retroarch.cfg"]
+	if !strings.Contains(cfg, `custom_keep = "yes"`) || !strings.Contains(cfg, `input_max_users = "2"`) || !strings.Contains(cfg, `input_player2_analog_dpad_mode = "1"`) {
+		t.Fatalf("merged config unexpected: %s", cfg)
+	}
+	if got["/config/global.slangp"] != "shaders = \"1\"\n" {
+		t.Fatalf("shader preset missing")
+	}
+
+	// Repeat sync should do zero writes.
 	srv.writes = nil
-	if err := Sync(srv, groups, false); err != nil || len(srv.writes) != 0 {
-		t.Fatalf("repeat sync wrote: %v %v", err, srv.writes)
+	if err := SyncAll(srv, opts); err != nil || len(srv.writes) != 0 {
+		t.Fatalf("repeat sync wrote: err=%v writes=%v", err, srv.writes)
 	}
 }
 
 func TestSyncStopsOnDifferentSizeAndBadHash(t *testing.T) {
 	export := writeExport(t, map[string]string{"A.zip": "aaa"})
-	groups, _ := LoadExport(export)
 	srv := newMemory(map[string]string{"/downloads/ROMS/nes/A.zip": "x"})
-	if err := Sync(srv, groups, false); err == nil || !strings.Contains(err.Error(), "different size") {
+	if err := SyncAll(srv, SyncOptions{ExportDir: export, ROMs: true, Workers: 2}); err == nil || !strings.Contains(err.Error(), "different size") {
 		t.Fatalf("err = %v", err)
 	}
 	os.WriteFile(filepath.Join(export, "nes", "A.zip"), []byte("zzz"), 0o644)
 	srv = newMemory(nil)
-	if err := Sync(srv, groups, false); err == nil || !strings.Contains(err.Error(), "hash") {
+	if err := SyncAll(srv, SyncOptions{ExportDir: export, ROMs: true, Workers: 2}); err == nil || !strings.Contains(err.Error(), "hash") {
 		t.Fatalf("err = %v", err)
 	}
 }
 
-func TestLoadExportRejectsUnsafeNames(t *testing.T) {
-	export := writeExport(t, map[string]string{"A.zip": "aaa"})
-	os.WriteFile(filepath.Join(export, "nes", "selection.json"), []byte(`[{"file":"../x.zip","bytes":1,"export_sha256":""}]`), 0o644)
-	if _, err := LoadExport(export); err == nil {
-		t.Fatal("expected unsafe name error")
+func TestMergeConfigPreservesUnrelatedSettings(t *testing.T) {
+	base := []byte("# header\nkeep_me = \"abc\"\ninput_max_users = \"8\"\n")
+	frag := []byte("# comment\ninput_max_users = \"2\"\ninput_player2_analog_dpad_mode = \"1\"\n")
+	got := string(MergeConfig(base, frag))
+	want := "# header\nkeep_me = \"abc\"\ninput_max_users = \"2\"\ninput_player2_analog_dpad_mode = \"1\"\n"
+	if got != want {
+		t.Fatalf("got:\n%s\nwant:\n%s", got, want)
 	}
 }
 
@@ -255,290 +316,5 @@ func TestHTTPServerListUploadAndDownload(t *testing.T) {
 	os.WriteFile(local, []byte("payload"), 0o644)
 	if err := s.Upload("/x/", local, 7); err != nil || string(uploaded) != "payload" || folder != "/x/" {
 		t.Fatalf("upload %q %q %v", uploaded, folder, err)
-	}
-}
-
-type profileFixture struct {
-	t       *testing.T
-	server  *memory
-	profile string
-}
-
-func newProfile(t *testing.T) *profileFixture {
-	return &profileFixture{t, newMemory(map[string]string{
-		"/config/retroarch.cfg":                         "video_shader_enable = \"true\"\n",
-		"/downloads/ROMS/nes/Mickey #1.zip":             "rom",
-		"/playlists/Nintendo.lpl":                       "{}",
-		"/saves/Mickey.srm":                             "save",
-		"/thumbnails/Nintendo/Named_Boxarts/Mickey.png": "png",
-	}), filepath.Join(t.TempDir(), "setup")}
-}
-
-func (f *profileFixture) capture(saves bool) error {
-	return Backup(f.server, BackupOptions{Profile: f.profile, IncludeSaves: saves})
-}
-
-func TestBackupRestoreRoundTripAndSavesOptIn(t *testing.T) {
-	f := newProfile(t)
-	if err := f.capture(false); err != nil {
-		t.Fatal(err)
-	}
-	m, err := LoadProfile(f.profile)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if _, ok := m.Files["saves/Mickey.srm"]; ok {
-		t.Fatal("saves included without opt-in")
-	}
-	target := newMemory(nil)
-	if err := Restore(target, f.profile, true); err != nil || len(target.writes) != 0 {
-		t.Fatalf("dry run: %v %v", err, target.writes)
-	}
-	if err := Restore(target, f.profile, false); err != nil {
-		t.Fatal(err)
-	}
-	for p, want := range f.server.visible() {
-		if strings.HasPrefix(p, "/saves/") {
-			continue
-		}
-		if got := target.visible()[p]; got != want {
-			t.Fatalf("%s = %q, want %q", p, got, want)
-		}
-	}
-	if err := f.capture(true); err != nil {
-		t.Fatal(err)
-	}
-	if m, _ := LoadProfile(f.profile); m.Files["saves/Mickey.srm"].Bytes == 0 {
-		t.Fatal("saves missing with opt-in")
-	}
-}
-
-func TestSecondBackupKeepsPreviousAndFailureKeepsProfile(t *testing.T) {
-	f := newProfile(t)
-	f.capture(false)
-	f.server.files["/config/retroarch.cfg"] = []byte("new")
-	f.capture(false)
-	prev, _ := os.ReadFile(filepath.Join(f.profile+".previous", "files/config/retroarch.cfg"))
-	if string(prev) != "video_shader_enable = \"true\"\n" {
-		t.Fatalf("previous = %q", prev)
-	}
-	f.server.failDownload = func(r string) bool { return strings.HasSuffix(r, ".zip") }
-	if err := f.capture(false); err == nil {
-		t.Fatal("expected failure")
-	}
-	if cur, _ := os.ReadFile(filepath.Join(f.profile, "files/config/retroarch.cfg")); string(cur) != "new" {
-		t.Fatalf("profile changed: %q", cur)
-	}
-	if _, err := LoadProfile(f.profile); err != nil {
-		t.Fatal(err)
-	}
-}
-
-func TestSameSizeChangedRemoteIsReplacedAndBackedUp(t *testing.T) {
-	f := newProfile(t)
-	f.capture(false)
-	target := newMemory(map[string]string{"/downloads/ROMS/nes/Mickey #1.zip": "BAD"})
-	if err := Restore(target, f.profile, false); err != nil {
-		t.Fatal(err)
-	}
-	vis := target.visible()
-	if vis["/downloads/ROMS/nes/Mickey #1.zip"] != "rom" {
-		t.Fatal("not replaced")
-	}
-	found := false
-	for p, d := range vis {
-		found = found || strings.Contains(p, ".restore-backup-") && d == "BAD"
-	}
-	if !found {
-		t.Fatal("original not preserved")
-	}
-}
-
-func TestRestoreFailuresKeepOriginal(t *testing.T) {
-	f := newProfile(t)
-	f.capture(false)
-
-	target := newMemory(map[string]string{"/config/retroarch.cfg": "original"})
-	target.corruptUpload = true
-	if err := Restore(target, f.profile, false); err == nil || !strings.Contains(err.Error(), "Staged upload verification failed") {
-		t.Fatalf("err = %v", err)
-	}
-	if string(target.files["/config/retroarch.cfg"]) != "original" {
-		t.Fatal("original changed")
-	}
-	for _, w := range target.writes {
-		if w == "move" {
-			t.Fatal("moved after bad upload")
-		}
-	}
-
-	target = newMemory(map[string]string{"/config/retroarch.cfg": "original"})
-	target.failMove = func(old, new string) bool {
-		return strings.Contains(old, "/restore-") && new == "/config/retroarch.cfg"
-	}
-	if err := Restore(target, f.profile, false); err == nil || !strings.Contains(err.Error(), "Rename interrupted") {
-		t.Fatalf("err = %v", err)
-	}
-	if string(target.files["/config/retroarch.cfg"]) != "original" {
-		t.Fatal("original not rolled back")
-	}
-
-	target = newMemory(map[string]string{"/config/retroarch.cfg": "original"})
-	target.failDownload = func(r string) bool { return strings.Contains(r, ".restore-backup-") }
-	if err := Restore(target, f.profile, false); err == nil {
-		t.Fatal("expected failure")
-	}
-	if string(target.files["/config/retroarch.cfg"]) != "original" {
-		t.Fatal("original not rolled back after backup failure")
-	}
-}
-
-func TestDirectoryConflictStopsBeforeWrites(t *testing.T) {
-	f := newProfile(t)
-	f.capture(false)
-	target := newMemory(map[string]string{"/downloads": "conflict"})
-	if err := Restore(target, f.profile, false); err == nil || !strings.Contains(err.Error(), "not a directory") {
-		t.Fatalf("err = %v", err)
-	}
-	if len(target.writes) != 0 {
-		t.Fatalf("writes = %v", target.writes)
-	}
-}
-
-func TestModifiedProfileTraversalAndSymlinkAreRefused(t *testing.T) {
-	f := newProfile(t)
-	f.capture(false)
-	rom := filepath.Join(f.profile, "files/downloads/ROMS/nes/Mickey #1.zip")
-	os.WriteFile(rom, []byte("BAD"), 0o644)
-	if _, err := LoadProfile(f.profile); err == nil || !strings.Contains(err.Error(), "mismatch") {
-		t.Fatalf("err = %v", err)
-	}
-	f.capture(false) // fails: previous profile is untouched, so recapture first
-	os.WriteFile(rom, []byte("rom"), 0o644)
-	mp := filepath.Join(f.profile, "manifest.json")
-	orig, _ := os.ReadFile(mp)
-	var m Manifest
-	util.ReadJSON(mp, &m)
-	m.Files["../escape"] = FileEntry{}
-	util.WriteJSON(mp, m)
-	if _, err := LoadProfile(f.profile); err == nil || !strings.Contains(err.Error(), "Unsafe") {
-		t.Fatalf("err = %v", err)
-	}
-	os.WriteFile(mp, orig, 0o644)
-	cfg := filepath.Join(f.profile, "files/config/retroarch.cfg")
-	outside := filepath.Join(t.TempDir(), "outside.cfg")
-	os.Rename(cfg, outside)
-	os.Symlink(outside, cfg)
-	if _, err := LoadProfile(f.profile); err == nil || !strings.Contains(err.Error(), "Symlinks") {
-		t.Fatalf("err = %v", err)
-	}
-}
-
-func TestLocalSourceAndApplePortability(t *testing.T) {
-	source := t.TempDir()
-	home := "/private/var/mobile/Containers/Data/Application/01234567-89AB-CDEF-0123-456789ABCDEF"
-	bundle := "/private/var/containers/Bundle/Application/01234567-89AB-CDEF-0123-456789ABCDEF/RetroArch.app"
-	os.WriteFile(filepath.Join(source, "retroarch.cfg"), []byte(`thumbnails_directory = "`+home+`/Library/Caches/RetroArch/thumbnails"`+"\n"), 0o644)
-	os.Mkdir(filepath.Join(source, "playlists"), 0o755)
-	os.WriteFile(filepath.Join(source, "playlists", "test.lpl"), []byte(`{"core_path":"`+bundle+`/Frameworks/nestopia.libretro.framework"}`), 0o644)
-	profile := filepath.Join(t.TempDir(), "setup")
-	if err := Backup(nil, BackupOptions{Profile: profile, Source: source}); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := LoadProfile(profile); err != nil {
-		t.Fatal(err)
-	}
-	cfg, _ := os.ReadFile(filepath.Join(profile, "files/config/retroarch.cfg"))
-	lpl, _ := os.ReadFile(filepath.Join(profile, "files/playlists/test.lpl"))
-	orig, _ := os.ReadFile(filepath.Join(source, "retroarch.cfg"))
-	if !strings.Contains(string(cfg), `"~/Library/Caches/RetroArch/thumbnails"`) || !strings.Contains(string(lpl), `":/Frameworks/`) || !strings.Contains(string(orig), home) {
-		t.Fatalf("cfg=%s lpl=%s", cfg, lpl)
-	}
-}
-
-func TestBackupRequiresMainConfig(t *testing.T) {
-	f := newProfile(t)
-	delete(f.server.files, "/config/retroarch.cfg")
-	if err := f.capture(false); err == nil || !strings.Contains(err.Error(), "no config/retroarch.cfg") {
-		t.Fatalf("err = %v", err)
-	}
-}
-
-func TestChangingHistoryIsRetriedWithFreshSize(t *testing.T) {
-	f := newProfile(t)
-	remote := "/playlists/builtin/content_history.lpl"
-	f.server.files[remote] = []byte("old")
-	calls := 0
-	f.server.hook = func(r string) {
-		if r == remote {
-			calls++
-			f.server.files[r] = []byte("updated history")
-		}
-	}
-	if err := f.capture(false); err != nil {
-		t.Fatal(err)
-	}
-	got, _ := os.ReadFile(filepath.Join(f.profile, "files"+remote))
-	if calls != 2 || string(got) != "updated history" {
-		t.Fatalf("calls=%d got=%q", calls, got)
-	}
-}
-
-func TestConfigChangeDuringCapturePreservesPreviousProfile(t *testing.T) {
-	f := newProfile(t)
-	f.capture(false)
-	before, _ := os.ReadFile(filepath.Join(f.profile, "manifest.json"))
-	configCopied := make(chan struct{})
-	var once sync.Once
-	f.server.hook = func(r string) {
-		switch {
-		case r == "/config/retroarch.cfg":
-			// Closed after this call returns the old contents.
-			defer once.Do(func() { close(configCopied) })
-		case strings.HasSuffix(r, "Mickey.png"):
-			f.server.mu.Unlock()
-			<-configCopied
-			f.server.mu.Lock()
-			f.server.files["/config/retroarch.cfg"] = []byte("new settings")
-		}
-	}
-	err := f.capture(false)
-	if err == nil || !strings.Contains(err.Error(), "changed") {
-		t.Fatalf("err = %v", err)
-	}
-	after, _ := os.ReadFile(filepath.Join(f.profile, "manifest.json"))
-	if string(before) != string(after) {
-		t.Fatal("previous profile modified")
-	}
-}
-
-func TestPushConfigReplacesAndBacksUp(t *testing.T) {
-	m := newMemory(map[string]string{"/" + mainConfig: "old=1\n"})
-	dir := t.TempDir()
-	local := filepath.Join(dir, "retroarch.cfg")
-	if err := os.WriteFile(local, []byte("new=2\n"), 0o644); err != nil {
-		t.Fatal(err)
-	}
-	if err := PushConfig(m, local, filepath.Join(dir, "b"), true); err != nil || m.visible()["/"+mainConfig] != "old=1\n" {
-		t.Fatalf("dry run changed device: %v", err)
-	}
-	if err := PushConfig(m, local, filepath.Join(dir, "b"), false); err != nil {
-		t.Fatal(err)
-	}
-	v := m.visible()
-	if v["/"+mainConfig] != "new=2\n" {
-		t.Fatalf("config not replaced: %q", v["/"+mainConfig])
-	}
-	kept := false
-	for n, c := range v {
-		if n != "/"+mainConfig && c == "old=1\n" {
-			kept = true
-		}
-	}
-	if !kept {
-		t.Fatal("remote backup missing")
-	}
-	if backups, _ := filepath.Glob(filepath.Join(dir, "b", "*.cfg")); len(backups) != 1 {
-		t.Fatal("local backup missing")
 	}
 }

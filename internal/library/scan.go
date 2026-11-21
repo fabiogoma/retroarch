@@ -3,7 +3,6 @@ package library
 import (
 	"archive/zip"
 	"crypto/sha256"
-	"database/sql"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -17,41 +16,36 @@ import (
 	"strings"
 	"sync"
 
-	_ "modernc.org/sqlite"
+	"github.com/fabiogoma/retroarch/internal/util"
 )
 
-const schema = `CREATE TABLE IF NOT EXISTS archives(sha256 TEXT PRIMARY KEY,path TEXT,kind TEXT,members TEXT);
-CREATE TABLE IF NOT EXISTS files(path TEXT PRIMARY KEY,console TEXT,kind TEXT,bytes INTEGER,mtime_ns INTEGER,status TEXT);
-CREATE TABLE IF NOT EXISTS games(id INTEGER PRIMARY KEY,console TEXT,title TEXT,title_key TEXT,path TEXT,member TEXT,sha256 TEXT,bytes INTEGER,region_score INTEGER,UNIQUE(console,path,member));
-CREATE TABLE IF NOT EXISTS selections(console TEXT,rank INTEGER,game_id INTEGER,title TEXT,details TEXT,PRIMARY KEY(console,rank));
-CREATE TABLE IF NOT EXISTS issues(path TEXT,message TEXT);
-CREATE VIEW IF NOT EXISTS titles AS SELECT console,title_key,MIN(title) AS title,COUNT(*) AS variants,COUNT(DISTINCT sha256) AS distinct_dumps FROM games GROUP BY console,title_key;`
-
-// DB is satisfied by both *sql.DB and *sql.Tx.
-type DB interface {
-	Exec(query string, args ...any) (sql.Result, error)
-	Query(query string, args ...any) (*sql.Rows, error)
-	QueryRow(query string, args ...any) *sql.Row
+// Game is one discovered ROM file (or single-ROM ZIP member).
+type Game struct {
+	Console     string `json:"console"`
+	Title       string `json:"title"`
+	TitleKey    string `json:"title_key"`
+	Path        string `json:"path"`
+	Member      string `json:"member,omitempty"`
+	SHA256      string `json:"sha256"`
+	Bytes       int64  `json:"bytes"`
+	RegionScore int    `json:"region_score"`
 }
 
-// Open opens (creating if needed) the catalog database.
-func Open(path string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite", path)
-	if err != nil {
-		return nil, err
-	}
-	// One connection keeps in-memory databases and transactions coherent.
-	db.SetMaxOpenConns(1)
-	if _, err := db.Exec(schema); err != nil {
-		db.Close()
-		return nil, err
-	}
-	return db, nil
+// ScanIssue records an unreadable or invalid archive encountered during scanning.
+type ScanIssue struct {
+	Path    string `json:"path"`
+	Message string `json:"message"`
 }
 
-type archiveMember struct {
-	Name string `json:"name"`
-	Size int64  `json:"size"`
+// ScanResult holds all discovered games and any issues from a scan.
+type ScanResult struct {
+	Games  []Game      `json:"games"`
+	Issues []ScanIssue `json:"issues"`
+}
+
+type archiveMeta struct {
+	Kind    string   `json:"kind"`
+	Members []Member `json:"members"`
 }
 
 type candidate struct {
@@ -77,7 +71,7 @@ func hashFile(path string) (string, int64, error) {
 	return hex.EncodeToString(h.Sum(nil)), n, err
 }
 
-func (l *Library) prepareArchive(path, state string, db DB, depth int) ([]candidate, error) {
+func (l *Library) prepareArchive(path, state string, depth int) ([]candidate, error) {
 	if depth > 8 {
 		return nil, errors.New("Nested archive depth exceeds 8")
 	}
@@ -87,48 +81,35 @@ func (l *Library) prepareArchive(path, state string, db DB, depth int) ([]candid
 	}
 	dest := filepath.Join(state, "extracted", sha)
 	complete := filepath.Join(dest, ".complete.json")
-	var kind, membersJSON string
-	row := db.QueryRow("SELECT kind,members FROM archives WHERE sha256=?", sha)
-	have := row.Scan(&kind, &membersJSON) == nil
-	_, completeErr := os.Stat(complete)
-	var members []archiveMember
-	if have && (kind == "single_zip" || completeErr == nil) {
-		if err := json.Unmarshal([]byte(membersJSON), &members); err != nil {
-			return nil, err
-		}
-	} else {
+
+	var meta archiveMeta
+	haveMeta := util.ReadJSON(complete, &meta) == nil
+	if !haveMeta {
 		listed, err := ListArchive(path)
 		if err != nil {
 			return nil, err
 		}
 		var total int64
-		members = nil
 		for _, m := range listed {
-			members = append(members, archiveMember{m.Name, m.Size})
-			total += m.Size
-		}
-		for _, m := range members {
 			if _, err := SafeMember(m.Name); err != nil {
 				return nil, err
 			}
+			total += m.Size
 		}
 		if total > maxExtract {
 			return nil, errors.New("Archive exceeds 32 GiB extraction limit")
 		}
-		kind = "extract"
-		if strings.EqualFold(filepath.Ext(path), ".zip") && len(members) == 1 &&
-			l.romExts[strings.ToLower(filepath.Ext(members[0].Name))] {
+		kind := "extract"
+		if strings.EqualFold(filepath.Ext(path), ".zip") && len(listed) == 1 &&
+			l.romExts[strings.ToLower(filepath.Ext(listed[0].Name))] {
 			kind = "single_zip"
 		}
-		data, _ := json.Marshal(members)
-		if _, err := db.Exec("INSERT OR REPLACE INTO archives VALUES (?,?,?,?)", sha, path, kind, string(data)); err != nil {
-			return nil, err
-		}
+		meta = archiveMeta{Kind: kind, Members: listed}
 	}
-	if kind == "single_zip" {
-		return []candidate{{path, members[0].Name}}, nil
+	if meta.Kind == "single_zip" {
+		return []candidate{{path, meta.Members[0].Name}}, nil
 	}
-	if _, err := os.Stat(complete); err != nil {
+	if !haveMeta {
 		if err := os.MkdirAll(filepath.Dir(dest), 0o755); err != nil {
 			return nil, err
 		}
@@ -141,8 +122,8 @@ func (l *Library) prepareArchive(path, state string, db DB, depth int) ([]candid
 		if err := extractArchive(path, temp, maxExtract); err != nil {
 			return nil, err
 		}
-		meta, _ := json.Marshal(map[string]string{"source": path, "sha256": sha})
-		if err := os.WriteFile(filepath.Join(temp, ".complete.json"), meta, 0o644); err != nil {
+		raw, _ := json.Marshal(meta)
+		if err := os.WriteFile(filepath.Join(temp, ".complete.json"), raw, 0o644); err != nil {
 			return nil, err
 		}
 		if err := os.RemoveAll(dest); err != nil {
@@ -152,7 +133,6 @@ func (l *Library) prepareArchive(path, state string, db DB, depth int) ([]candid
 			return nil, err
 		}
 	}
-	var result []candidate
 	var files []string
 	err = filepath.WalkDir(dest, func(p string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -167,10 +147,11 @@ func (l *Library) prepareArchive(path, state string, db DB, depth int) ([]candid
 		return nil, err
 	}
 	sort.Strings(files)
+	var result []candidate
 	for _, p := range files {
 		ext := strings.ToLower(filepath.Ext(p))
 		if archiveExts[ext] {
-			sub, err := l.prepareArchive(p, state, db, depth+1)
+			sub, err := l.prepareArchive(p, state, depth+1)
 			if err != nil {
 				return nil, err
 			}
@@ -204,21 +185,17 @@ func hashZipMember(path, member string) (string, int64, error) {
 	return "", 0, fmt.Errorf("member %q not found in %s", member, path)
 }
 
-// Scan rebuilds the catalog from every console folder under roms.
-func (l *Library) Scan(roms, state string, db DB) error {
-	for _, table := range []string{"files", "games", "issues", "selections"} {
-		if _, err := db.Exec("DELETE FROM " + table); err != nil {
-			return err
-		}
-	}
+// Scan recursively finds every ROM under roms, skipping export folders and hidden dirs.
+func (l *Library) Scan(roms, state string) (*ScanResult, error) {
 	folders, err := os.ReadDir(roms)
 	if err != nil {
-		return err
+		return nil, err
 	}
+	res := &ScanResult{Games: []Game{}, Issues: []ScanIssue{}}
 	seen := map[string]bool{}
 	for _, folder := range folders {
 		name := folder.Name()
-		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "rom_library" || isExportDir(name) {
+		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "rom_library" || name == "artwork" || isExportDir(name) {
 			continue
 		}
 		var paths []string
@@ -232,49 +209,39 @@ func (l *Library) Scan(roms, state string, db DB) error {
 			return nil
 		})
 		if err != nil {
-			return err
+			return nil, err
 		}
 		sort.Strings(paths)
-		for _, path := range paths {
-			if err := l.scanFile(path, name, state, db, seen); err != nil {
-				return err
+		for _, p := range paths {
+			if err := l.scanFile(p, name, state, res, seen); err != nil {
+				return nil, err
 			}
 		}
 	}
-	return nil
+	return res, nil
 }
 
-func (l *Library) scanFile(path, folder, state string, db DB, seen map[string]bool) error {
+func (l *Library) scanFile(path, folder, state string, res *ScanResult, seen map[string]bool) error {
 	ext := strings.ToLower(filepath.Ext(path))
-	status := "present"
-	if ext == ".part" || ext == ".crdownload" || ext == ".download" {
-		status = "incomplete"
-	}
 	kind := "auxiliary"
 	if archiveExts[ext] {
 		kind = "archive"
 	} else if l.romExts[ext] {
 		kind = "rom"
 	}
-	info, err := os.Stat(path)
-	if err != nil {
-		return err
-	}
-	if _, err := db.Exec("INSERT INTO files VALUES (?,?,?,?,?,?)", path, folder, kind, info.Size(), info.ModTime().UnixNano(), status); err != nil {
-		return err
-	}
 	if kind == "auxiliary" {
 		return nil
 	}
-	issue := func(err error) error {
+	addIssue := func(err error) {
 		fmt.Println("ISSUE", path, err)
-		_, e := db.Exec("INSERT INTO issues VALUES (?,?)", path, err.Error())
-		return e
+		res.Issues = append(res.Issues, ScanIssue{Path: path, Message: err.Error()})
 	}
 	cands := []candidate{{path, ""}}
 	if kind == "archive" {
-		if cands, err = l.prepareArchive(path, state, db, 0); err != nil {
-			return issue(err)
+		var err error
+		if cands, err = l.prepareArchive(path, state, 0); err != nil {
+			addIssue(err)
+			return nil
 		}
 	}
 	type uniqueCand struct {
@@ -337,14 +304,34 @@ func (l *Library) scanFile(path, folder, state string, db DB, seen map[string]bo
 	}
 	for i, u := range unique {
 		if results[i].err != nil {
-			return issue(results[i].err)
+			addIssue(results[i].err)
+			continue
 		}
 		title := TitleOf(u.name)
-		_, err = db.Exec("INSERT OR IGNORE INTO games(console,title,title_key,path,member,sha256,bytes,region_score) VALUES (?,?,?,?,?,?,?,?)",
-			u.console, title, Normalized(title), u.c.path, u.c.member, results[i].sha, results[i].size, RegionScore(u.name))
-		if err != nil {
-			return err
-		}
+		res.Games = append(res.Games, Game{
+			Console:     u.console,
+			Title:       title,
+			TitleKey:    Normalized(title),
+			Path:        u.c.path,
+			Member:      u.c.member,
+			SHA256:      results[i].sha,
+			Bytes:       results[i].size,
+			RegionScore: RegionScore(u.name),
+		})
 	}
 	return nil
+}
+
+// SaveScanCache writes the scan result to a JSON cache file.
+func SaveScanCache(path string, scan *ScanResult) error {
+	return util.WriteJSON(path, scan)
+}
+
+// LoadScanCache reads a previously saved scan cache file.
+func LoadScanCache(path string) (*ScanResult, error) {
+	var scan ScanResult
+	if err := util.ReadJSON(path, &scan); err != nil {
+		return nil, err
+	}
+	return &scan, nil
 }

@@ -1,4 +1,4 @@
-// Package cmd defines the cobra command tree; every task is a subcommand.
+// Package cmd defines the cobra command tree.
 package cmd
 
 import (
@@ -11,30 +11,33 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/fabiogoma/retroarch/internal/artwork"
 	"github.com/fabiogoma/retroarch/internal/device"
-	"github.com/fabiogoma/retroarch/internal/fetch"
 	"github.com/fabiogoma/retroarch/internal/library"
 )
 
 // Defaults for every setting; retroarch-tool.yaml, RETROARCH_* variables and flags override them.
 var defaults = map[string]any{
-	"server":             "http://192.168.0.249",
-	"count":              50,
-	"export_prefix":      "AppleTV-Top",
-	"device_home":        "~",
-	"remote_rom_root":    []string{"downloads", "ROMS"},
-	"connect_timeout":    "30s",
-	"response_timeout":   "120s",
-	"max_download_bytes": int64(32 << 30),
-	"user_agent":         "RetroArchAppleTV/1.0",
+	"server":           "http://192.168.0.249",
+	"top":              "30,40,50",
+	"sync_top":         50,
+	"export_prefix":    "AppleTV-Top",
+	"device_home":      "~",
+	"remote_rom_root":  []string{"downloads", "ROMS"},
+	"workers":          4,
+	"connect_timeout":  "30s",
+	"response_timeout": "120s",
+	"user_agent":       "RetroArchAppleTV/1.0",
 }
 
 var cfgFile string
 
 var rootCmd = &cobra.Command{
-	Use:           "retroarch",
-	Short:         "ROM library and Apple TV RetroArch setup tool",
-	Long:          "Catalogs the ROM library, builds the Apple TV export and playlists, and syncs ROMs, settings and bezels to RetroArch's web file server.\n\nRun from the project root (the folder containing rom_library/), or pass --root.\nSettings may also come from RETROARCH_* environment variables or a retroarch-tool.yaml file.",
+	Use:   "retroarch",
+	Short: "Build curated Top 30/40/50 ROM sets and sync them to RetroArch on Apple TV",
+	Long: "Scans local ROMs, builds curated Top 30 / Top 40 / Top 50 export folders with playlists, " +
+		"downloads box art and console bezels, and syncs ROMs, playlists, artwork, bezels, and " +
+		"DualShock 4 configuration to RetroArch's web file server in parallel.",
 	SilenceUsage:  true,
 	SilenceErrors: true,
 }
@@ -52,10 +55,12 @@ func init() {
 	f.String("root", "", "project root (default: nearest parent containing rom_library/)")
 	f.String("roms", "", "ROMs folder (default: <root>/ROMs)")
 	f.String("server", defaults["server"].(string), "RetroArch web server URL on the Apple TV")
+	f.Int("workers", defaults["workers"].(int), "parallel goroutines for artwork and sync transfers")
 	viper.BindPFlag("root", f.Lookup("root"))
 	viper.BindPFlag("roms", f.Lookup("roms"))
 	viper.BindPFlag("server", f.Lookup("server"))
-	rootCmd.AddCommand(catalogCmd, playlistsCmd, syncCmd, profileCmd, downloadCmd, bezelsCmd, configCmd, checkCmd)
+	viper.BindPFlag("workers", f.Lookup("workers"))
+	rootCmd.AddCommand(buildCmd, artworkCmd, syncCmd, checkCmd)
 }
 
 func initConfig() {
@@ -84,9 +89,8 @@ func applySettings() {
 		os.Exit(1)
 	}
 	device.ConnectTimeout, device.ResponseTimeout = connect, response
-	fetch.ResponseTimeout = response
-	fetch.MaxBytes = viper.GetInt64("max_download_bytes")
-	fetch.UserAgent = viper.GetString("user_agent")
+	artwork.ResponseTimeout = response
+	artwork.UserAgent = viper.GetString("user_agent")
 	device.RemoteROMRoot = viper.GetStringSlice("remote_rom_root")
 	library.ExportPrefix = viper.GetString("export_prefix")
 }
@@ -107,7 +111,9 @@ func projectRoot() string {
 	}
 }
 
-func dataDir() string { return filepath.Join(projectRoot(), "rom_library") }
+func dataDir() string    { return filepath.Join(projectRoot(), "rom_library") }
+func configDir() string  { return filepath.Join(projectRoot(), "config") }
+func artworkDir() string { return filepath.Join(projectRoot(), "artwork") }
 
 func romsDir() string {
 	if r := viper.GetString("roms"); r != "" {
@@ -117,6 +123,6 @@ func romsDir() string {
 	return filepath.Join(projectRoot(), "ROMs")
 }
 
-func defaultExport() string {
-	return filepath.Join(romsDir(), fmt.Sprintf("%s%d", viper.GetString("export_prefix"), viper.GetInt("count")))
+func exportDirFor(top int) string {
+	return filepath.Join(romsDir(), fmt.Sprintf("%s%d", viper.GetString("export_prefix"), top))
 }

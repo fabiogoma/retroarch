@@ -2,234 +2,136 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/fabiogoma/retroarch/internal/artwork"
 	"github.com/fabiogoma/retroarch/internal/device"
-	"github.com/fabiogoma/retroarch/internal/fetch"
 	"github.com/fabiogoma/retroarch/internal/library"
 	"github.com/fabiogoma/retroarch/internal/repocheck"
 )
 
 func server() device.Remote { return device.NewServer(viper.GetString("server")) }
 
-var catalogCmd = &cobra.Command{
-	Use:   "catalog",
-	Short: "Scan the ROM folders and build the curated Apple TV export",
+var buildCmd = &cobra.Command{
+	Use:   "build",
+	Short: "Scan local ROMs and build Top 30, Top 40, and Top 50 export folders with playlists",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
-		count := viper.GetInt("count")
-		unzip, _ := c.Flags().GetBool("unzip-export")
-		fromCatalog, _ := c.Flags().GetBool("from-catalog")
-		return library.RunCatalog(dataDir(), romsDir(), count, unzip, fromCatalog)
+		topSpec, _ := c.Flags().GetString("top")
+		counts, err := library.ParseCounts(topSpec)
+		if err != nil {
+			return err
+		}
+		unzip, _ := c.Flags().GetBool("unzip")
+		fromCache, _ := c.Flags().GetBool("from-cache")
+		return library.Build(library.BuildOptions{
+			DataDir:    dataDir(),
+			ROMsDir:    romsDir(),
+			Counts:     counts,
+			Unzip:      unzip,
+			FromCache:  fromCache,
+			DeviceHome: viper.GetString("device_home"),
+		})
 	},
 }
 
-var playlistsCmd = &cobra.Command{
-	Use:   "playlists",
-	Short: "Generate RetroArch playlists from an export's manifests",
+var artworkCmd = &cobra.Command{
+	Use:   "artwork",
+	Short: "Download box art and console bezel PNGs locally for an export",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
 		export, _ := c.Flags().GetString("export")
-		output, _ := c.Flags().GetString("output")
-		home := viper.GetString("device_home")
+		top, _ := c.Flags().GetInt("top")
+		dry, _ := c.Flags().GetBool("dry-run")
 		if export == "" {
-			export = defaultExport()
+			export = exportDirFor(top)
 		}
-		if output == "" {
-			output = filepath.Join(dataDir(), "state", "apple-tv-playlists")
-		}
-		return library.GeneratePlaylists(dataDir(), export, output, home)
+		return artwork.Download(artwork.Options{
+			ExportDir:  export,
+			ArtworkDir: artworkDir(),
+			BezelDir:   filepath.Join(dataDir(), "bezels"),
+			Workers:    viper.GetInt("workers"),
+			DryRun:     dry,
+		})
 	},
 }
 
 var syncCmd = &cobra.Command{
 	Use:   "sync",
-	Short: "Additively upload an export's ROMs to the Apple TV (never deletes or overwrites)",
+	Short: "Sync ROMs, playlists, artwork, bezels, and DualShock 4 config to RetroArch in parallel",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
 		export, _ := c.Flags().GetString("export")
+		top, _ := c.Flags().GetInt("top")
 		dry, _ := c.Flags().GetBool("dry-run")
+		only, _ := c.Flags().GetString("only")
 		if export == "" {
-			export = defaultExport()
+			export = exportDirFor(top)
 		}
-		groups, err := device.LoadExport(export)
-		if err != nil {
+		opts := device.SyncOptions{
+			ExportDir:  export,
+			ArtworkDir: artworkDir(),
+			BezelDir:   filepath.Join(dataDir(), "bezels"),
+			ConfigDir:  configDir(),
+			StateDir:   filepath.Join(dataDir(), "state"),
+			Workers:    viper.GetInt("workers"),
+			DryRun:     dry,
+		}
+		if err := applyOnlyFilter(&opts, only); err != nil {
 			return err
 		}
-		return device.Sync(server(), groups, dry)
-	},
-}
-
-var profileCmd = &cobra.Command{Use: "profile", Short: "Back up or restore the RetroArch setup"}
-
-var profileBackupCmd = &cobra.Command{
-	Use:   "backup",
-	Short: "Save a portable, hash-verified snapshot of the device (or a local --source folder)",
-	Args:  cobra.NoArgs,
-	RunE: func(c *cobra.Command, _ []string) error {
-		o := device.BackupOptions{Profile: profileDir(c)}
-		o.Source, _ = c.Flags().GetString("source")
-		o.DryRun, _ = c.Flags().GetBool("dry-run")
-		o.IncludeSaves, _ = c.Flags().GetBool("include-saves")
-		return device.Backup(server(), o)
-	},
-}
-
-var profileRestoreCmd = &cobra.Command{
-	Use:   "restore",
-	Short: "Restore a saved snapshot, preserving every replaced remote file",
-	Args:  cobra.NoArgs,
-	RunE: func(c *cobra.Command, _ []string) error {
-		dry, _ := c.Flags().GetBool("dry-run")
-		return device.Restore(server(), profileDir(c), dry)
-	},
-}
-
-func profileDir(c *cobra.Command) string {
-	if p, _ := c.Flags().GetString("profile"); p != "" {
-		return p
-	}
-	return filepath.Join(dataDir(), "retroarch-profile")
-}
-
-var downloadCmd = &cobra.Command{Use: "download", Short: "Download explicit Internet Archive files or pinned artwork"}
-
-func destinations() (fetch.Destinations, error) {
-	lib, err := library.Load(dataDir())
-	if err != nil {
-		return fetch.Destinations{}, err
-	}
-	consoles := map[string]bool{}
-	for name := range lib.Profiles {
-		consoles[name] = true
-	}
-	return fetch.Destinations{Consoles: consoles, Root: projectRoot(), ROMs: romsDir()}, nil
-}
-
-var downloadListCmd = &cobra.Command{
-	Use:   "list ITEM",
-	Short: "List files and checksums in an Internet Archive item",
-	Args:  cobra.ExactArgs(1),
-	RunE:  func(_ *cobra.Command, a []string) error { return fetch.ListItem(a[0]) },
-}
-
-var downloadManifestCmd = &cobra.Command{
-	Use:   "manifest FILE",
-	Short: "Download the explicit item/file/destination entries of a manifest",
-	Args:  cobra.ExactArgs(1),
-	RunE: func(c *cobra.Command, a []string) error {
-		raw, err := readFile(a[0])
-		if err != nil {
-			return err
-		}
-		plan, err := fetch.ArchivePlan(raw)
-		if err != nil {
-			return err
-		}
-		return runDownload(c, plan)
-	},
-}
-
-var downloadBezelsCmd = &cobra.Command{
-	Use:   "bezels",
-	Short: "Fetch the six hash-pinned upstream console bezel PNGs",
-	Args:  cobra.NoArgs,
-	RunE: func(c *cobra.Command, _ []string) error {
-		plan, err := fetch.BezelPlan(dataDir())
-		if err != nil {
-			return err
-		}
-		return runDownload(c, plan)
-	},
-}
-
-func runDownload(c *cobra.Command, plan []fetch.Plan) error {
-	d, err := destinations()
-	if err != nil {
-		return err
-	}
-	dry, _ := c.Flags().GetBool("dry-run")
-	return fetch.Download(plan, d, dry)
-}
-
-var bezelsCmd = &cobra.Command{Use: "bezels", Short: "Install console bezels on the Apple TV"}
-
-var bezelsInstallCmd = &cobra.Command{
-	Use:   "install",
-	Short: "Preview bezel installation; pass --apply to upload missing files",
-	Args:  cobra.NoArgs,
-	RunE: func(c *cobra.Command, _ []string) error {
-		apply, _ := c.Flags().GetBool("apply")
-		return device.InstallBezels(server(), filepath.Join(dataDir(), "bezels"),
-			filepath.Join(dataDir(), "state", "bezels"), apply)
-	},
-}
-
-var configCmd = &cobra.Command{Use: "config", Short: "Manage the device's main RetroArch config"}
-
-var configPushCmd = &cobra.Command{
-	Use:   "push",
-	Short: "Replace the device's config/retroarch.cfg with a local file (the old one is backed up)",
-	Args:  cobra.NoArgs,
-	RunE: func(c *cobra.Command, _ []string) error {
-		file, _ := c.Flags().GetString("file")
-		dry, _ := c.Flags().GetBool("dry-run")
-		if file == "" {
-			file = filepath.Join(projectRoot(), "retroarch.cfg")
-		}
-		return device.PushConfig(server(), file, filepath.Join(dataDir(), "state", "config-backups"), dry)
+		return device.SyncAll(server(), opts)
 	},
 }
 
 var checkCmd = &cobra.Command{
 	Use:   "check",
-	Short: "Reject tracked runtime data, assets or unexpected files before publishing",
+	Short: "Verify no ROMs, artwork, or runtime state are tracked in Git",
 	Args:  cobra.NoArgs,
 	RunE:  func(*cobra.Command, []string) error { return repocheck.Check(projectRoot()) },
 }
 
-func init() {
-	catalogCmd.Flags().Int("count", defaults["count"].(int), "games to export per console")
-	viper.BindPFlag("count", catalogCmd.Flags().Lookup("count"))
-	viper.BindPFlag("device_home", playlistsCmd.Flags().Lookup("device-home"))
-	catalogCmd.Flags().Bool("unzip-export", false, "extract single-ROM archives in the export")
-	catalogCmd.Flags().Bool("from-catalog", false, "reuse existing catalog (catalog.sqlite or catalog.csv) without rescanning source folders")
-
-	playlistsCmd.Flags().String("export", "", "export folder (default: <roms>/<export_prefix><count>)")
-	playlistsCmd.Flags().String("output", "", "output folder (default: rom_library/state/apple-tv-playlists)")
-	playlistsCmd.Flags().String("device-home", "~", "Apple RetroArch home alias (~), or an absolute app-container path")
-
-	syncCmd.Flags().String("export", "", "export folder (default: <roms>/<export_prefix><count>)")
-	syncCmd.Flags().Bool("dry-run", false, "preview without uploading")
-
-	profileCmd.PersistentFlags().String("profile", "", "profile folder (default: rom_library/retroarch-profile)")
-	profileBackupCmd.Flags().String("source", "", "back up from a local RetroArch data folder instead of the device")
-	profileBackupCmd.Flags().Bool("dry-run", false, "preview without writing")
-	profileBackupCmd.Flags().Bool("include-saves", false, "also include saves/ and states/")
-	profileRestoreCmd.Flags().Bool("dry-run", false, "preview without uploading")
-	profileCmd.AddCommand(profileBackupCmd, profileRestoreCmd)
-
-	downloadCmd.PersistentFlags().Bool("dry-run", false, "preview without writing")
-	downloadCmd.AddCommand(downloadListCmd, downloadManifestCmd, downloadBezelsCmd)
-
-	bezelsInstallCmd.Flags().Bool("apply", false, "upload missing files (default: preview only)")
-	bezelsCmd.AddCommand(bezelsInstallCmd)
-
-	configPushCmd.Flags().String("file", "", "local config to upload (default: <root>/retroarch.cfg)")
-	configPushCmd.Flags().Bool("dry-run", false, "preview without uploading")
-	configCmd.AddCommand(configPushCmd)
-}
-
-func readFile(p string) ([]byte, error) {
-	data, err := osReadFile(p)
-	if err != nil {
-		return nil, fmt.Errorf("%w", err)
+func applyOnlyFilter(o *device.SyncOptions, spec string) error {
+	spec = strings.TrimSpace(strings.ToLower(spec))
+	if spec == "" || spec == "all" {
+		o.ROMs, o.Playlists, o.Artwork, o.Bezels, o.Config = true, true, true, true, true
+		return nil
 	}
-	return data, nil
+	for _, part := range strings.Split(spec, ",") {
+		switch strings.TrimSpace(part) {
+		case "":
+		case "roms":
+			o.ROMs = true
+		case "playlists":
+			o.Playlists = true
+		case "artwork":
+			o.Artwork = true
+		case "bezels":
+			o.Bezels = true
+		case "config":
+			o.Config = true
+		default:
+			return fmt.Errorf("unknown --only item %q (valid: roms, playlists, artwork, bezels, config)", part)
+		}
+	}
+	return nil
 }
 
-var osReadFile = os.ReadFile
+func init() {
+	buildCmd.Flags().String("top", defaults["top"].(string), "comma-separated top counts to generate (e.g. 30, 40, 50, or 30,40,50)")
+	buildCmd.Flags().Bool("unzip", false, "extract single-ROM ZIP archives into the export")
+	buildCmd.Flags().Bool("from-cache", false, "reuse rom_library/state/scan-cache.json without rescanning ROMs/")
+
+	artworkCmd.Flags().Int("top", defaults["sync_top"].(int), "export set to fetch artwork for (30, 40, or 50)")
+	artworkCmd.Flags().String("export", "", "explicit export folder path (overrides --top)")
+	artworkCmd.Flags().Bool("dry-run", false, "preview downloads without writing files")
+
+	syncCmd.Flags().Int("top", defaults["sync_top"].(int), "export set to sync (30, 40, or 50)")
+	syncCmd.Flags().String("export", "", "explicit export folder path (overrides --top)")
+	syncCmd.Flags().String("only", "", "comma-separated subset to sync: roms,playlists,artwork,bezels,config (default: all)")
+	syncCmd.Flags().Bool("dry-run", false, "preview without uploading")
+}

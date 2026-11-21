@@ -264,7 +264,7 @@ func syncArtwork(server Remote, exportDir, artworkDir string, workers int, dryRu
 				missing++
 				continue
 			}
-			if existing, ok := remote[name]; ok && existing.Size != nil && *existing.Size == info.Size() {
+			if existing, ok := remote[name]; ok && existing.Size != nil && *existing.Size > 0 {
 				skipped++
 				continue
 			}
@@ -369,6 +369,7 @@ func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun b
 		}
 	}
 	var assetJobs []uploadJob
+	var replaceAssets []struct{ Remote, Local string }
 	skipped := 0
 	for _, a := range assets {
 		info, err := os.Stat(a.Local)
@@ -376,8 +377,12 @@ func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun b
 			return err
 		}
 		name := path.Base(a.Remote)
-		if existing, ok := remoteOverlays[name]; ok && existing.Size != nil && *existing.Size == info.Size() {
-			skipped++
+		if existing, ok := remoteOverlays[name]; ok {
+			if existing.Size != nil && *existing.Size == info.Size() {
+				skipped++
+				continue
+			}
+			replaceAssets = append(replaceAssets, a)
 			continue
 		}
 		display := overlayFolder
@@ -390,8 +395,23 @@ func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun b
 		for _, j := range assetJobs {
 			fmt.Printf("Would upload bezel asset %s%s\n", j.folder, filepath.Base(j.local))
 		}
-	} else if err := uploadJobsParallel(server, assetJobs, workers, "bezel"); err != nil {
-		return err
+		for _, a := range replaceAssets {
+			fmt.Printf("Would replace bezel asset %s\n", a.Remote)
+		}
+	} else {
+		if err := uploadJobsParallel(server, assetJobs, workers, "bezel"); err != nil {
+			return err
+		}
+		for _, a := range replaceAssets {
+			data, err := os.ReadFile(a.Local)
+			if err != nil {
+				return err
+			}
+			if err := replaceRemoteFile(server, a.Remote, data, "backup"); err != nil {
+				return err
+			}
+			fmt.Printf("Replaced bezel asset %s\n", a.Remote)
+		}
 	}
 
 	ovUpdated := 0
@@ -443,7 +463,7 @@ func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun b
 	if dryRun {
 		verb = "would sync"
 	}
-	fmt.Printf("Bezels: %s %d assets and %d overrides, skipped %d identical.\n", verb, len(assetJobs), ovUpdated, skipped)
+	fmt.Printf("Bezels: %s %d assets and %d overrides, skipped %d identical.\n", verb, len(assetJobs)+len(replaceAssets), ovUpdated, skipped)
 	return nil
 }
 
@@ -488,7 +508,8 @@ func syncConfig(server Remote, exportDir, configDir, backupDir string, dryRun bo
 		}
 	}
 
-	// 3. Sync Street Fighter II 6-button PCE options for both P1 & P2.
+	// 3. Merge Street Fighter II 6-button PCE options for both P1 & P2,
+	// preserving any other existing Beetle PCE Fast core options on the device.
 	pceOptPath := filepath.Join(configDir, "pce-six-button.opt")
 	if optData, err := os.ReadFile(pceOptPath); err == nil {
 		if selections, err := library.LoadExportSelections(exportDir); err == nil {
@@ -498,12 +519,55 @@ func syncConfig(server Remote, exportDir, configDir, backupDir string, dryRun bo
 				}
 				stem := strings.TrimSuffix(p.File, filepath.Ext(p.File))
 				remote := "/" + RemoteConfigDir + "/Beetle PCE Fast/" + stem + ".opt"
-				if err := syncSingleConfigFile(server, remote, optData, backupDir, dryRun); err != nil {
+				if err := mergeSingleConfigFile(server, remote, optData, backupDir, dryRun); err != nil {
 					return err
 				}
 			}
 		}
 	}
+	return nil
+}
+
+func mergeSingleConfigFile(server Remote, remote string, fragment []byte, backupDir string, dryRun bool) error {
+	parts := strings.Split(strings.Trim(path.Dir(remote), "/"), "/")
+	folder, err := server.EnsureFolder(parts, dryRun)
+	if err != nil {
+		return err
+	}
+	var existingData []byte
+	if folder != "" {
+		listing, err := server.List(folder)
+		if err != nil {
+			return err
+		}
+		if _, ok := listing[path.Base(remote)]; ok {
+			cur, err := Fetch(server, remote)
+			if err != nil {
+				return err
+			}
+			existingData = cur
+		}
+	}
+	targetData := fragment
+	if existingData != nil {
+		targetData = MergeConfig(existingData, fragment)
+		if bytes.Equal(existingData, targetData) {
+			return nil
+		}
+	}
+	if dryRun {
+		fmt.Printf("Would sync %s\n", remote)
+		return nil
+	}
+	if existingData != nil {
+		if err := saveLocalBackup(backupDir, remote, existingData); err != nil {
+			return err
+		}
+	}
+	if err := replaceRemoteFile(server, remote, targetData, "backup"); err != nil {
+		return err
+	}
+	fmt.Printf("Synced %s\n", remote)
 	return nil
 }
 

@@ -329,6 +329,76 @@ func TestConfigBackupAndRestoreRoundTrip(t *testing.T) {
 	}
 }
 
+func TestSyncPreservesExistingArtworkMergesPCEOptAndReplacesBezelAsset(t *testing.T) {
+	export := writeExport(t, map[string]string{"A.zip": "aaa"})
+	// Add a PC Engine Street Fighter II entry so syncConfig merges pce-six-button.opt.
+	pceDir := filepath.Join(export, "PC Engine")
+	os.MkdirAll(pceDir, 0o755)
+	os.WriteFile(filepath.Join(pceDir, "Street Fighter II' - Champion Edition.zip"), []byte("sf2"), 0o644)
+	os.WriteFile(filepath.Join(pceDir, "selection.json"), []byte(fmt.Sprintf(
+		`[{"title":"Street Fighter II' - Champion Edition","file":"Street Fighter II' - Champion Edition.zip","bytes":3,"export_sha256":%q}]`,
+		util.SHA256Hex([]byte("sf2")),
+	)), 0o644)
+	os.WriteFile(filepath.Join(export, "summary.json"), []byte(
+		`{"consoles":[{"console":"nes","selected":1},{"console":"PC Engine","selected":1}]}`,
+	), 0o644)
+
+	root := t.TempDir()
+	artworkDir := filepath.Join(root, "artwork")
+	bezelDir := filepath.Join(root, "bezels")
+	configDir := filepath.Join(root, "config")
+	backupDir := filepath.Join(root, "backups")
+
+	boxDir := filepath.Join(artworkDir, "Nintendo - Nintendo Entertainment System", "Named_Boxarts")
+	os.MkdirAll(boxDir, 0o755)
+	os.WriteFile(filepath.Join(boxDir, "A.png"), []byte("new-longer-png"), 0o644)
+
+	os.MkdirAll(bezelDir, 0o755)
+	sources := map[string]map[string]string{}
+	for _, c := range library.Consoles {
+		body := []byte("png-" + c.Slug)
+		os.WriteFile(filepath.Join(bezelDir, c.Slug+".png"), body, 0o644)
+		sources[c.Slug] = map[string]string{"sha256": util.SHA256Hex(body)}
+	}
+	util.WriteYAML(filepath.Join(bezelDir, "sources.yaml"), sources)
+	os.WriteFile(filepath.Join(bezelDir, "LICENSE"), []byte("MIT"), 0o644)
+
+	os.MkdirAll(configDir, 0o755)
+	os.WriteFile(filepath.Join(configDir, "apple-tv.cfg"), []byte("input_max_users = \"2\"\n"), 0o644)
+	os.WriteFile(filepath.Join(configDir, "pce-six-button.opt"), []byte(
+		"pce_fast_default_joypad_type_p1 = \"6 Buttons\"\npce_fast_default_joypad_type_p2 = \"6 Buttons\"\n",
+	), 0o644)
+
+	srv := newMemory(map[string]string{
+		"/thumbnails/Nintendo - Nintendo Entertainment System/Named_Boxarts/A.png": "existing-art",
+		"/overlays/console-bezels/LICENSE":                                         "MIT\n", // 1 byte longer than local "MIT"
+		"/config/retroarch.cfg":                                                    "input_max_users = \"2\"\n",
+		"/config/Beetle PCE Fast/Street Fighter II' - Champion Edition.opt":        "pce_fast_adpcmvolume = \"100\"\npce_fast_default_joypad_type_p1 = \"2 Buttons\"\n",
+	})
+
+	if err := SyncAll(srv, SyncOptions{
+		ExportDir: export, ArtworkDir: artworkDir, BezelDir: bezelDir,
+		ConfigDir: configDir, BackupDir: backupDir, Workers: 2,
+		Artwork: true, Bezels: true, Config: true,
+	}); err != nil {
+		t.Fatalf("SyncAll failed: %v", err)
+	}
+
+	got := srv.visible()
+	if got["/thumbnails/Nintendo - Nintendo Entertainment System/Named_Boxarts/A.png"] != "existing-art" {
+		t.Fatalf("existing remote artwork should be preserved, got %q", got["/thumbnails/Nintendo - Nintendo Entertainment System/Named_Boxarts/A.png"])
+	}
+	if got["/overlays/console-bezels/LICENSE"] != "MIT" {
+		t.Fatalf("bezel LICENSE should be safely replaced, got %q", got["/overlays/console-bezels/LICENSE"])
+	}
+	opt := got["/config/Beetle PCE Fast/Street Fighter II' - Champion Edition.opt"]
+	if !strings.Contains(opt, `pce_fast_adpcmvolume = "100"`) ||
+		!strings.Contains(opt, `pce_fast_default_joypad_type_p1 = "6 Buttons"`) ||
+		!strings.Contains(opt, `pce_fast_default_joypad_type_p2 = "6 Buttons"`) {
+		t.Fatalf("PCE opt should merge and preserve existing keys, got:\n%s", opt)
+	}
+}
+
 func TestHTTPServerListUploadAndDownload(t *testing.T) {
 	var uploaded []byte
 	var folder string

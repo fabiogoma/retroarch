@@ -39,6 +39,7 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 - **Left analog stick as D-pad**: enabled (`input_player1_analog_dpad_mode = "1"`, `input_player2_analog_dpad_mode = "1"`) for all D-pad-only consoles (NES, SNES, Genesis, Master System, PC Engine), and disabled (`"0"`) via per-folder override on **Nintendo 64** so N64 uses the native analog stick cleanly.
 - **PC Engine 6-button**: `config/pce-six-button.opt` is synced automatically for Street Fighter II (both players) while other PC Engine games keep 2-button defaults.
 - **Video & Audio**: 60 Hz Vulkan output, 4:3 aspect ratio, CRT EasyMode (`config/global.slangp`), console bezels via per-folder overrides, and stable CoreAudio settings.
+- **iCloud Cloud Sync**: Automatic CloudKit sync (`cloud_sync_driver = "icloud"`) enabled for save files (`.srm`) and save states (non-destructive; configs/thumbnails/system disabled so they don't conflict with `sync`).
 
 ## Configuration
 

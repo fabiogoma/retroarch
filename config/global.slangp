@@ -1,0 +1,12 @@
+# Global CRT preset for the Apple TV: all cores and all games.
+# Install the upstream CRT EasyMode shader before enabling this preset.
+shaders = "1"
+shader0 = "../shaders/shaders_slang/crt/shaders/crt-easymode.slang"
+filter_linear0 = "false"
+wrap_mode0 = "clamp_to_border"
+mipmap_input0 = "false"
+scale_type0 = "viewport"
+scale0 = "1.000000"
+MASK_STRENGTH = "0.200000"
+SCANLINE_STRENGTH = "0.750000"
+BRIGHT_BOOST = "1.150000"

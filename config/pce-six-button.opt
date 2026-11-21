@@ -1,0 +1,4 @@
+# Merge into Street Fighter II's game-specific core options for both ports.
+# Do not apply to the global PCE defaults.
+pce_fast_default_joypad_type_p1 = "6 Buttons"
+pce_fast_default_joypad_type_p2 = "6 Buttons"

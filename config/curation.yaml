@@ -785,6 +785,15 @@ snes:
     family_notes: Some stages demand precise timing; parent helps with bosses.
     popularity: Preference pick; no verified sales claim
     sources: []
+  - title: Scooby-Doo Mystery
+    aliases:
+      - Scooby Doo
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Classic Scooby-Doo mystery adventure from a franchise you asked for.
+    family_notes: Cartoon spooky themes and puzzle/clue solving; parent helps with reading.
+    popularity: Preference pick; no verified sales claim
+    sources: []
   - title: Simpsons - Bart's Nightmare, The
     aliases: []
     play_mode: 1 player; take turns
@@ -1398,6 +1407,15 @@ genesis:
     popularity: Listed among platform million-sellers
     sources:
       - https://en.wikipedia.org/wiki/List_of_best-selling_Sega_Genesis_video_games
+  - title: Scooby-Doo Mystery
+    aliases:
+      - Scooby Doo Mystery
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Point-and-click Scooby-Doo mystery adventure from a franchise you asked for.
+    family_notes: Cartoon spooky themes and puzzle/clue solving; parent helps with reading.
+    popularity: Preference pick; no verified sales claim
+    sources: []
   - title: Simpsons, The - Bart Vs The Space Mutants
     aliases: []
     play_mode: 1 player; take turns
@@ -2342,6 +2360,14 @@ n64:
     genre: platform
     reason: Colorful platform adventure; recognizable characters and exploration.
     family_notes: Some stages demand precise timing; parent helps with bosses.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Scooby-Doo! - Classic Creep Capers
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: 3D Scooby-Doo mystery adventure from a franchise you asked for.
+    family_notes: Cartoon spooky themes and clue hunting; parent helps with reading and puzzles.
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Legend of Zelda, The - Majora's Mask

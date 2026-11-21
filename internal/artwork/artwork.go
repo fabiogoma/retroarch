@@ -13,6 +13,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"sync"
@@ -38,6 +39,7 @@ type Options struct {
 	ExportDir  string
 	ArtworkDir string
 	BezelDir   string
+	ConfigDir  string
 	Workers    int
 	DryRun     bool
 }
@@ -63,6 +65,9 @@ func Download(o Options) error {
 	selections, err := library.LoadExportSelections(o.ExportDir)
 	if err != nil {
 		return err
+	}
+	if o.ConfigDir != "" {
+		mergeCurationMetadata(o.ConfigDir, selections)
 	}
 
 	type consoleWork struct {
@@ -212,6 +217,78 @@ func fetchBoxArtIndex(ctx context.Context, client *http.Client, repo string) ([]
 	return names, nil
 }
 
+var badDumpRe = regexp.MustCompile(`(?i)\[b\d|\[h\d|\[t\d`)
+
+// mergeCurationMetadata enriches exported selections with aliases and allow_japanese
+// from curation.yaml so newly added aliases take effect without rebuilding exports.
+func mergeCurationMetadata(configDir string, selections map[string][]library.Selection) {
+	var curated map[string][]library.Entry
+	if err := util.ReadYAML(filepath.Join(configDir, "curation.yaml"), &curated); err != nil {
+		return
+	}
+	for console, picks := range selections {
+		byTitle := make(map[string]library.Entry, len(curated[console]))
+		for _, e := range curated[console] {
+			byTitle[e.Title] = e
+		}
+		for i, p := range picks {
+			e, ok := byTitle[p.Title]
+			if !ok {
+				continue
+			}
+			if e.AllowJapanese {
+				picks[i].AllowJapanese = true
+			}
+			if len(e.Aliases) == 0 {
+				continue
+			}
+			seen := make(map[string]bool, len(p.Aliases))
+			for _, a := range p.Aliases {
+				seen[a] = true
+			}
+			for _, a := range e.Aliases {
+				if !seen[a] {
+					picks[i].Aliases = append(picks[i].Aliases, a)
+					seen[a] = true
+				}
+			}
+		}
+	}
+}
+
+// boxArtKey relaxes Normalized by dropping "and" so "&"/"and" matches Libretro's "_" and "-".
+func boxArtKey(s string) string {
+	var words []string
+	for _, w := range strings.Fields(library.Normalized(s)) {
+		if w != "and" {
+			words = append(words, w)
+		}
+	}
+	return strings.Join(words, " ")
+}
+
+func pickBestCandidate(available []string, matchFn func(name string) bool, allowJapanese, allowFallback bool) string {
+	var bestName string
+	bestScore := -10000
+	for _, name := range available {
+		if !matchFn(name) {
+			continue
+		}
+		if allowFallback && badDumpRe.MatchString(name) {
+			continue
+		}
+		score := library.RegionScore(name)
+		if !allowFallback && (score <= -100 || (score < 0 && !allowJapanese)) {
+			continue
+		}
+		if bestName == "" || score > bestScore || (score == bestScore && name < bestName) {
+			bestName = name
+			bestScore = score
+		}
+	}
+	return bestName
+}
+
 // MatchBoxArt picks the best matching Named_Boxarts PNG filename for a selected game.
 func MatchBoxArt(p library.Selection, available []string) string {
 	// 1. Exact ROM stem match (e.g., No-Intro "Super Mario Bros. 3 (USA).png").
@@ -232,28 +309,52 @@ func MatchBoxArt(p library.Selection, available []string) string {
 		}
 	}
 
-	// 2. Normalized title / alias match ranked by region preference.
 	keys := map[string]bool{library.Normalized(p.Title): true}
+	relaxedKeys := map[string]bool{boxArtKey(p.Title): true}
 	for _, a := range p.Aliases {
 		keys[library.Normalized(a)] = true
+		relaxedKeys[boxArtKey(a)] = true
 	}
-	var bestName string
-	bestScore := -1000
-	for _, name := range available {
+
+	matchExact := func(name string) bool {
+		return keys[library.Normalized(library.TitleOf(name))]
+	}
+	matchRelaxedFull := func(name string) bool {
+		return relaxedKeys[boxArtKey(library.TitleOf(name))]
+	}
+	// No-Intro dual titles (e.g. "Ys - The Vanished Omens / Y's") are sanitized with " _ ".
+	matchRelaxedSplit := func(name string) bool {
 		title := library.TitleOf(name)
-		if !keys[library.Normalized(title)] {
-			continue
+		if !strings.Contains(title, " _ ") {
+			return false
 		}
-		score := library.RegionScore(name)
-		if score <= -100 || (score < 0 && !p.AllowJapanese) {
-			continue
+		for _, part := range strings.Split(title, " _ ") {
+			if k := boxArtKey(part); k != "" && relaxedKeys[k] {
+				return true
+			}
 		}
-		if bestName == "" || score > bestScore || (score == bestScore && name < bestName) {
-			bestName = name
-			bestScore = score
-		}
+		return false
 	}
-	return bestName
+
+	// 2. Exact normalized title / alias match in preferred regions.
+	if m := pickBestCandidate(available, matchExact, p.AllowJapanese, false); m != "" {
+		return m
+	}
+	// 3. Relaxed box-art key match (handles "&"/"and" vs "_"/"-" and dual-title " _ ").
+	if m := pickBestCandidate(available, matchRelaxedFull, p.AllowJapanese, false); m != "" {
+		return m
+	}
+	if m := pickBestCandidate(available, matchRelaxedSplit, p.AllowJapanese, false); m != "" {
+		return m
+	}
+	// 4. Last-resort fallback to Proto/Beta/Sample/Japan box art when no retail release exists.
+	if m := pickBestCandidate(available, matchExact, true, true); m != "" {
+		return m
+	}
+	if m := pickBestCandidate(available, matchRelaxedFull, true, true); m != "" {
+		return m
+	}
+	return pickBestCandidate(available, matchRelaxedSplit, true, true)
 }
 
 func downloadBezels(client *http.Client, bezelDir string, workers int, dryRun bool) error {

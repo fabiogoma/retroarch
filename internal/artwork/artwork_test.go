@@ -34,6 +34,60 @@ func TestMatchBoxArtPrefersExactStemAndUSA(t *testing.T) {
 	}
 }
 
+func TestMatchBoxArtRelaxedAndFallbacks(t *testing.T) {
+	// "&" / "and" matches sanitized "_" and "-" in Libretro filenames.
+	if got := MatchBoxArt(
+		library.Selection{Entry: library.Entry{Title: "Great Circus Mystery Starring Mickey & Minnie, The"}},
+		[]string{"Great Circus Mystery Starring Mickey _ Minnie, The (Europe).png", "Great Circus Mystery Starring Mickey _ Minnie, The (USA).png"},
+	); got != "Great Circus Mystery Starring Mickey _ Minnie, The (USA).png" {
+		t.Fatalf("ampersand/_ match got %q", got)
+	}
+	if got := MatchBoxArt(
+		library.Selection{Entry: library.Entry{Title: "Spider-Man and Venom - Maximum Carnage"}},
+		[]string{"Spider-Man - Venom - Maximum Carnage (World).png"},
+	); got != "Spider-Man - Venom - Maximum Carnage (World).png" {
+		t.Fatalf("and/- match got %q", got)
+	}
+
+	// Dual-title " _ " suffix (sanitized " / ") matches either title.
+	if got := MatchBoxArt(
+		library.Selection{Entry: library.Entry{Title: "Ys - The Vanished Omens"}},
+		[]string{"Ys - The Vanished Omens (Proto).png", "Ys - The Vanished Omens _ Y's (USA, Europe, Brazil) (En).png"},
+	); got != "Ys - The Vanished Omens _ Y's (USA, Europe, Brazil) (En).png" {
+		t.Fatalf("dual-title match got %q", got)
+	}
+
+	// Proto-only game falls back to Proto box art, while still preferring retail when present.
+	if got := MatchBoxArt(
+		library.Selection{Entry: library.Entry{Title: "Mickey's Playtown Adventure - A Day of Discovery!"}},
+		[]string{"Mickey's Playtown Adventure - A Day of Discovery! (USA) (Proto).png"},
+	); got != "Mickey's Playtown Adventure - A Day of Discovery! (USA) (Proto).png" {
+		t.Fatalf("proto fallback got %q", got)
+	}
+	if got := MatchBoxArt(
+		library.Selection{Entry: library.Entry{Title: "Marvel Super Heroes - War of the Gems", Aliases: []string{"Marvel Super Heroes in War of the Gems"}}},
+		[]string{"Marvel Super Heroes - War of the Gems (USA) (Beta).png", "Marvel Super Heroes in War of the Gems (USA).png"},
+	); got != "Marvel Super Heroes in War of the Gems (USA).png" {
+		t.Fatalf("retail over beta got %q", got)
+	}
+}
+
+func TestMergeCurationMetadata(t *testing.T) {
+	cfgDir := t.TempDir()
+	curation := "n64:\n  - title: Wave Race 64\n    aliases:\n      - Wave Race 64 - Kawasaki Jet Ski\n"
+	if err := os.WriteFile(filepath.Join(cfgDir, "curation.yaml"), []byte(curation), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	selections := map[string][]library.Selection{
+		"n64": {{Entry: library.Entry{Title: "Wave Race 64"}}},
+	}
+	mergeCurationMetadata(cfgDir, selections)
+	got := MatchBoxArt(selections["n64"][0], []string{"Wave Race 64 - Kawasaki Jet Ski (USA).png"})
+	if got != "Wave Race 64 - Kawasaki Jet Ski (USA).png" {
+		t.Fatalf("expected merged alias match, got %q", got)
+	}
+}
+
 func TestDownloadBoxArtAndBezelsInParallel(t *testing.T) {
 	fakePNG := append([]byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}, []byte("fake-image-body")...)
 	bezelBytes := append([]byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}, []byte("bezel-body")...)

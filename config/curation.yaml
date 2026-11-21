@@ -9,7 +9,8 @@ nes:
     sources: []
     mickey: true
   - title: Mickey's Adventures in Numberland
-    aliases: []
+    aliases:
+      - Mickey's Adventure in Numberland
     play_mode: 1 player; take turns
     genre: disney
     reason: Mickey leads an early counting game.
@@ -237,7 +238,8 @@ nes:
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Battletoads & Double Dragon - The Ultimate Team
-    aliases: []
+    aliases:
+      - Battletoads-Double Dragon
     play_mode: 2 players; simultaneous co-op
     genre: brawler
     reason: Direct beat-em-up action matches your taste, especially shared play.
@@ -751,7 +753,8 @@ snes:
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Marvel Super Heroes - War of the Gems
-    aliases: []
+    aliases:
+      - Marvel Super Heroes in War of the Gems
     play_mode: 1 player; take turns
     genre: hero
     reason: Superhero action fits your Marvel/DC and fighting interests.
@@ -791,7 +794,8 @@ snes:
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Simpsons - Virtual Bart, The
-    aliases: []
+    aliases:
+      - Virtual Bart
     play_mode: 1 player; take turns
     genre: platform
     reason: Character platformer from a franchise you asked for.
@@ -815,7 +819,8 @@ snes:
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Battletoads & Double Dragon - The Ultimate Team
-    aliases: []
+    aliases:
+      - Battletoads-Double Dragon
     play_mode: 2 players; simultaneous co-op
     genre: brawler
     reason: Direct beat-em-up action matches your taste, especially shared play.
@@ -855,7 +860,8 @@ snes:
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Street Fighter II - The World Warrior
-    aliases: []
+    aliases:
+      - Street Fighter II
     play_mode: 2 players; versus
     genre: fight
     reason: Blockbuster fighting franchise you asked to include.
@@ -863,7 +869,8 @@ snes:
     popularity: Preference pick; no verified sales claim
     sources: []
   - title: Super Street Fighter II - The New Challengers
-    aliases: []
+    aliases:
+      - Super Street Fighter II
     play_mode: 2 players; versus
     genre: fight
     reason: Blockbuster fighting franchise you asked to include.
@@ -1208,7 +1215,8 @@ genesis:
     sources: []
     mickey: true
   - title: Disney Collection, The
-    aliases: []
+    aliases:
+      - Disney Collection, The - QuackShot Starring Donald Duck + Castle of Illusion Starring Mickey Mouse
     play_mode: 1 player; take turns
     genre: disney
     reason: Compilation includes Castle of Illusion and QuackShot.
@@ -2553,7 +2561,8 @@ n64:
     sources:
       - https://www.gamespot.com/reviews/top-gear-overdrive-review/1900-2545295/
   - title: Wave Race 64
-    aliases: []
+    aliases:
+      - Wave Race 64 - Kawasaki Jet Ski
     play_mode: 2 players; competitive
     genre: racing
     reason: Quick races offer shared family competition.
@@ -2984,6 +2993,7 @@ PC Engine:
   - title: New Zealand Story, The
     aliases:
       - New Zealand Story
+      - NewZealand Story, The
     play_mode: 1 player; take turns
     genre: gentle
     reason: Playful visuals and accessible short sessions suit family watching.

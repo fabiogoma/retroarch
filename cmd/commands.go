@@ -63,6 +63,7 @@ var artworkCmd = &cobra.Command{
 			ExportDir:  export,
 			ArtworkDir: artworkDir(),
 			BezelDir:   bezelDir(),
+			ConfigDir:  configDir(),
 			Workers:    workersFor(c, "artwork_workers"),
 			DryRun:     dry,
 		})

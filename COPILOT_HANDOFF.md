@@ -22,7 +22,7 @@ Prefer USA, then World, then Europe ROMs, with explicitly reviewed Japanese exce
 
 | Area | State at handoff | Evidence / remaining check |
 | --- | --- | --- |
-| Local export | `AppleTV-Top40`, six consoles × 40 = 240 games | Current manifests; local hash results in snapshot |
+| Local export | `ROMs/AppleTV-Top40`, six consoles × 40 = 240 games | Current manifests; local hash results in snapshot |
 | ROM upload | Earlier sync added 60 ROMs and skipped 180; second run uploaded zero | Prior chat result; equal name/size idempotency, not remote hash checking |
 | Device playlists | Replaced old 30-entry lists with six 40-entry lists | Prior device verification; local `.lpl` files also have 40 each |
 | Box art | Matching box art for all 240 device playlist entries was verified in earlier work | Prior chat result; visual display for every entry has not been confirmed |
@@ -41,8 +41,8 @@ Device RetroArch version recorded during CRT work: **1.22.2**. Last file server:
 | Path | Role |
 | --- | --- |
 | `nes/`, `snes/`, `n64/`, `genesis/`, `master system/`, `PC Engine/` | Original input collections, including nested archives |
-| `AppleTV-Top40/` | Active generated export; each console has ROMs, `TOP40.md`, `selection.json`; root has `summary.json` |
-| `AppleTV-Top30/` | Historical 180-game export; do not mistake it for the current set |
+| `ROMs/AppleTV-Top40/` | Active generated export; each console has ROMs, `TOP40.md`, `selection.json`; root has `summary.json` |
+| `ROMs/AppleTV-Top30/` | Historical 180-game export; do not mistake it for the current set |
 | `retroarch.cfg` | Latest local main configuration; hash matches the CRT/bezel installation baseline at handoff |
 | `rom_library/roms.py` | Recursive scan, archive handling, SQLite/CSV catalog, curated export; defaults to 40 |
 | `rom_library/curation.json` | Ordered editorial selection, aliases, language exceptions, family and multiplayer notes, evidence |

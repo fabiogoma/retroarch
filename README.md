@@ -56,7 +56,7 @@ python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
    python3 -B rom_library/roms.py
    ```
 
-   Review `AppleTV-Top40/summary.json` for missing games and archive issues.
+   Review `ROMs/AppleTV-Top40/summary.json` for missing games and archive issues.
    Existing originals are never moved/deleted. A full scan reads every source
    and may hydrate iCloud placeholders; it is unnecessary just to inspect an
    existing setup.

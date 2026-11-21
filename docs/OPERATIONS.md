@@ -6,11 +6,11 @@ the dated evidence snapshot below are local-only and are not included in Git.
 The following device records describe the original installation, not the state
 of a newly configured Apple TV.
 
-Run commands from the ROMs workspace root. Read `COPILOT_HANDOFF.md` before making changes. All commands below are existing project commands, except the explicit read-only `curl` examples. No remote operation was run while creating this handoff.
+Run commands from the project root (ROM files live in `ROMs/`). Read `COPILOT_HANDOFF.md` before making changes. All commands below are existing project commands, except the explicit read-only `curl` examples. No remote operation was run while creating this handoff.
 
 ## Inspect and test
 
-Start with `AppleTV-Top40/summary.json`, its six `selection.json` files, and `rom_library/state/apple-tv-playlists/*.lpl`. Use `docs/handoff-snapshot.json` for dated file hashes and local export validation. CSV source paths may contain the old workspace root; the SQLite catalog was absent at handoff.
+Start with `ROMs/AppleTV-Top40/summary.json`, its six `selection.json` files, and `rom_library/state/apple-tv-playlists/*.lpl`. Use `docs/handoff-snapshot.json` for dated file hashes and local export validation. CSV source paths may contain the old workspace root; the SQLite catalog was absent at handoff.
 
 ```sh
 python3 --version
@@ -35,7 +35,7 @@ Edit `rom_library/curation.json` to change picks. Do not edit a generated select
 uv run --no-project rom_library/roms.py
 ```
 
-This performs a full recursive source scan, refreshes catalog outputs and rebuilds `AppleTV-Top40`. It can hydrate many iCloud files and take substantial time. Original ROMs remain in place. The last generated export is retained at `rom_library/state/previous-export`; a subsequent successful rebuild replaces that backup. Keep personal files outside managed exports/cache directories.
+This performs a full recursive source scan, refreshes catalog outputs and rebuilds `ROMs/AppleTV-Top40`. It can hydrate many iCloud files and take substantial time. Original ROMs remain in place. The last generated export is retained at `rom_library/state/previous-export`; a subsequent successful rebuild replaces that backup. Keep personal files outside managed exports/cache directories.
 
 Optional modes:
 

@@ -7,7 +7,7 @@ import argparse,json
 from pathlib import Path,PurePosixPath
 NAMES={'nes':'Nintendo - Nintendo Entertainment System','snes':'Nintendo - Super Nintendo Entertainment System','n64':'Nintendo - Nintendo 64','genesis':'Sega - Mega Drive - Genesis','master system':'Sega - Master System - Mark III','PC Engine':'NEC - PC Engine - TurboGrafx 16'}
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--device-home',default='~',help='Apple RetroArch home alias (~), or an absolute app-container path');p.add_argument('--export',type=Path,default=Path(__file__).resolve().parent.parent/'AppleTV-Top40');p.add_argument('--output',type=Path,default=Path(__file__).resolve().parent/'state/apple-tv-playlists');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--device-home',default='~',help='Apple RetroArch home alias (~), or an absolute app-container path');p.add_argument('--export',type=Path,default=Path(__file__).resolve().parent.parent/'ROMs'/'AppleTV-Top40');p.add_argument('--output',type=Path,default=Path(__file__).resolve().parent/'state/apple-tv-playlists');a=p.parse_args()
  home=PurePosixPath(a.device_home)
  if (str(home)!='~' and not home.is_absolute()) or '..' in home.parts:p.error('--device-home must be ~ or an absolute app-container path')
  a.output.mkdir(parents=True,exist_ok=True);report={}

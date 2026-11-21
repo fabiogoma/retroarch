@@ -161,7 +161,7 @@ def sync(server, groups, dry_run):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--server', default='http://192.168.0.249', help='RetroArch web file server URL')
-    parser.add_argument('--export', type=Path, default=BASE.parent / 'AppleTV-Top40')
+    parser.add_argument('--export', type=Path, default=BASE.parent / 'ROMs' / 'AppleTV-Top40')
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--backup', action='store_true', help='Capture the current Apple TV setup into a local profile')
     mode.add_argument('--restore', action='store_true', help='Restore config, ROMs, playlists and art from the local profile')

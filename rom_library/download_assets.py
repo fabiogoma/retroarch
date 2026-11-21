@@ -30,13 +30,15 @@ def relative_name(value):
     return PurePosixPath(value)
 
 
-def destination(root, name):
+def destination(root, name, roms=None):
     relative = relative_name(name)
     if not (relative.parts[0] in CONSOLES | {'artwork'}
             or (relative.parts[:2] == ('rom_library', 'bezels')
                 and len(relative.parts) == 3 and relative.suffix == '.png')):
         raise ValueError('Destination must be inside a console folder, artwork/, '
                          'or rom_library/bezels/<name>.png')
+    if roms is not None and relative.parts[0] != 'rom_library':
+        root = roms
     if root.is_symlink():
         raise ValueError(f'Symlink destination root: {root}')
     current = root
@@ -136,12 +138,13 @@ def verify(path, entry):
         raise ValueError(f'Checksum mismatch: {path}')
 
 
-def download(plan, root, dry_run=False):
+def download(plan, root, dry_run=False, roms=None):
     root = root.absolute()
+    roms = roms.absolute() if roms else None
     targets, pending = set(), []
     # Validate the complete plan and existing files before making any changes.
     for entry in plan:
-        path = destination(root, entry['destination'])
+        path = destination(root, entry['destination'], roms)
         key = str(path).casefold()
         if key in targets:
             raise ValueError(f'Duplicate destination: {path}')
@@ -155,7 +158,7 @@ def download(plan, root, dry_run=False):
         if dry_run:
             print(f'Would download {entry["url"]} -> {path}')
             continue
-        destination(root, entry['destination'])
+        destination(root, entry['destination'], roms)
         path.parent.mkdir(parents=True, exist_ok=True)
         # Random staging file prevents partial content from becoming a ROM.
         with tempfile.NamedTemporaryFile(prefix='.asset-', suffix='.download',
@@ -171,7 +174,7 @@ def download(plan, root, dry_run=False):
                         output.write(chunk)
                 output.flush()
                 verify(temporary, entry)
-                destination(root, entry['destination'])
+                destination(root, entry['destination'], roms)
                 # Atomic, no-clobber activation; concurrent downloads cannot overwrite.
                 os.link(temporary, path)
             finally:
@@ -185,7 +188,8 @@ def main(argv=None):
     mode.add_argument('--list', metavar='ITEM', help='List files and checksums in an Archive item')
     mode.add_argument('--manifest', type=Path, help='JSON file containing explicit Archive downloads')
     mode.add_argument('--bezels', action='store_true', help='Fetch six hash-pinned upstream console PNGs')
-    parser.add_argument('--root', type=Path, default=BASE.parent)
+    parser.add_argument('--root', type=Path, default=BASE.parent, help='Project root (bezels)')
+    parser.add_argument('--roms', type=Path, default=BASE.parent / 'ROMs', help='ROMs folder (consoles, artwork)')
     parser.add_argument('--dry-run', action='store_true', help='Read metadata and preview; write nothing')
     args = parser.parse_args(argv)
     try:
@@ -193,7 +197,7 @@ def main(argv=None):
             print(json.dumps(metadata(args.list), indent=2, ensure_ascii=False))
         else:
             plan = bezel_plan() if args.bezels else archive_plan(json.loads(args.manifest.read_text()))
-            download(plan, args.root, args.dry_run)
+            download(plan, args.root, args.dry_run, args.roms)
     except HTTPError as error:
         message = ('Access denied; stopping. This source requires authorization.'
                    if error.code in (401, 403) else str(error))

@@ -9,12 +9,12 @@ from roms import normalized, title_of
 
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent);args=p.parse_args()
- root=args.root.resolve();dest=root/'master system'/'archive.org supplements';dest.mkdir(parents=True,exist_ok=True)
+ root=args.root.resolve();roms=root/'ROMs';dest=roms/'master system'/'archive.org supplements';dest.mkdir(parents=True,exist_ok=True)
  state=root/'rom_library'/'state';state.mkdir(parents=True,exist_ok=True)
  request=urllib.request.Request('https://archive.org/metadata/master_system',headers={'User-Agent':'PersonalROMLibrary/1.0'})
  with urllib.request.urlopen(request,timeout=60) as f:metadata=json.load(f)
  (state/'master_system_metadata.json').write_text(json.dumps(metadata,indent=2))
- existing={normalized(title_of(p.name)) for p in (root/'master system').rglob('*.zip')}
+ existing={normalized(title_of(p.name)) for p in (roms/'master system').rglob('*.zip')}
  log=[]
  for item in metadata['files']:
   name=item['name']

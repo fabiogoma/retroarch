@@ -6,8 +6,8 @@ Read `README.md`, then `docs/OPERATIONS.md`. `COPILOT_HANDOFF.md` preserves hist
 
 - This is the source repository for RetroArch Apple TV setup tooling: https://github.com/fabiogoma/retroarch. ROMs, artwork, BIOS, device snapshots, exports, local configs and state must never be committed. Use the source allowlist and run `rom_library/check_repository.py` before publishing.
 - Use `download_assets.py` and an explicit local Archive manifest for new downloads. Complete sources for all consoles/artwork have not been supplied; do not invent them or bypass access denial. Known bezels may be fetched from their pinned upstream sources.
-- Active export: `AppleTV-Top40`, 40 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (240 total). `AppleTV-Top30` is historical.
-- Python 3.11+, standard library only; archive support uses system libarchive. `uv` is the documented runner. Commands run from the ROMs root.
+- Active export: `ROMs/AppleTV-Top40`, 40 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (240 total). `ROMs/AppleTV-Top30` is historical.
+- Python 3.11+, standard library only; archive support uses system libarchive. `uv` is the documented runner. Commands run from the project root (ROM files live in `ROMs/`).
 - Device file server last used: `http://192.168.0.249`. It requires RetroArch to be open with its web server enabled. Availability and the IP can change.
 
 ## Preserve these decisions

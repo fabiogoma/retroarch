@@ -220,7 +220,7 @@ def export(root,state,db,count,unzip=False):
    report.append({'console':console,'catalog_variants':len(games),'unique_titles':len({g['title_key'] for g in games}),'selected':len(manifest),'target':count,'bytes':sum(x['bytes'] for x in manifest)})
   summary={'generated_utc':datetime.now(timezone.utc).isoformat(),'consoles':report,'missing_curated':missing,'issues':[dict(zip(['path','message'],r)) for r in db.execute('SELECT * FROM issues')],'incomplete_files':[r[0] for r in db.execute("SELECT path FROM files WHERE status='incomplete'")], 'download_log':str(state/'master_system_downloads.json'), 'unreviewed_consoles':sorted(set(consoles)-set(curated)), 'selection_policy':'Editorial order combining published popularity evidence with family/taste fit; not a sales chart. New consoles need a reviewed curation.json list.'}
   (stage/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
-  (stage/'README.md').write_text(f'# Apple TV upload set\n\nTo transfer missing ROMs, run `uv run --no-project rom_library/sync_apple_tv.py --export AppleTV-Top{count}` from the ROMs root. For manual uploads, transfer only the ROM files inside each console folder using RetroArch’s web file server. Keep this folder structure. Do not upload the catalog, original collection bundles or unfinished downloads. On Apple TV, use Import Content → Manual Scan, select the console folder and system, and enable Scan Inside Archives for ZIPs. Archive content is one game per ZIP. If a core cannot load a ZIP, rerun with --unzip-export.\n\nRecommended cores: NES: FCEUmm or Nestopia; SNES: Snes9x; Genesis and Master System: Genesis Plus GX; PC Engine: Beetle PCE FAST; N64: an available N64 core. Core availability and N64 performance depend on the Apple TV build/device; no device play test was performed.\n\nTOP{count}.md and selection.json describe every pick. Missing games are in summary.json; no padding with unsuitable or unreviewed games. At age two, treat these as parent-led watching/brief controller play; colorful games can still be difficult. Preview fantasy combat and spooky scenes before family play.\n')
+  (stage/'README.md').write_text(f'# Apple TV upload set\n\nTo transfer missing ROMs, run `uv run --no-project rom_library/sync_apple_tv.py --export ROMs/AppleTV-Top{count}` from the project root. For manual uploads, transfer only the ROM files inside each console folder using RetroArch’s web file server. Keep this folder structure. Do not upload the catalog, original collection bundles or unfinished downloads. On Apple TV, use Import Content → Manual Scan, select the console folder and system, and enable Scan Inside Archives for ZIPs. Archive content is one game per ZIP. If a core cannot load a ZIP, rerun with --unzip-export.\n\nRecommended cores: NES: FCEUmm or Nestopia; SNES: Snes9x; Genesis and Master System: Genesis Plus GX; PC Engine: Beetle PCE FAST; N64: an available N64 core. Core availability and N64 performance depend on the Apple TV build/device; no device play test was performed.\n\nTOP{count}.md and selection.json describe every pick. Missing games are in summary.json; no padding with unsuitable or unreviewed games. At age two, treat these as parent-led watching/brief controller play; colorful games can still be difficult. Preview fantasy combat and spooky scenes before family play.\n')
   backup=state/'previous-export'
   if backup.exists(): shutil.rmtree(backup)
   if target.exists(): target.rename(backup)
@@ -234,7 +234,7 @@ def export(root,state,db,count,unzip=False):
   if stage.exists():shutil.rmtree(stage)
 
 def main():
- parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--root',type=Path,default=BASE.parent);parser.add_argument('--count',type=int,default=40);parser.add_argument('--unzip-export',action='store_true');args=parser.parse_args()
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--root',type=Path,default=BASE.parent,help='Project root (state)');parser.add_argument('--roms',type=Path,default=BASE.parent/'ROMs',help='ROMs folder holding console folders and exports');parser.add_argument('--count',type=int,default=40);parser.add_argument('--unzip-export',action='store_true');args=parser.parse_args()
  if args.count<1:parser.error('--count must be positive')
  root=args.root.resolve();state=root/'rom_library'/'state';state.mkdir(parents=True,exist_ok=True)
  # Refuse concurrent runs rather than race over extraction/export directories.
@@ -242,7 +242,7 @@ def main():
  with (state/'run.lock').open('w') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
   with sqlite3.connect(state/'catalog.sqlite') as db:
-   scan(root,state,db);export(root,state,db,args.count,args.unzip_export)
+   roms=args.roms.resolve();scan(roms,state,db);export(roms,state,db,args.count,args.unzip_export)
    with (state/'catalog.csv').open('w',newline='') as f:
     writer=csv.writer(f);query=db.execute('SELECT * FROM games ORDER BY console,title');writer.writerow([d[0] for d in query.description]);writer.writerows(query)
    with (state/'titles.csv').open('w',newline='') as f:

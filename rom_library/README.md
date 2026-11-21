@@ -7,7 +7,7 @@ profile. Those remain local. Fetch pinned console PNGs with
 `python3 -B rom_library/download_assets.py --bezels` before running the bezel installer.
 The historical local records mentioned below are unavailable in a fresh clone.
 
-From the ROMs root, run:
+From the project root, run:
 
 ```sh
 uv run --no-project rom_library/roms.py
@@ -15,12 +15,12 @@ uv run --no-project rom_library/roms.py
 
 Python 3.11+ and uv are required; there are no Python package dependencies. Archive support uses the system libarchive (included on this Mac; install the OS libarchive package on Linux). Cataloging and playlist generation work offline. The ROM sync and optional Master System downloader use the network. In a restricted environment, use `UV_CACHE_DIR=/private/tmp/roms-uv-cache uv run --offline --no-project rom_library/roms.py`.
 
-The script rescans every console folder recursively, refreshes the SQLite catalog, and rebuilds `AppleTV-Top40` with copies of the selected games. Original files are never moved or deleted. The previous generated export is retained at `rom_library/state/previous-export`; the next successful run replaces that backup. Do not put personal files inside either generated export directory. Managed extraction caches remain in `rom_library/state/extracted`; originals may already have identical extracted copies, and the catalog preserves those source records while export chooses one variant per curated title. SHA-256 hashes identify the actual ROM bytes, including inside ZIPs. This checks file consistency, not authenticity against a preservation DAT.
+The script rescans every console folder recursively, refreshes the SQLite catalog, and rebuilds `ROMs/AppleTV-Top40` with copies of the selected games. Original files are never moved or deleted. The previous generated export is retained at `rom_library/state/previous-export`; the next successful run replaces that backup. Do not put personal files inside either generated export directory. Managed extraction caches remain in `rom_library/state/extracted`; originals may already have identical extracted copies, and the catalog preserves those source records while export chooses one variant per curated title. SHA-256 hashes identify the actual ROM bytes, including inside ZIPs. This checks file consistency, not authenticity against a preservation DAT.
 
 ## Outputs
 
-- `../AppleTV-Top40/<console>/`: the ROMs to upload, plus `TOP40.md` and `selection.json` explaining every selection, multiplayer mode, family notes, source file, hashes, language inference and popularity evidence.
-- `../AppleTV-Top40/summary.json`: counts, unavailable curated games, incomplete downloads and archive problems.
+- `../ROMs/AppleTV-Top40/<console>/`: the ROMs to upload, plus `TOP40.md` and `selection.json` explaining every selection, multiplayer mode, family notes, source file, hashes, language inference and popularity evidence.
+- `../ROMs/AppleTV-Top40/summary.json`: counts, unavailable curated games, incomplete downloads and archive problems.
 - `state/catalog.sqlite`: one catalog across all consoles. `files` inventories physical inputs, `archives` records every archive member and extraction decision, `games` records playable file variants, `titles` is the canonical normalized-title view, and `selections` records this export's choices. `issues` records failed archive reads. Game IDs are regenerated per scan; use `(console, title_key)` or SHA-256 as durable references.
 - `state/catalog.csv`: all playable source variants; `state/titles.csv`: normalized title catalog. Different regional titles and compilations can still have different normalized identities. This is filename-based identification, not an authoritative game database match.
 - `curation.json`: editable ordered recommendations, aliases, genre, family notes, language allowance and evidence. Order expresses personal suitability, not a fabricated sales ranking.
@@ -39,7 +39,7 @@ The reader explicitly selects the outer RAR/7z/ZIP format: unrestricted libarchi
 
 Add complete games anywhere inside a console folder and rerun. The script searches the ordered curation list, chooses up to 40 available titles, prefers USA, then World, then Europe variants, and avoids filename-marked prototypes, samples, hacks and bad dumps. Japanese releases are allowed for reviewed PC Engine and Mickey entries that explicitly opt in and are marked in manifests; menu/text assistance may be needed. Prefer English adventure releases when acquiring new games.
 
-Mickey games are placed first in each reviewed console list so available releases make the cut. This includes starring roles, the Disneyland game Mickey hosts, the Genesis compilation containing Castle of Illusion, and the preserved SNES Playtown prototype. Known Mickey titles missing from the local collection appear in the export summary. The PC Engine list has no matching Mickey release in the local library. Use `--count N` to generate a separate `AppleTV-TopN` export.
+Mickey games are placed first in each reviewed console list so available releases make the cut. This includes starring roles, the Disneyland game Mickey hosts, the Genesis compilation containing Castle of Illusion, and the preserved SNES Playtown prototype. Known Mickey titles missing from the local collection appear in the export summary. The PC Engine list has no matching Mickey release in the local library. Use `--count N` to generate a separate `ROMs/AppleTV-TopN` export.
 
 The recommendations combine published million-seller lists with Disney, Marvel/DC, real-time adventure, beat-em-up, arcade racing (especially Top Gear and Mario Kart), and family preferences. The user-authorized Super Mario RPG is the only turn-based RPG exception. Other turn-based RPGs, including the existing Chrono Trigger and Breath of Fire II, remain in the full catalog. Family notes are editorial guidance, not verified age ratings or a promise that any game suits a two-year-old. Cooperative, alternating-turn and competitive modes are differentiated; technical difficulty and spooky/combat content are called out. Individual play modes have not been tested on your Apple TV.
 
@@ -141,7 +141,7 @@ Apple TV lets you recover when its cached files are removed.
 
 ### Upload only the curated ROM export
 
-Keep RetroArch open and its web file server running. From the ROMs root, preview or sync the generated set:
+Keep RetroArch open and its web file server running. From the project root, preview or sync the generated set:
 
 ```sh
 uv run --no-project rom_library/sync_apple_tv.py --dry-run

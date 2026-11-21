@@ -168,6 +168,22 @@ var bezelsInstallCmd = &cobra.Command{
 	},
 }
 
+var configCmd = &cobra.Command{Use: "config", Short: "Manage the device's main RetroArch config"}
+
+var configPushCmd = &cobra.Command{
+	Use:   "push",
+	Short: "Replace the device's config/retroarch.cfg with a local file (the old one is backed up)",
+	Args:  cobra.NoArgs,
+	RunE: func(c *cobra.Command, _ []string) error {
+		file, _ := c.Flags().GetString("file")
+		dry, _ := c.Flags().GetBool("dry-run")
+		if file == "" {
+			file = filepath.Join(projectRoot(), "retroarch.cfg")
+		}
+		return device.PushConfig(server(), file, filepath.Join(dataDir(), "state", "config-backups"), dry)
+	},
+}
+
 var checkCmd = &cobra.Command{
 	Use:   "check",
 	Short: "Reject tracked runtime data, assets or unexpected files before publishing",
@@ -200,6 +216,10 @@ func init() {
 
 	bezelsInstallCmd.Flags().Bool("apply", false, "upload missing files (default: preview only)")
 	bezelsCmd.AddCommand(bezelsInstallCmd)
+
+	configPushCmd.Flags().String("file", "", "local config to upload (default: <root>/retroarch.cfg)")
+	configPushCmd.Flags().Bool("dry-run", false, "preview without uploading")
+	configCmd.AddCommand(configPushCmd)
 }
 
 func readFile(p string) ([]byte, error) {

@@ -55,7 +55,7 @@ func init() {
 	viper.BindPFlag("root", f.Lookup("root"))
 	viper.BindPFlag("roms", f.Lookup("roms"))
 	viper.BindPFlag("server", f.Lookup("server"))
-	rootCmd.AddCommand(catalogCmd, playlistsCmd, syncCmd, profileCmd, downloadCmd, bezelsCmd, checkCmd)
+	rootCmd.AddCommand(catalogCmd, playlistsCmd, syncCmd, profileCmd, downloadCmd, bezelsCmd, configCmd, checkCmd)
 }
 
 func initConfig() {

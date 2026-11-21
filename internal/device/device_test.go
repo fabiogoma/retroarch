@@ -511,3 +511,34 @@ func TestConfigChangeDuringCapturePreservesPreviousProfile(t *testing.T) {
 		t.Fatal("previous profile modified")
 	}
 }
+
+func TestPushConfigReplacesAndBacksUp(t *testing.T) {
+	m := newMemory(map[string]string{"/" + mainConfig: "old=1\n"})
+	dir := t.TempDir()
+	local := filepath.Join(dir, "retroarch.cfg")
+	if err := os.WriteFile(local, []byte("new=2\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := PushConfig(m, local, filepath.Join(dir, "b"), true); err != nil || m.visible()["/"+mainConfig] != "old=1\n" {
+		t.Fatalf("dry run changed device: %v", err)
+	}
+	if err := PushConfig(m, local, filepath.Join(dir, "b"), false); err != nil {
+		t.Fatal(err)
+	}
+	v := m.visible()
+	if v["/"+mainConfig] != "new=2\n" {
+		t.Fatalf("config not replaced: %q", v["/"+mainConfig])
+	}
+	kept := false
+	for n, c := range v {
+		if n != "/"+mainConfig && c == "old=1\n" {
+			kept = true
+		}
+	}
+	if !kept {
+		t.Fatal("remote backup missing")
+	}
+	if backups, _ := filepath.Glob(filepath.Join(dir, "b", "*.cfg")); len(backups) != 1 {
+		t.Fatal("local backup missing")
+	}
+}

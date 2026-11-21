@@ -146,15 +146,6 @@ var downloadBezelsCmd = &cobra.Command{
 	},
 }
 
-var downloadMasterSystemCmd = &cobra.Command{
-	Use:   "master-system",
-	Short: "Fetch Master System titles missing from the library (archive.org master_system)",
-	Args:  cobra.NoArgs,
-	RunE: func(*cobra.Command, []string) error {
-		return fetch.MasterSystem(projectRoot(), romsDir(), filepath.Join(dataDir(), "state"))
-	},
-}
-
 func runDownload(c *cobra.Command, plan []fetch.Plan) error {
 	d, err := destinations()
 	if err != nil {
@@ -205,7 +196,7 @@ func init() {
 	profileCmd.AddCommand(profileBackupCmd, profileRestoreCmd)
 
 	downloadCmd.PersistentFlags().Bool("dry-run", false, "preview without writing")
-	downloadCmd.AddCommand(downloadListCmd, downloadManifestCmd, downloadBezelsCmd, downloadMasterSystemCmd)
+	downloadCmd.AddCommand(downloadListCmd, downloadManifestCmd, downloadBezelsCmd)
 
 	bezelsInstallCmd.Flags().Bool("apply", false, "upload missing files (default: preview only)")
 	bezelsCmd.AddCommand(bezelsInstallCmd)

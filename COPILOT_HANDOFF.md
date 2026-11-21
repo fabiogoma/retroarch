@@ -50,7 +50,6 @@ Device RetroArch version recorded during CRT work: **1.22.2**. Last file server:
 | `internal/device` (`sync`, `profile`) | Additive upload of manifest-listed ROMs, defaulting to Top 40 |
 | `go run . playlists` | Generates device-path playlists; does not upload them |
 | `go run . bezels install` | Preview/install artwork and folder overrides; stops on differing existing files |
-| `go run . download master-system` | Optional source downloader; previous missing-game attempts returned 401/403 |
 | `*_test.go` (`go test ./...`) | Archive safety/export and sync idempotency/conflict tests |
 | `rom_library/state/` | CSV snapshots, extraction cache, backups, playlists, investigation and installation records |
 | `rom_library/bezels/` | Six original 2560×1440 PNGs, overlay configs, overrides, source hashes/license and README |

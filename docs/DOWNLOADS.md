@@ -76,6 +76,3 @@ repository. The attribution/license stays in Git, while the PNGs remain local.
 If the identical images are available in an Archive item, map those exact files
 to `rom_library/bezels/nes.png`, etc. through a manifest instead. The installer
 verifies against the pinned hashes regardless of the download origin.
-
-The older `go run . download master-system` remains a compatibility command for its
-single source. Prefer the manifest-based downloader for new work.

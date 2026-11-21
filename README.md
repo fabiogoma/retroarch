@@ -19,7 +19,7 @@ kept in place.
 - Run every command from the project root with `go run . <command>` (or build
   once with `go build -o retroarch .`). `--root`, `--roms` and `--server` are
   global flags; they can also be set with `RETROARCH_*` environment variables
-  or a `retroarch-tool.yaml` file in the project root.
+  or the committed `retroarch-tool.yaml` in the project root (server, count, export prefix, device home, remote ROM root, timeouts, download cap, user agent).
 - Subcommands: `catalog`, `playlists`, `sync`, `profile backup|restore`,
   `download list|manifest|bezels|master-system`, `bezels install`, `check`.
 - RetroArch installed on Apple TV with the appropriate cores and its web file

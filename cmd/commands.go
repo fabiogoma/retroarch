@@ -21,7 +21,7 @@ var catalogCmd = &cobra.Command{
 	Short: "Scan the ROM folders and build the curated Apple TV export",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
-		count, _ := c.Flags().GetInt("count")
+		count := viper.GetInt("count")
 		unzip, _ := c.Flags().GetBool("unzip-export")
 		return library.RunCatalog(dataDir(), romsDir(), count, unzip)
 	},
@@ -34,7 +34,7 @@ var playlistsCmd = &cobra.Command{
 	RunE: func(c *cobra.Command, _ []string) error {
 		export, _ := c.Flags().GetString("export")
 		output, _ := c.Flags().GetString("output")
-		home, _ := c.Flags().GetString("device-home")
+		home := viper.GetString("device_home")
 		if export == "" {
 			export = defaultExport()
 		}
@@ -185,14 +185,16 @@ var checkCmd = &cobra.Command{
 }
 
 func init() {
-	catalogCmd.Flags().Int("count", 40, "games to export per console")
+	catalogCmd.Flags().Int("count", defaults["count"].(int), "games to export per console")
+	viper.BindPFlag("count", catalogCmd.Flags().Lookup("count"))
+	viper.BindPFlag("device_home", playlistsCmd.Flags().Lookup("device-home"))
 	catalogCmd.Flags().Bool("unzip-export", false, "extract single-ROM archives in the export")
 
-	playlistsCmd.Flags().String("export", "", "export folder (default: <roms>/AppleTV-Top40)")
+	playlistsCmd.Flags().String("export", "", "export folder (default: <roms>/<export_prefix><count>)")
 	playlistsCmd.Flags().String("output", "", "output folder (default: rom_library/state/apple-tv-playlists)")
 	playlistsCmd.Flags().String("device-home", "~", "Apple RetroArch home alias (~), or an absolute app-container path")
 
-	syncCmd.Flags().String("export", "", "export folder (default: <roms>/AppleTV-Top40)")
+	syncCmd.Flags().String("export", "", "export folder (default: <roms>/<export_prefix><count>)")
 	syncCmd.Flags().Bool("dry-run", false, "preview without uploading")
 
 	profileCmd.PersistentFlags().String("profile", "", "profile folder (default: rom_library/retroarch-profile)")

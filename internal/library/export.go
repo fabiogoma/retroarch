@@ -129,14 +129,14 @@ func better(a, b game) bool {
 }
 
 func writeReadme(stage string, count int) error {
-	text := fmt.Sprintf("# Apple TV upload set\n\nTo transfer missing ROMs, run `retroarch sync --export ROMs/AppleTV-Top%[1]d` from the project root. For manual uploads, transfer only the ROM files inside each console folder using RetroArch’s web file server. Keep this folder structure. Do not upload the catalog, original collection bundles or unfinished downloads. On Apple TV, use Import Content → Manual Scan, select the console folder and system, and enable Scan Inside Archives for ZIPs. Archive content is one game per ZIP. If a core cannot load a ZIP, rerun with --unzip-export.\n\nRecommended cores: NES: FCEUmm or Nestopia; SNES: Snes9x; Genesis and Master System: Genesis Plus GX; PC Engine: Beetle PCE FAST; N64: an available N64 core. Core availability and N64 performance depend on the Apple TV build/device; no device play test was performed.\n\nTOP%[1]d.md and selection.json describe every pick. Missing games are in summary.json; no padding with unsuitable or unreviewed games. At age two, treat these as parent-led watching/brief controller play; colorful games can still be difficult. Preview fantasy combat and spooky scenes before family play.\n", count)
+	text := fmt.Sprintf("# Apple TV upload set\n\nTo transfer missing ROMs, run `retroarch sync --export ROMs/%[2]s%[1]d` from the project root. For manual uploads, transfer only the ROM files inside each console folder using RetroArch’s web file server. Keep this folder structure. Do not upload the catalog, original collection bundles or unfinished downloads. On Apple TV, use Import Content → Manual Scan, select the console folder and system, and enable Scan Inside Archives for ZIPs. Archive content is one game per ZIP. If a core cannot load a ZIP, rerun with --unzip-export.\n\nRecommended cores: NES: FCEUmm or Nestopia; SNES: Snes9x; Genesis and Master System: Genesis Plus GX; PC Engine: Beetle PCE FAST; N64: an available N64 core. Core availability and N64 performance depend on the Apple TV build/device; no device play test was performed.\n\nTOP%[1]d.md and selection.json describe every pick. Missing games are in summary.json; no padding with unsuitable or unreviewed games. At age two, treat these as parent-led watching/brief controller play; colorful games can still be difficult. Preview fantasy combat and spooky scenes before family play.\n", count, ExportPrefix)
 	return os.WriteFile(filepath.Join(stage, "README.md"), []byte(text), 0o644)
 }
 
 // Export copies the curated picks into roms/AppleTV-Top<count>, replacing the
 // previous export only after the new one is complete.
 func (l *Library) Export(roms, state string, db DB, count int, unzip bool) (reports []ConsoleReport, err error) {
-	target := filepath.Join(roms, fmt.Sprintf("AppleTV-Top%d", count))
+	target := filepath.Join(roms, fmt.Sprintf("%s%d", ExportPrefix, count))
 	stage, err := os.MkdirTemp(state, "export-")
 	if err != nil {
 		return nil, err

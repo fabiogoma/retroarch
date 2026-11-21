@@ -3,6 +3,7 @@
 !/.gitignore
 !/go.mod
 !/go.sum
+!/retroarch-tool.yaml
 !/main.go
 !/cmd/
 !/cmd/*.go

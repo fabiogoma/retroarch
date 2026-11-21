@@ -45,13 +45,19 @@ type Server struct {
 	client *http.Client
 }
 
+// Timeouts are set from configuration by the cmd package.
+var (
+	ConnectTimeout  = 30 * time.Second
+	ResponseTimeout = 120 * time.Second
+)
+
 // NewServer returns a client for the given base URL.
 func NewServer(rawURL string) *Server {
 	return &Server{
 		url: strings.TrimRight(rawURL, "/"),
 		client: &http.Client{Transport: &http.Transport{
-			DialContext:           (&net.Dialer{Timeout: 30 * time.Second}).DialContext,
-			ResponseHeaderTimeout: 120 * time.Second,
+			DialContext:           (&net.Dialer{Timeout: ConnectTimeout}).DialContext,
+			ResponseHeaderTimeout: ResponseTimeout,
 		}},
 	}
 }

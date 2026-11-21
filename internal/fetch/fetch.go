@@ -22,12 +22,19 @@ import (
 	"github.com/fabiogoma/retroarch/internal/util"
 )
 
-const maxBytes int64 = 32 << 30
+// Tunables set from configuration by the cmd package.
+var (
+	MaxBytes        int64 = 32 << 30
+	UserAgent             = "RetroArchAppleTV/1.0"
+	ResponseTimeout       = 120 * time.Second
+)
 
 // ArchiveBase is the Internet Archive origin; tests replace it.
 var ArchiveBase = "https://archive.org"
 
-var httpClient = &http.Client{Timeout: 0, Transport: &http.Transport{ResponseHeaderTimeout: 120 * time.Second}}
+func newClient() *http.Client {
+	return &http.Client{Timeout: 0, Transport: &http.Transport{ResponseHeaderTimeout: ResponseTimeout}}
+}
 
 // AccessDenied is returned for HTTP 401/403 so callers stop instead of retrying other files.
 type AccessDenied struct{ URL string }
@@ -41,8 +48,8 @@ func get(rawURL string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "RetroArchAppleTV/1.0")
-	resp, err := httpClient.Do(req)
+	req.Header.Set("User-Agent", UserAgent)
+	resp, err := newClient().Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -214,8 +221,8 @@ func ArchivePlan(raw []byte) ([]Plan, error) {
 		default:
 			return nil, fmt.Errorf("Invalid size for %s", e.File)
 		}
-		if size < 0 || size > maxBytes {
-			return nil, fmt.Errorf("File size outside 0..%d: %s", maxBytes, e.File)
+		if size < 0 || size > MaxBytes {
+			return nil, fmt.Errorf("File size outside 0..%d: %s", MaxBytes, e.File)
 		}
 		hashes := map[string]string{}
 		for _, a := range []string{"sha1", "md5"} {
@@ -291,7 +298,7 @@ func limit(p Plan) int64 {
 	if p.Size >= 0 {
 		return p.Size
 	}
-	return maxBytes
+	return MaxBytes
 }
 
 func verify(path string, p Plan) error {

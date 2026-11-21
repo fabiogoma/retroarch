@@ -58,7 +58,12 @@ type candidate struct {
 	member string
 }
 
-var autoTop = regexp.MustCompile(`^AppleTV-Top[0-9]+$`)
+// ExportPrefix names export folders (<prefix><count>); set from configuration.
+var ExportPrefix = "AppleTV-Top"
+
+func isExportDir(name string) bool {
+	return regexp.MustCompile("^" + regexp.QuoteMeta(ExportPrefix) + "[0-9]+$").MatchString(name)
+}
 
 func hashFile(path string) (string, int64, error) {
 	f, err := os.Open(path)
@@ -212,7 +217,7 @@ func (l *Library) Scan(roms, state string, db DB) error {
 	seen := map[string]bool{}
 	for _, folder := range folders {
 		name := folder.Name()
-		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "rom_library" || autoTop.MatchString(name) {
+		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "rom_library" || isExportDir(name) {
 			continue
 		}
 		var paths []string

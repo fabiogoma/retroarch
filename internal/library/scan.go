@@ -4,11 +4,9 @@ import (
 	"archive/zip"
 	"crypto/sha256"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -31,7 +29,7 @@ type Game struct {
 	RegionScore int    `json:"region_score"`
 }
 
-// ScanIssue records an unreadable or invalid archive encountered during scanning.
+// ScanIssue records an unreadable or invalid file encountered during scanning.
 type ScanIssue struct {
 	Path    string `json:"path"`
 	Message string `json:"message"`
@@ -43,21 +41,34 @@ type ScanResult struct {
 	Issues []ScanIssue `json:"issues"`
 }
 
-type archiveMeta struct {
-	Kind    string   `json:"kind"`
-	Members []Member `json:"members"`
-}
-
-type candidate struct {
-	path   string
-	member string
-}
-
 // ExportPrefix names export folders (<prefix><count>); set from configuration.
 var ExportPrefix = "AppleTV-Top"
 
 func isExportDir(name string) bool {
 	return regexp.MustCompile("^" + regexp.QuoteMeta(ExportPrefix) + "[0-9]+$").MatchString(name)
+}
+
+// SafeMember validates an archive entry name as a safe relative path.
+func SafeMember(name string) (string, error) {
+	n := strings.ReplaceAll(name, "\\", "/")
+	parts := strings.Split(n, "/")
+	if n == "" || strings.HasPrefix(n, "/") || parts[0] == "" || strings.Contains(parts[0], ":") {
+		return "", errors.New("Unsafe member: " + name)
+	}
+	clean := parts[:0]
+	for _, p := range parts {
+		if p == ".." {
+			return "", errors.New("Unsafe member: " + name)
+		}
+		if p == "" || p == "." {
+			continue
+		}
+		clean = append(clean, p)
+	}
+	if len(clean) == 0 {
+		return "", errors.New("Unsafe member: " + name)
+	}
+	return filepath.Join(clean...), nil
 }
 
 func hashFile(path string) (string, int64, error) {
@@ -71,255 +82,158 @@ func hashFile(path string) (string, int64, error) {
 	return hex.EncodeToString(h.Sum(nil)), n, err
 }
 
-func (l *Library) prepareArchive(path, state string, depth int) ([]candidate, error) {
-	if depth > 8 {
-		return nil, errors.New("Nested archive depth exceeds 8")
-	}
-	sha, _, err := hashFile(path)
-	if err != nil {
-		return nil, err
-	}
-	dest := filepath.Join(state, "extracted", sha)
-	complete := filepath.Join(dest, ".complete.json")
-
-	var meta archiveMeta
-	haveMeta := util.ReadJSON(complete, &meta) == nil
-	if !haveMeta {
-		listed, err := ListArchive(path)
-		if err != nil {
-			return nil, err
-		}
-		var total int64
-		for _, m := range listed {
-			if _, err := SafeMember(m.Name); err != nil {
-				return nil, err
-			}
-			total += m.Size
-		}
-		if total > maxExtract {
-			return nil, errors.New("Archive exceeds 32 GiB extraction limit")
-		}
-		kind := "extract"
-		if strings.EqualFold(filepath.Ext(path), ".zip") && len(listed) == 1 &&
-			l.romExts[strings.ToLower(filepath.Ext(listed[0].Name))] {
-			kind = "single_zip"
-		}
-		meta = archiveMeta{Kind: kind, Members: listed}
-	}
-	if meta.Kind == "single_zip" {
-		return []candidate{{path, meta.Members[0].Name}}, nil
-	}
-	if !haveMeta {
-		if err := os.MkdirAll(filepath.Dir(dest), 0o755); err != nil {
-			return nil, err
-		}
-		temp, err := os.MkdirTemp(filepath.Dir(dest), "unpack-")
-		if err != nil {
-			return nil, err
-		}
-		defer os.RemoveAll(temp)
-		fmt.Println("Extracting", path)
-		if err := extractArchive(path, temp, maxExtract); err != nil {
-			return nil, err
-		}
-		raw, _ := json.Marshal(meta)
-		if err := os.WriteFile(filepath.Join(temp, ".complete.json"), raw, 0o644); err != nil {
-			return nil, err
-		}
-		if err := os.RemoveAll(dest); err != nil {
-			return nil, err
-		}
-		if err := os.Rename(temp, dest); err != nil {
-			return nil, err
-		}
-	}
-	var files []string
-	err = filepath.WalkDir(dest, func(p string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-		if d.Type().IsRegular() {
-			files = append(files, p)
-		}
-		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	sort.Strings(files)
-	var result []candidate
-	for _, p := range files {
-		ext := strings.ToLower(filepath.Ext(p))
-		if archiveExts[ext] {
-			sub, err := l.prepareArchive(p, state, depth+1)
-			if err != nil {
-				return nil, err
-			}
-			result = append(result, sub...)
-		} else if l.romExts[ext] {
-			result = append(result, candidate{p, ""})
-		}
-	}
-	return result, nil
-}
-
-func hashZipMember(path, member string) (string, int64, error) {
+func inspectSingleROMZip(path string, romExts map[string]bool) (member, sha string, size int64, err error) {
 	z, err := zip.OpenReader(path)
 	if err != nil {
-		return "", 0, err
+		return "", "", 0, err
 	}
 	defer z.Close()
+
+	var target *zip.File
 	for _, f := range z.File {
-		if f.Name != member {
+		mode := f.Mode()
+		if mode.IsDir() || strings.HasSuffix(f.Name, "/") {
 			continue
 		}
-		r, err := f.Open()
-		if err != nil {
-			return "", 0, err
+		if !mode.IsRegular() {
+			return "", "", 0, errors.New("Archive contains a link or special entry: " + f.Name)
 		}
-		defer r.Close()
-		h := sha256.New()
-		n, err := io.Copy(h, r)
-		return hex.EncodeToString(h.Sum(nil)), n, err
+		if _, err := SafeMember(f.Name); err != nil {
+			return "", "", 0, err
+		}
+		if target != nil {
+			return "", "", 0, errors.New("Multi-file ZIP bundle is not supported; extract ROMs into the console folder")
+		}
+		target = f
 	}
-	return "", 0, fmt.Errorf("member %q not found in %s", member, path)
+	if target == nil {
+		return "", "", 0, errors.New("Empty ZIP archive")
+	}
+	if !romExts[strings.ToLower(filepath.Ext(target.Name))] {
+		return "", "", 0, fmt.Errorf("ZIP member %q is not a recognized ROM", target.Name)
+	}
+	r, err := target.Open()
+	if err != nil {
+		return "", "", 0, err
+	}
+	defer r.Close()
+	h := sha256.New()
+	n, err := io.Copy(h, r)
+	if err != nil {
+		return "", "", 0, err
+	}
+	return target.Name, hex.EncodeToString(h.Sum(nil)), n, nil
 }
 
-// Scan recursively finds every ROM under roms, skipping export folders and hidden dirs.
-func (l *Library) Scan(roms, state string) (*ScanResult, error) {
+type scanJob struct {
+	folder string
+	path   string
+	isZip  bool
+}
+
+type scanOutcome struct {
+	game  Game
+	issue *ScanIssue
+}
+
+// Scan finds every ROM directly inside each console folder under roms,
+// skipping export folders and hidden dirs. Single-ROM .zip files are read in place.
+func (l *Library) Scan(roms string) (*ScanResult, error) {
 	folders, err := os.ReadDir(roms)
 	if err != nil {
 		return nil, err
 	}
-	res := &ScanResult{Games: []Game{}, Issues: []ScanIssue{}}
-	seen := map[string]bool{}
+	var jobs []scanJob
 	for _, folder := range folders {
 		name := folder.Name()
 		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "config" || name == "state" || name == "artwork" || isExportDir(name) {
 			continue
 		}
-		var paths []string
-		err := filepath.WalkDir(filepath.Join(roms, name), func(p string, d fs.DirEntry, err error) error {
-			if err != nil {
-				return err
-			}
-			if d.Type().IsRegular() {
-				paths = append(paths, p)
-			}
-			return nil
-		})
+		entries, err := os.ReadDir(filepath.Join(roms, name))
 		if err != nil {
 			return nil, err
 		}
-		sort.Strings(paths)
-		for _, p := range paths {
-			if err := l.scanFile(p, name, state, res, seen); err != nil {
-				return nil, err
+		var names []string
+		for _, e := range entries {
+			if e.IsDir() || strings.HasPrefix(e.Name(), ".") {
+				continue
+			}
+			if !e.Type().IsRegular() {
+				continue
+			}
+			names = append(names, e.Name())
+		}
+		sort.Strings(names)
+		for _, f := range names {
+			ext := strings.ToLower(filepath.Ext(f))
+			if ext == ".zip" {
+				jobs = append(jobs, scanJob{folder: name, path: filepath.Join(roms, name, f), isZip: true})
+			} else if l.romExts[ext] {
+				jobs = append(jobs, scanJob{folder: name, path: filepath.Join(roms, name, f)})
 			}
 		}
 	}
-	return res, nil
-}
 
-func (l *Library) scanFile(path, folder, state string, res *ScanResult, seen map[string]bool) error {
-	ext := strings.ToLower(filepath.Ext(path))
-	kind := "auxiliary"
-	if archiveExts[ext] {
-		kind = "archive"
-	} else if l.romExts[ext] {
-		kind = "rom"
+	res := &ScanResult{Games: []Game{}, Issues: []ScanIssue{}}
+	if len(jobs) == 0 {
+		return res, nil
 	}
-	if kind == "auxiliary" {
-		return nil
+
+	outcomes := make([]scanOutcome, len(jobs))
+	ch := make(chan int, len(jobs))
+	for i := range jobs {
+		ch <- i
 	}
-	addIssue := func(err error) {
-		fmt.Println("ISSUE", path, err)
-		res.Issues = append(res.Issues, ScanIssue{Path: path, Message: err.Error()})
-	}
-	cands := []candidate{{path, ""}}
-	if kind == "archive" {
-		var err error
-		if cands, err = l.prepareArchive(path, state, 0); err != nil {
-			addIssue(err)
-			return nil
-		}
-	}
-	type uniqueCand struct {
-		c       candidate
-		name    string
-		console string
-	}
-	var unique []uniqueCand
-	for _, c := range cands {
-		name := c.member
-		if name == "" {
-			name = filepath.Base(c.path)
-		}
-		console := l.consoleFor(folder, strings.ToLower(filepath.Ext(name)))
-		id := console + "\x00" + c.path + "\x00" + c.member
-		if seen[id] {
-			continue
-		}
-		seen[id] = true
-		unique = append(unique, uniqueCand{c: c, name: name, console: console})
-	}
-	if len(unique) == 0 {
-		return nil
-	}
-	type hashedCand struct {
-		sha  string
-		size int64
-		err  error
-	}
-	results := make([]hashedCand, len(unique))
-	if len(unique) == 1 {
-		u := unique[0]
-		if u.c.member != "" {
-			results[0].sha, results[0].size, results[0].err = hashZipMember(u.c.path, u.c.member)
-		} else {
-			results[0].sha, results[0].size, results[0].err = hashFile(u.c.path)
-		}
-	} else {
-		jobs := make(chan int, len(unique))
-		for i := range unique {
-			jobs <- i
-		}
-		close(jobs)
-		var wg sync.WaitGroup
-		for range workerCount(len(unique)) {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				for i := range jobs {
-					u := unique[i]
-					if u.c.member != "" {
-						results[i].sha, results[i].size, results[i].err = hashZipMember(u.c.path, u.c.member)
-					} else {
-						results[i].sha, results[i].size, results[i].err = hashFile(u.c.path)
-					}
+	close(ch)
+
+	var wg sync.WaitGroup
+	for range workerCount(len(jobs)) {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for i := range ch {
+				j := jobs[i]
+				var member, sha string
+				var size int64
+				var err error
+				if j.isZip {
+					member, sha, size, err = inspectSingleROMZip(j.path, l.romExts)
+				} else {
+					sha, size, err = hashFile(j.path)
 				}
-			}()
-		}
-		wg.Wait()
+				if err != nil {
+					outcomes[i] = scanOutcome{issue: &ScanIssue{Path: j.path, Message: err.Error()}}
+					continue
+				}
+				displayName := member
+				if displayName == "" {
+					displayName = filepath.Base(j.path)
+				}
+				title := TitleOf(displayName)
+				outcomes[i] = scanOutcome{game: Game{
+					Console:     l.consoleFor(j.folder, strings.ToLower(filepath.Ext(displayName))),
+					Title:       title,
+					TitleKey:    Normalized(title),
+					Path:        j.path,
+					Member:      member,
+					SHA256:      sha,
+					Bytes:       size,
+					RegionScore: RegionScore(displayName),
+				}}
+			}
+		}()
 	}
-	for i, u := range unique {
-		if results[i].err != nil {
-			addIssue(results[i].err)
+	wg.Wait()
+
+	for _, o := range outcomes {
+		if o.issue != nil {
+			fmt.Println("ISSUE", o.issue.Path, o.issue.Message)
+			res.Issues = append(res.Issues, *o.issue)
 			continue
 		}
-		title := TitleOf(u.name)
-		res.Games = append(res.Games, Game{
-			Console:     u.console,
-			Title:       title,
-			TitleKey:    Normalized(title),
-			Path:        u.c.path,
-			Member:      u.c.member,
-			SHA256:      results[i].sha,
-			Bytes:       results[i].size,
-			RegionScore: RegionScore(u.name),
-		})
+		res.Games = append(res.Games, o.game)
 	}
-	return nil
+	return res, nil
 }
 
 // SaveScanCache writes the scan result to a JSON cache file.

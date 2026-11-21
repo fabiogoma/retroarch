@@ -6,7 +6,7 @@ Consoles supported: **NES**, **SNES**, **Nintendo 64**, **Genesis**, **Master Sy
 
 ## Quick start
 
-Run commands from the project root (Go 1.24+ required; archive support for ZIP/7z/RAR/tar/tgz is pure Go):
+Run commands from the project root (Go 1.24+ required; ROM files and single-ROM `.zip`s are expected directly inside each `ROMs/<console>/` folder):
 
 ```sh
 # 1. Scan ROMs/ and build AppleTV-Top30, AppleTV-Top40, and AppleTV-Top50 (with playlists)

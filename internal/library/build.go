@@ -147,7 +147,7 @@ func Build(o BuildOptions) error {
 			return fmt.Errorf("load scan cache: %w (run without --from-cache to scan ROMs/)", err)
 		}
 	} else {
-		scan, err = lib.Scan(o.ROMsDir, state)
+		scan, err = lib.Scan(o.ROMsDir)
 		if err != nil {
 			return err
 		}

@@ -64,7 +64,7 @@ func (f *fixture) zip(name string, contents map[string][]byte) string {
 
 func (f *fixture) run(count int, unzip bool) *ScanResult {
 	f.t.Helper()
-	scan, err := f.lib.Scan(f.roms, f.state)
+	scan, err := f.lib.Scan(f.roms)
 	if err != nil {
 		f.t.Fatal(err)
 	}
@@ -113,30 +113,25 @@ func TestSingleROMZipStaysCompressedAndWritesPlaylist(t *testing.T) {
 	}
 }
 
-func TestNestedBundle(t *testing.T) {
+func TestMultiFileBundleZipReportedAsIssue(t *testing.T) {
 	f := newFixture(t)
-	var inner bytes.Buffer
-	w := zip.NewWriter(&inner)
-	fw, _ := w.Create("Family Game (USA).nes")
-	fw.Write([]byte("NES\x1aabc"))
-	w.Close()
-	path := f.zip("bundle.zip", map[string][]byte{"one.zip": inner.Bytes(), "Second Game (USA).nes": []byte("NES\x1adef")})
-	scan, err := f.lib.Scan(f.roms, f.state)
+	f.zip("bundle.zip", map[string][]byte{"One (USA).nes": []byte("NES\x1aabc"), "Two (USA).nes": []byte("NES\x1adef")})
+	scan, err := f.lib.Scan(f.roms)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(scan.Games) != 2 {
-		t.Fatalf("games = %d, want 2", len(scan.Games))
+	if len(scan.Games) != 0 {
+		t.Fatalf("games = %d, want 0", len(scan.Games))
 	}
-	if _, err := os.Stat(path); err != nil {
-		t.Fatal("original bundle removed")
+	if len(scan.Issues) != 1 || !strings.Contains(scan.Issues[0].Message, "Multi-file ZIP bundle") {
+		t.Fatalf("issues = %+v", scan.Issues)
 	}
 }
 
 func TestTraversalIsRejectedWithoutWriting(t *testing.T) {
 	f := newFixture(t)
 	f.zip("bad.zip", map[string][]byte{"../../outside.nes": []byte("bad"), "normal.nes": []byte("good")})
-	scan, err := f.lib.Scan(f.roms, f.state)
+	scan, err := f.lib.Scan(f.roms)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -186,7 +181,7 @@ func TestUnzipExportAndFailedExportKeepsPreviousSet(t *testing.T) {
 	original := copyFile
 	copyFile = func(string, string) error { return errors.New("disk full") }
 	defer func() { copyFile = original }()
-	scan, err := f.lib.Scan(f.roms, f.state)
+	scan, err := f.lib.Scan(f.roms)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -245,17 +240,5 @@ func TestNormalizedRegionScoreAndParseCounts(t *testing.T) {
 	counts, err := ParseCounts("30,40,50")
 	if err != nil || len(counts) != 3 || counts[0] != 30 || counts[1] != 40 || counts[2] != 50 {
 		t.Fatalf("ParseCounts = %v, %v", counts, err)
-	}
-}
-
-// Set RETROARCH_TEST_RAR to a real RAR (e.g. the PC Engine collection) to check RAR support.
-func TestRealRAR(t *testing.T) {
-	p := os.Getenv("RETROARCH_TEST_RAR")
-	if p == "" {
-		t.Skip("RETROARCH_TEST_RAR not set")
-	}
-	members, err := ListArchive(p)
-	if err != nil || len(members) < 400 {
-		t.Fatalf("members=%d err=%v", len(members), err)
 	}
 }

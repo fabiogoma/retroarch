@@ -12,10 +12,6 @@ import (
 	"github.com/fabiogoma/retroarch/internal/util"
 )
 
-var archiveExts = map[string]bool{".zip": true, ".7z": true, ".rar": true, ".tar": true, ".gz": true, ".bz2": true, ".xz": true, ".tgz": true}
-
-const maxExtract = 32 << 30
-
 // ConsoleInfo describes one supported Apple TV console.
 type ConsoleInfo struct {
 	Slug         string

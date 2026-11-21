@@ -32,7 +32,7 @@ var defaults = map[string]any{
 	"bezel_dir":             "config/bezels",
 	"state_dir":             "state",
 	"backup_dir":            "state/config-backups",
-	"top":                   "30,40,50,60,70,80,90,100",
+	"top":                   "10,20,30,40,50,60,70,80,90,100",
 	"sync_top":              50,
 	"export_prefix":         "AppleTV-Top",
 	"unzip":                 false,
@@ -50,8 +50,8 @@ var cfgFile string
 
 var rootCmd = &cobra.Command{
 	Use:   "retroarch",
-	Short: "Build curated Top 30–100 ROM sets and sync them to RetroArch on Apple TV",
-	Long: "Scans local ROMs, builds curated Top 30 through Top 100 export folders (in steps of 10) with playlists, " +
+	Short: "Build curated Top 10–100 ROM sets and sync them to RetroArch on Apple TV",
+	Long: "Scans local ROMs, builds curated Top 10 through Top 100 export folders (in steps of 10) with playlists, " +
 		"downloads box art and console bezels in parallel, and syncs ROMs, playlists, artwork, bezels, and " +
 		"DualShock 4 configuration to RetroArch's web file server in parallel.",
 	SilenceUsage:  true,

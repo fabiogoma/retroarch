@@ -17,7 +17,7 @@ func server(c *cobra.Command) device.Remote { return device.NewServer(serverURL(
 
 var buildCmd = &cobra.Command{
 	Use:   "build",
-	Short: "Scan local ROMs and build Top 30 through Top 100 export folders with playlists",
+	Short: "Scan local ROMs and build Top 10 through Top 100 export folders with playlists",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
 		topSpec := viper.GetString("top")

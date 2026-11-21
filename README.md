@@ -1,6 +1,6 @@
 # RetroArch Apple TV Tool
 
-A simple Go CLI for building curated **Top 30** through **Top 100** (in steps of 10) ROM sets from your local `ROMs/` folder, downloading box art and console bezels, and syncing everything to RetroArch on Apple TV in parallel.
+A simple Go CLI for building curated **Top 10** through **Top 100** (in steps of 10) ROM sets from your local `ROMs/` folder, downloading box art and console bezels, and syncing everything to RetroArch on Apple TV in parallel.
 
 Consoles supported: **NES**, **SNES**, **Nintendo 64**, **Genesis**, **Master System**, and **PC Engine**.
 
@@ -9,7 +9,7 @@ Consoles supported: **NES**, **SNES**, **Nintendo 64**, **Genesis**, **Master Sy
 Run commands from the project root (Go 1.24+ required; ROM files and single-ROM `.zip`s are expected directly inside each `ROMs/<console>/` folder):
 
 ```sh
-# 1. Scan ROMs/ and build AppleTV-Top30 through AppleTV-Top100 (with playlists)
+# 1. Scan ROMs/ and build AppleTV-Top10 through AppleTV-Top100 (with playlists)
 go run . build
 
 # 2. Download box art and console bezel PNGs locally
@@ -26,9 +26,9 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 
 | Command | What it does |
 |---|---|
-| `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `config/curation.yaml` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top30` through `AppleTV-Top100` (steps of 10) with ready-to-sync `.lpl` playlists. Use `--top 60,70,80,90,100` for specific sets or `--unzip` to extract single-ROM ZIPs. |
+| `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `config/curation.yaml` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top10` through `AppleTV-Top100` (steps of 10) with ready-to-sync `.lpl` playlists. Use `--top 10,20` or `--top 60,70,80,90,100` for specific sets or `--unzip` to extract single-ROM ZIPs. |
 | `retroarch artwork` | Downloads missing game box art from Libretro's official thumbnail repositories into `artwork/<System>/Named_Boxarts/` and hash-pinned console bezel PNGs into `config/bezels/`. Runs in parallel (`--workers`). |
-| `retroarch sync` | Syncs **ROMs**, **playlists**, **artwork**, **bezels**, and **configuration** to RetroArch's web file server in parallel (`--workers`, default `4`). Supports `--top 30\|40\|50\|60\|70\|80\|90\|100`, `--only roms,playlists,artwork,bezels,config`, `--dry-run`, and `--verbose` (`-v`) for per-file details. Never deletes remote ROMs and backs up replaced configs/playlists. |
+| `retroarch sync` | Syncs **ROMs**, **playlists**, **artwork**, **bezels**, and **configuration** to RetroArch's web file server in parallel (`--workers`, default `4`). Supports `--top 10\|20\|30\|40\|50\|60\|70\|80\|90\|100`, `--only roms,playlists,artwork,bezels,config`, `--dry-run`, and `--verbose` (`-v`) for per-file details. Never deletes remote ROMs and backs up replaced configs/playlists. |
 | `retroarch check` | Verifies no ROMs, artwork, or local state are tracked in Git. |
 
 ## DualShock 4 (2 Controllers) Configuration
@@ -54,7 +54,7 @@ go run . sync --restore-config state/config-backups/<timestamp>
 
 All custom configuration lives in `config/` (YAML for local project config; native `.cfg`/`.slangp`/`.opt` formats where required by RetroArch):
 - `config/retroarch-tool.yaml` (+ optional gitignored `config/retroarch-tool.local.yaml`) — CLI settings, server URL, paths, and concurrency.
-- `config/curation.yaml` — your game preferences and Top 30–100 ranking (re-run `go run . build --from-cache` after editing).
+- `config/curation.yaml` — your game preferences and Top 10–100 ranking (re-run `go run . build --from-cache` after editing).
 - `config/consoles.yaml` & `config/apple_tv_cores.yaml` — console extensions and Apple TV core mappings.
 - `config/apple-tv.cfg`, `config/global.slangp`, `config/pce-six-button.opt` — RetroArch overrides, CRT shader preset, and PCE 6-button options.
 - `config/bezels/` — console bezel metadata (`sources.yaml`) and per-console DualShock 4 + bezel overrides (`.cfg`).

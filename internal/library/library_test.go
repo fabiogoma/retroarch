@@ -237,12 +237,12 @@ func TestNormalizedRegionScoreAndParseCounts(t *testing.T) {
 	if got := SanitizeThumbnailName("Chip 'n Dale: Rescue Rangers & Friends"); got != "Chip 'n Dale_ Rescue Rangers _ Friends" {
 		t.Fatalf("sanitized = %q", got)
 	}
-	counts, err := ParseCounts("30,40,50,60,70,80,90,100")
-	if err != nil || len(counts) != 8 || counts[0] != 30 || counts[7] != 100 {
+	counts, err := ParseCounts("10,20,30,40,50,60,70,80,90,100")
+	if err != nil || len(counts) != 10 || counts[0] != 10 || counts[9] != 100 {
 		t.Fatalf("ParseCounts = %v, %v", counts, err)
 	}
 	allCounts, err := ParseCounts("all")
-	wantAll := []int{30, 40, 50, 60, 70, 80, 90, 100}
+	wantAll := []int{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}
 	if err != nil || len(allCounts) != len(wantAll) {
 		t.Fatalf("ParseCounts(all) = %v, %v", allCounts, err)
 	}

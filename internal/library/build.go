@@ -97,6 +97,7 @@ func better(a, b Game) bool {
 // BuildOptions controls building one or more Top-N exports.
 type BuildOptions struct {
 	DataDir    string
+	StateDir   string
 	ROMsDir    string
 	Counts     []int
 	Unzip      bool
@@ -125,7 +126,10 @@ func Build(o BuildOptions) error {
 	if err := lib.LoadCuration(o.DataDir); err != nil {
 		return err
 	}
-	state := filepath.Join(o.DataDir, "state")
+	state := o.StateDir
+	if state == "" {
+		state = filepath.Join(o.DataDir, "state")
+	}
 	if err := os.MkdirAll(state, 0o755); err != nil {
 		return err
 	}

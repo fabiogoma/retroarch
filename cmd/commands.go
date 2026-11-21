@@ -34,7 +34,8 @@ var buildCmd = &cobra.Command{
 		}
 		fromCache, _ := c.Flags().GetBool("from-cache")
 		return library.Build(library.BuildOptions{
-			DataDir:    dataDir(),
+			DataDir:    configDir(),
+			StateDir:   stateDir(),
 			ROMsDir:    romsDir(c),
 			Counts:     counts,
 			Unzip:      unzip,
@@ -139,7 +140,7 @@ func applyOnlyFilter(o *device.SyncOptions, spec string) error {
 func init() {
 	buildCmd.Flags().String("top", "", "comma-separated top counts to generate (overrides top in config)")
 	buildCmd.Flags().Bool("unzip", false, "extract single-ROM ZIP archives into the export (overrides unzip in config)")
-	buildCmd.Flags().Bool("from-cache", false, "reuse rom_library/state/scan-cache.json without rescanning ROMs/")
+	buildCmd.Flags().Bool("from-cache", false, "reuse state/scan-cache.json without rescanning ROMs/")
 
 	artworkCmd.Flags().Int("top", 0, "export set to fetch artwork for (overrides sync_top in config)")
 	artworkCmd.Flags().String("export", "", "explicit export folder path (overrides --top)")

@@ -14,7 +14,14 @@ import (
 var rootFiles = map[string]bool{".gitignore": true, "README.md": true,
 	"go.mod": true, "go.sum": true, "main.go": true, "retroarch-tool.yaml": true}
 
-var libraryFiles = map[string]bool{"consoles.json": true, "curation.json": true, "apple_tv_cores.json": true}
+var configFiles = map[string]bool{
+	"apple-tv.cfg":        true,
+	"global.slangp":       true,
+	"pce-six-button.opt":  true,
+	"consoles.json":       true,
+	"curation.json":       true,
+	"apple_tv_cores.json": true,
+}
 
 func allowed(name string) bool {
 	parts := strings.Split(name, "/")
@@ -23,13 +30,11 @@ func allowed(name string) bool {
 		return len(parts) == 2 && strings.HasSuffix(name, ".go")
 	case "internal":
 		return strings.HasSuffix(name, ".go")
-	case "rom_library":
-		return len(parts) == 2 && libraryFiles[parts[1]] ||
-			name == "rom_library/bezels/README.md" || name == "rom_library/bezels/LICENSE" ||
-			name == "rom_library/bezels/sources.json" ||
-			len(parts) >= 3 && parts[1] == "bezels" && strings.HasSuffix(name, ".cfg")
 	case "config":
-		return name == "config/apple-tv.cfg" || name == "config/global.slangp" || name == "config/pce-six-button.opt"
+		return len(parts) == 2 && configFiles[parts[1]] ||
+			name == "config/bezels/README.md" || name == "config/bezels/LICENSE" ||
+			name == "config/bezels/sources.json" ||
+			len(parts) >= 3 && parts[1] == "bezels" && strings.HasSuffix(name, ".cfg")
 	case ".github":
 		return name == ".github/copilot-instructions.md" || name == ".github/workflows/checks.yml"
 	}

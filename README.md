@@ -26,8 +26,8 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 
 | Command | What it does |
 |---|---|
-| `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `rom_library/curation.json` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top30`, `AppleTV-Top40`, and `AppleTV-Top50` with ready-to-sync `.lpl` playlists. Use `--top 50` for a single set or `--unzip` to extract single-ROM ZIPs. |
-| `retroarch artwork` | Downloads missing game box art from Libretro's official thumbnail repositories into `artwork/<System>/Named_Boxarts/` and hash-pinned console bezel PNGs into `rom_library/bezels/`. Runs in parallel (`--workers`). |
+| `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `config/curation.json` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top30`, `AppleTV-Top40`, and `AppleTV-Top50` with ready-to-sync `.lpl` playlists. Use `--top 50` for a single set or `--unzip` to extract single-ROM ZIPs. |
+| `retroarch artwork` | Downloads missing game box art from Libretro's official thumbnail repositories into `artwork/<System>/Named_Boxarts/` and hash-pinned console bezel PNGs into `config/bezels/`. Runs in parallel (`--workers`). |
 | `retroarch sync` | Syncs **ROMs**, **playlists**, **artwork**, **bezels**, and **configuration** to RetroArch's web file server in parallel (`--workers`, default `4`). Supports `--top 30|40|50`, `--only roms,playlists,artwork,bezels,config`, and `--dry-run`. Never deletes remote ROMs and backs up replaced configs/playlists. |
 | `retroarch check` | Verifies no ROMs, artwork, or local state are tracked in Git. |
 
@@ -46,13 +46,17 @@ All parameters live in `retroarch-tool.yaml` (server URL, local and remote direc
 
 For personal/machine-specific settings such as your Apple TV IP address, create `retroarch-tool.local.yaml` (gitignored — automatically merged on top of `retroarch-tool.yaml`), or override with `RETROARCH_*` environment variables or CLI flags (`--server`, `--roms`, `--workers`, `--top`).
 
-Before updating any remote config file, `sync` downloads and backs up the current running RetroArch configuration to `rom_library/state/config-backups/<timestamp>/` (configurable via `backup_dir`). To restore a backup if anything goes wrong:
+Before updating any remote config file, `sync` downloads and backs up the current running RetroArch configuration to `state/config-backups/<timestamp>/` (configurable via `backup_dir`). To restore a backup if anything goes wrong:
 
 ```sh
-go run . sync --restore-config rom_library/state/config-backups/<timestamp>
+go run . sync --restore-config state/config-backups/<timestamp>
 ```
 
-Edit `rom_library/curation.json` to adjust your game preferences and ranking, then re-run `go run . build --from-cache`.
+All custom configuration lives in `config/`:
+- `config/curation.json` — your game preferences and Top 30/40/50 ranking (re-run `go run . build --from-cache` after editing).
+- `config/consoles.json` & `config/apple_tv_cores.json` — console extensions and Apple TV core mappings.
+- `config/apple-tv.cfg`, `config/global.slangp`, `config/pce-six-button.opt` — RetroArch overrides, CRT shader preset, and PCE 6-button options.
+- `config/bezels/` — console bezel metadata and per-console DualShock 4 + bezel overrides.
 
 ## Testing
 

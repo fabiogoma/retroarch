@@ -24,11 +24,11 @@ func newFixture(t *testing.T) *fixture {
 	root := t.TempDir()
 	f := &fixture{
 		t:       t,
-		dataDir: filepath.Join(root, "rom_library"),
+		dataDir: filepath.Join(root, "config"),
 		roms:    filepath.Join(root, "ROMs"),
-		state:   filepath.Join(root, "rom_library", "state"),
+		state:   filepath.Join(root, "state"),
 	}
-	for _, d := range []string{filepath.Join(f.roms, "nes"), f.state} {
+	for _, d := range []string{filepath.Join(f.roms, "nes"), f.dataDir, f.state} {
 		if err := os.MkdirAll(d, 0o755); err != nil {
 			t.Fatal(err)
 		}
@@ -200,7 +200,8 @@ func TestUnzipExportAndFailedExportKeepsPreviousSet(t *testing.T) {
 
 func TestBuildMultipleTopSetsAndCacheReuse(t *testing.T) {
 	root := t.TempDir()
-	dataDir := filepath.Join(root, "rom_library")
+	dataDir := filepath.Join(root, "config")
+	stateDir := filepath.Join(root, "state")
 	romsDir := filepath.Join(root, "ROMs")
 	if err := os.MkdirAll(filepath.Join(romsDir, "nes"), 0o755); err != nil {
 		t.Fatal(err)
@@ -214,7 +215,7 @@ func TestBuildMultipleTopSetsAndCacheReuse(t *testing.T) {
 	os.WriteFile(filepath.Join(romsDir, "nes", "Game One (USA).nes"), []byte("rom1"), 0o644)
 	os.WriteFile(filepath.Join(romsDir, "nes", "Game Two (USA).nes"), []byte("rom2"), 0o644)
 
-	if err := Build(BuildOptions{DataDir: dataDir, ROMsDir: romsDir, Counts: []int{1, 2}}); err != nil {
+	if err := Build(BuildOptions{DataDir: dataDir, StateDir: stateDir, ROMsDir: romsDir, Counts: []int{1, 2}}); err != nil {
 		t.Fatalf("Build failed: %v", err)
 	}
 	sel1, err := LoadExportSelections(filepath.Join(romsDir, "AppleTV-Top1"))
@@ -226,7 +227,7 @@ func TestBuildMultipleTopSetsAndCacheReuse(t *testing.T) {
 		t.Fatalf("Top2 = %v, err=%v", sel2, err)
 	}
 	// Rebuild using --from-cache.
-	if err := Build(BuildOptions{DataDir: dataDir, ROMsDir: romsDir, Counts: []int{2}, FromCache: true}); err != nil {
+	if err := Build(BuildOptions{DataDir: dataDir, StateDir: stateDir, ROMsDir: romsDir, Counts: []int{2}, FromCache: true}); err != nil {
 		t.Fatalf("Build(--from-cache) failed: %v", err)
 	}
 }

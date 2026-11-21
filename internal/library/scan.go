@@ -195,7 +195,7 @@ func (l *Library) Scan(roms, state string) (*ScanResult, error) {
 	seen := map[string]bool{}
 	for _, folder := range folders {
 		name := folder.Name()
-		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "rom_library" || name == "artwork" || isExportDir(name) {
+		if !folder.IsDir() || strings.HasPrefix(name, ".") || name == "config" || name == "state" || name == "artwork" || isExportDir(name) {
 			continue
 		}
 		var paths []string

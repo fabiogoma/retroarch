@@ -28,10 +28,10 @@ var defaults = map[string]any{
 	"remote_config_dir":     "config",
 	"roms_dir":              "ROMs",
 	"artwork_dir":           "artwork",
-	"bezel_dir":             "rom_library/bezels",
 	"config_dir":            "config",
-	"state_dir":             "rom_library/state",
-	"backup_dir":            "rom_library/state/config-backups",
+	"bezel_dir":             "config/bezels",
+	"state_dir":             "state",
+	"backup_dir":            "state/config-backups",
 	"top":                   "30,40,50",
 	"sync_top":              50,
 	"export_prefix":         "AppleTV-Top",
@@ -68,7 +68,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	f := rootCmd.PersistentFlags()
 	f.StringVar(&cfgFile, "config", "", "config file (default: retroarch-tool.yaml + optional retroarch-tool.local.yaml)")
-	f.String("root", "", "project root (default: nearest parent containing rom_library/)")
+	f.String("root", "", "project root (default: nearest parent containing config/curation.json)")
 	f.String("roms", "", "ROMs folder (overrides roms_dir in config)")
 	f.String("server", "", "RetroArch web server URL (overrides server in config)")
 	f.Int("workers", 0, "parallel goroutines (overrides workers / artwork_workers / sync_workers)")
@@ -133,7 +133,7 @@ func projectRoot() string {
 	}
 	dir, _ := os.Getwd()
 	for d := dir; ; d = filepath.Dir(d) {
-		if info, err := os.Stat(filepath.Join(d, "rom_library")); err == nil && info.IsDir() {
+		if _, err := os.Stat(filepath.Join(d, "config", "curation.json")); err == nil {
 			return d
 		}
 		if filepath.Dir(d) == d {
@@ -150,7 +150,6 @@ func resolvePath(cfgKey string) string {
 	return filepath.Join(projectRoot(), p)
 }
 
-func dataDir() string    { return filepath.Join(projectRoot(), "rom_library") }
 func configDir() string  { return resolvePath("config_dir") }
 func artworkDir() string { return resolvePath("artwork_dir") }
 func bezelDir() string   { return resolvePath("bezel_dir") }

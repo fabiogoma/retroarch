@@ -33,8 +33,8 @@ func newFixture(t *testing.T) *fixture {
 			t.Fatal(err)
 		}
 	}
-	cores := `[{"system":"Nintendo - Nintendo Entertainment System","core_path":":/Frameworks/nestopia.libretro.framework","core_name":"Nintendo - NES / Famicom (Nestopia)"}]`
-	if err := os.WriteFile(filepath.Join(f.dataDir, "apple_tv_cores.json"), []byte(cores), 0o644); err != nil {
+	cores := "- system: Nintendo - Nintendo Entertainment System\n  core_path: :/Frameworks/nestopia.libretro.framework\n  core_name: Nintendo - NES / Famicom (Nestopia)\n"
+	if err := os.WriteFile(filepath.Join(f.dataDir, "apple_tv_cores.yaml"), []byte(cores), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	f.lib = &Library{
@@ -209,9 +209,9 @@ func TestBuildMultipleTopSetsAndCacheReuse(t *testing.T) {
 	if err := os.MkdirAll(dataDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
-	os.WriteFile(filepath.Join(dataDir, "consoles.json"), []byte(`{"nes":{"extensions":[".nes"],"folder_aliases":["nes"]}}`), 0o644)
-	os.WriteFile(filepath.Join(dataDir, "apple_tv_cores.json"), []byte(`[{"system":"Nintendo - Nintendo Entertainment System","core_path":":/Frameworks/nestopia.libretro.framework","core_name":"Nestopia"}]`), 0o644)
-	os.WriteFile(filepath.Join(dataDir, "curation.json"), []byte(`{"nes":[{"title":"Game One","aliases":[],"play_mode":"1P","genre":"Action","reason":"A","family_notes":"","popularity":"","sources":[]},{"title":"Game Two","aliases":[],"play_mode":"2P","genre":"Action","reason":"B","family_notes":"","popularity":"","sources":[]}]}`), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "consoles.yaml"), []byte("nes:\n  extensions: [.nes]\n  folder_aliases: [nes]\n"), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "apple_tv_cores.yaml"), []byte("- system: Nintendo - Nintendo Entertainment System\n  core_path: :/Frameworks/nestopia.libretro.framework\n  core_name: Nestopia\n"), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "curation.yaml"), []byte("nes:\n  - title: Game One\n    aliases: []\n    play_mode: 1P\n    genre: Action\n    reason: A\n    family_notes: \"\"\n    popularity: \"\"\n    sources: []\n  - title: Game Two\n    aliases: []\n    play_mode: 2P\n    genre: Action\n    reason: B\n    family_notes: \"\"\n    popularity: \"\"\n    sources: []\n"), 0o644)
 	os.WriteFile(filepath.Join(romsDir, "nes", "Game One (USA).nes"), []byte("rom1"), 0o644)
 	os.WriteFile(filepath.Join(romsDir, "nes", "Game Two (USA).nes"), []byte("rom2"), 0o644)
 

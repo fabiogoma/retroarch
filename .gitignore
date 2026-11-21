@@ -19,15 +19,15 @@
 !/config/apple-tv.cfg
 !/config/global.slangp
 !/config/pce-six-button.opt
-!/config/consoles.json
-!/config/curation.json
-!/config/apple_tv_cores.json
+!/config/consoles.yaml
+!/config/curation.yaml
+!/config/apple_tv_cores.yaml
 !/config/bezels/
 /config/bezels/*
 !/config/bezels/*.cfg
 !/config/bezels/README.md
 !/config/bezels/LICENSE
-!/config/bezels/sources.json
+!/config/bezels/sources.yaml
 !/config/bezels/overrides/
 
 # Also protect against accidental assets inside source directories.

@@ -18,9 +18,9 @@ var configFiles = map[string]bool{
 	"apple-tv.cfg":        true,
 	"global.slangp":       true,
 	"pce-six-button.opt":  true,
-	"consoles.json":       true,
-	"curation.json":       true,
-	"apple_tv_cores.json": true,
+	"consoles.yaml":       true,
+	"curation.yaml":       true,
+	"apple_tv_cores.yaml": true,
 }
 
 func allowed(name string) bool {
@@ -33,7 +33,7 @@ func allowed(name string) bool {
 	case "config":
 		return len(parts) == 2 && configFiles[parts[1]] ||
 			name == "config/bezels/README.md" || name == "config/bezels/LICENSE" ||
-			name == "config/bezels/sources.json" ||
+			name == "config/bezels/sources.yaml" ||
 			len(parts) >= 3 && parts[1] == "bezels" && strings.HasSuffix(name, ".cfg")
 	case ".github":
 		return name == ".github/copilot-instructions.md" || name == ".github/workflows/checks.yml"

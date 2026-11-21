@@ -327,11 +327,11 @@ func writePlaylists(dataDir, outDir string, selections map[string][]Selection, d
 		return err
 	}
 	var cores []struct {
-		System   string `json:"system"`
-		CorePath string `json:"core_path"`
-		CoreName string `json:"core_name"`
+		System   string `yaml:"system"`
+		CorePath string `yaml:"core_path"`
+		CoreName string `yaml:"core_name"`
 	}
-	if err := util.ReadJSON(filepath.Join(dataDir, "apple_tv_cores.json"), &cores); err != nil {
+	if err := util.ReadYAML(filepath.Join(dataDir, "apple_tv_cores.yaml"), &cores); err != nil {
 		return err
 	}
 	for _, c := range Consoles {

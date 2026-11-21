@@ -291,9 +291,9 @@ func syncArtwork(server Remote, exportDir, artworkDir string, workers int, dryRu
 // directory overrides (including DualShock 4 left-stick-to-D-pad settings).
 func PrepareBezels(dir string) ([]struct{ Remote, Local string }, []struct{ Remote, Local string }, error) {
 	var sources map[string]struct {
-		SHA256 string `json:"sha256"`
+		SHA256 string `yaml:"sha256"`
 	}
-	if err := util.ReadJSON(filepath.Join(dir, "sources.json"), &sources); err != nil {
+	if err := util.ReadYAML(filepath.Join(dir, "sources.yaml"), &sources); err != nil {
 		return nil, nil, err
 	}
 	var assets, overrides []struct{ Remote, Local string }
@@ -347,7 +347,7 @@ func PrepareBezels(dir string) ([]struct{ Remote, Local string }, []struct{ Remo
 		)
 		overrides = append(overrides, struct{ Remote, Local string }{"/" + RemoteConfigDir + "/" + c.Core + "/" + c.Folder + ".cfg", override})
 	}
-	for _, n := range []string{"LICENSE", "sources.json"} {
+	for _, n := range []string{"LICENSE", "sources.yaml"} {
 		assets = append(assets, struct{ Remote, Local string }{"/" + strings.Join(RemoteOverlaysDir, "/") + "/" + n, filepath.Join(dir, n)})
 	}
 	return assets, overrides, nil

@@ -1,0 +1,18 @@
+- system: Nintendo - Nintendo Entertainment System
+  core_path: :/Frameworks/nestopia.libretro.framework
+  core_name: Nintendo - NES / Famicom (Nestopia)
+- system: Nintendo - Super Nintendo Entertainment System
+  core_path: :/Frameworks/snes9x.libretro.framework
+  core_name: Nintendo - SNES / SFC (Snes9x)
+- system: Sega - Mega Drive - Genesis
+  core_path: :/Frameworks/genesis.plus.gx.libretro.framework
+  core_name: Sega - MS/GG/MD/CD (Genesis Plus GX)
+- system: Sega - Master System - Mark III
+  core_path: :/Frameworks/genesis.plus.gx.libretro.framework
+  core_name: Sega - MS/GG/MD/CD (Genesis Plus GX)
+- system: NEC - PC Engine - TurboGrafx 16
+  core_path: :/Frameworks/mednafen.pce.fast.libretro.framework
+  core_name: NEC - PC Engine / CD (Beetle PCE FAST)
+- system: Nintendo - Nintendo 64
+  core_path: :/Frameworks/mupen64plus.next.libretro.framework
+  core_name: Nintendo - Nintendo 64 (Mupen64Plus-Next)

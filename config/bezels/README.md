@@ -10,7 +10,7 @@ go run . download bezels
 Internet Archive mappings can supply identical images instead; see
 `docs/DOWNLOADS.md`. The installation account below refers to the original Apple TV.
 
-Nosh01's 1440 Plain artwork from Libretro's overlay-borders collection is installed for NES, SNES, Genesis, Master System, PC Engine and Nintendo 64. Original PNGs are unchanged; sources and hashes are in sources.json, and the repository license is included in LICENSE.
+Nosh01's 1440 Plain artwork from Libretro's overlay-borders collection is installed for NES, SNES, Genesis, Master System, PC Engine and Nintendo 64. Original PNGs are unchanged; sources and hashes are in sources.yaml, and the repository license is included in LICENSE.
 
 Each 2560×1440 image has a fully transparent, centered 1920×1440 gameplay region. The overlay stretches over the 16:9 display, while the existing 4:3 game picture fills its transparent opening. The presets contain no touch controls. Opacity is 100%, automatic overlay scaling/rotation is disabled, connected controllers do not hide the artwork, and opening menus hides the artwork.
 

@@ -26,7 +26,7 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 
 | Command | What it does |
 |---|---|
-| `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `config/curation.json` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top30`, `AppleTV-Top40`, and `AppleTV-Top50` with ready-to-sync `.lpl` playlists. Use `--top 50` for a single set or `--unzip` to extract single-ROM ZIPs. |
+| `retroarch build` | Scans `ROMs/` (or `--from-cache`), selects games using `config/curation.yaml` (personal preferences + best-selling games), and builds `ROMs/AppleTV-Top30`, `AppleTV-Top40`, and `AppleTV-Top50` with ready-to-sync `.lpl` playlists. Use `--top 50` for a single set or `--unzip` to extract single-ROM ZIPs. |
 | `retroarch artwork` | Downloads missing game box art from Libretro's official thumbnail repositories into `artwork/<System>/Named_Boxarts/` and hash-pinned console bezel PNGs into `config/bezels/`. Runs in parallel (`--workers`). |
 | `retroarch sync` | Syncs **ROMs**, **playlists**, **artwork**, **bezels**, and **configuration** to RetroArch's web file server in parallel (`--workers`, default `4`). Supports `--top 30|40|50`, `--only roms,playlists,artwork,bezels,config`, and `--dry-run`. Never deletes remote ROMs and backs up replaced configs/playlists. |
 | `retroarch check` | Verifies no ROMs, artwork, or local state are tracked in Git. |
@@ -52,11 +52,11 @@ Before updating any remote config file, `sync` downloads and backs up the curren
 go run . sync --restore-config state/config-backups/<timestamp>
 ```
 
-All custom configuration lives in `config/`:
-- `config/curation.json` — your game preferences and Top 30/40/50 ranking (re-run `go run . build --from-cache` after editing).
-- `config/consoles.json` & `config/apple_tv_cores.json` — console extensions and Apple TV core mappings.
+All custom configuration lives in `config/` (YAML for local project config; native `.cfg`/`.slangp`/`.opt` formats where required by RetroArch):
+- `config/curation.yaml` — your game preferences and Top 30/40/50 ranking (re-run `go run . build --from-cache` after editing).
+- `config/consoles.yaml` & `config/apple_tv_cores.yaml` — console extensions and Apple TV core mappings.
 - `config/apple-tv.cfg`, `config/global.slangp`, `config/pce-six-button.opt` — RetroArch overrides, CRT shader preset, and PCE 6-button options.
-- `config/bezels/` — console bezel metadata and per-console DualShock 4 + bezel overrides.
+- `config/bezels/` — console bezel metadata (`sources.yaml`) and per-console DualShock 4 + bezel overrides (`.cfg`).
 
 ## Testing
 

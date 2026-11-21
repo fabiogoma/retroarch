@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"strings"
 	"syscall"
+
+	"go.yaml.in/yaml/v3"
 )
 
 // SafeName reports whether name is a single, harmless path component.
@@ -75,6 +77,32 @@ func ReadJSON(path string, v any) error {
 		return err
 	}
 	if err := json.Unmarshal(data, v); err != nil {
+		return fmt.Errorf("%s: %w", path, err)
+	}
+	return nil
+}
+
+// WriteYAML writes v as 2-space indented YAML.
+func WriteYAML(path string, v any) error {
+	var buf bytes.Buffer
+	enc := yaml.NewEncoder(&buf)
+	enc.SetIndent(2)
+	if err := enc.Encode(v); err != nil {
+		return err
+	}
+	if err := enc.Close(); err != nil {
+		return err
+	}
+	return os.WriteFile(path, buf.Bytes(), 0o644)
+}
+
+// ReadYAML decodes a YAML file into v.
+func ReadYAML(path string, v any) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	if err := yaml.Unmarshal(data, v); err != nil {
 		return fmt.Errorf("%s: %w", path, err)
 	}
 	return nil

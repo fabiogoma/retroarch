@@ -68,8 +68,8 @@ func TestDownloadBoxArtAndBezelsInParallel(t *testing.T) {
 		{"title":"Super Mario Bros. 3","file":"Super Mario Bros. 3.zip"},
 		{"title":"DuckTales","file":"DuckTales.zip"}
 	]`), 0o644)
-	sourcesJSON := fmt.Sprintf(`{"nes":{"source":"%s/bezel.png","sha256":"%s"}}`, ts.URL, util.SHA256Hex(bezelBytes))
-	os.WriteFile(filepath.Join(bezelDir, "sources.json"), []byte(sourcesJSON), 0o644)
+	sourcesYAML := fmt.Sprintf("nes:\n  source: %s/bezel.png\n  sha256: %s\n", ts.URL, util.SHA256Hex(bezelBytes))
+	os.WriteFile(filepath.Join(bezelDir, "sources.yaml"), []byte(sourcesYAML), 0o644)
 
 	if err := Download(Options{
 		ExportDir:  exportDir,

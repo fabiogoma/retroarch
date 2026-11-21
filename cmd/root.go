@@ -68,7 +68,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	f := rootCmd.PersistentFlags()
 	f.StringVar(&cfgFile, "config", "", "config file (default: retroarch-tool.yaml + optional retroarch-tool.local.yaml)")
-	f.String("root", "", "project root (default: nearest parent containing config/curation.json)")
+	f.String("root", "", "project root (default: nearest parent containing config/curation.yaml)")
 	f.String("roms", "", "ROMs folder (overrides roms_dir in config)")
 	f.String("server", "", "RetroArch web server URL (overrides server in config)")
 	f.Int("workers", 0, "parallel goroutines (overrides workers / artwork_workers / sync_workers)")
@@ -133,7 +133,7 @@ func projectRoot() string {
 	}
 	dir, _ := os.Getwd()
 	for d := dir; ; d = filepath.Dir(d) {
-		if _, err := os.Stat(filepath.Join(d, "config", "curation.json")); err == nil {
+		if _, err := os.Stat(filepath.Join(d, "config", "curation.yaml")); err == nil {
 			return d
 		}
 		if filepath.Dir(d) == d {

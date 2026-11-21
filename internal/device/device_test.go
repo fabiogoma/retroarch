@@ -185,7 +185,7 @@ func TestSyncAllParallelROMsPlaylistsArtworkBezelsAndConfig(t *testing.T) {
 	os.WriteFile(filepath.Join(boxDir, "A.png"), []byte("png-a"), 0o644)
 	os.WriteFile(filepath.Join(boxDir, "B.png"), []byte("png-b"), 0o644)
 
-	// Prepare all 6 console bezel PNGs + sources.json + LICENSE.
+	// Prepare all 6 console bezel PNGs + sources.yaml + LICENSE.
 	os.MkdirAll(bezelDir, 0o755)
 	sources := map[string]map[string]string{}
 	for _, c := range library.Consoles {
@@ -193,7 +193,7 @@ func TestSyncAllParallelROMsPlaylistsArtworkBezelsAndConfig(t *testing.T) {
 		os.WriteFile(filepath.Join(bezelDir, c.Slug+".png"), body, 0o644)
 		sources[c.Slug] = map[string]string{"sha256": util.SHA256Hex(body)}
 	}
-	util.WriteJSON(filepath.Join(bezelDir, "sources.json"), sources)
+	util.WriteYAML(filepath.Join(bezelDir, "sources.yaml"), sources)
 	os.WriteFile(filepath.Join(bezelDir, "LICENSE"), []byte("MIT"), 0o644)
 
 	// Prepare config files.

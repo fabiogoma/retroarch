@@ -2,14 +2,14 @@
 package library
 
 import (
-	"encoding/json"
-	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
 
 	"golang.org/x/text/unicode/norm"
+
+	"github.com/fabiogoma/retroarch/internal/util"
 )
 
 var archiveExts = map[string]bool{".zip": true, ".7z": true, ".rar": true, ".tar": true, ".gz": true, ".bz2": true, ".xz": true, ".tgz": true}
@@ -63,8 +63,8 @@ func SanitizeThumbnailName(label string) string {
 
 // Profile describes how a console's files are recognised.
 type Profile struct {
-	Extensions    []string `json:"extensions"`
-	FolderAliases []string `json:"folder_aliases"`
+	Extensions    []string `json:"extensions" yaml:"extensions"`
+	FolderAliases []string `json:"folder_aliases" yaml:"folder_aliases"`
 }
 
 // Library holds the static configuration for a run.
@@ -74,24 +74,24 @@ type Library struct {
 	Curated  map[string][]Entry
 }
 
-// Entry is one reviewed pick from curation.json.
+// Entry is one reviewed pick from curation.yaml.
 type Entry struct {
-	Title         string   `json:"title"`
-	Aliases       []string `json:"aliases"`
-	PlayMode      string   `json:"play_mode"`
-	Genre         string   `json:"genre"`
-	Reason        string   `json:"reason"`
-	FamilyNotes   string   `json:"family_notes"`
-	Popularity    string   `json:"popularity"`
-	Sources       []any    `json:"sources"`
-	AllowJapanese bool     `json:"allow_japanese,omitempty"`
-	Mickey        bool     `json:"mickey,omitempty"`
+	Title         string   `json:"title" yaml:"title"`
+	Aliases       []string `json:"aliases" yaml:"aliases"`
+	PlayMode      string   `json:"play_mode" yaml:"play_mode"`
+	Genre         string   `json:"genre" yaml:"genre"`
+	Reason        string   `json:"reason" yaml:"reason"`
+	FamilyNotes   string   `json:"family_notes" yaml:"family_notes"`
+	Popularity    string   `json:"popularity" yaml:"popularity"`
+	Sources       []any    `json:"sources" yaml:"sources"`
+	AllowJapanese bool     `json:"allow_japanese,omitempty" yaml:"allow_japanese,omitempty"`
+	Mickey        bool     `json:"mickey,omitempty" yaml:"mickey,omitempty"`
 }
 
-// Load reads consoles.json and curation.json from the data directory.
+// Load reads consoles.yaml from the data directory.
 func Load(dataDir string) (*Library, error) {
 	l := &Library{romExts: map[string]bool{}}
-	if err := readJSON(filepath.Join(dataDir, "consoles.json"), &l.Profiles); err != nil {
+	if err := util.ReadYAML(filepath.Join(dataDir, "consoles.yaml"), &l.Profiles); err != nil {
 		return nil, err
 	}
 	for _, p := range l.Profiles {
@@ -102,17 +102,9 @@ func Load(dataDir string) (*Library, error) {
 	return l, nil
 }
 
-// LoadCuration reads curation.json.
+// LoadCuration reads curation.yaml.
 func (l *Library) LoadCuration(dataDir string) error {
-	return readJSON(filepath.Join(dataDir, "curation.json"), &l.Curated)
-}
-
-func readJSON(path string, v any) error {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return err
-	}
-	return json.Unmarshal(data, v)
+	return util.ReadYAML(filepath.Join(dataDir, "curation.yaml"), &l.Curated)
 }
 
 var (

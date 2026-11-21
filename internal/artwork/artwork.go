@@ -41,7 +41,7 @@ type Options struct {
 }
 
 // Download fetches missing box art for every game in ExportDir and any missing
-// console bezel PNGs listed in BezelDir/sources.json, running index fetches,
+// console bezel PNGs listed in BezelDir/sources.yaml, running index fetches,
 // bezel downloads, and box art downloads concurrently using goroutines.
 func Download(o Options) error {
 	if o.Workers < 1 {
@@ -256,10 +256,10 @@ func MatchBoxArt(p library.Selection, available []string) string {
 
 func downloadBezels(client *http.Client, bezelDir string, workers int, dryRun bool) error {
 	var sources map[string]struct {
-		Source string `json:"source"`
-		SHA256 string `json:"sha256"`
+		Source string `yaml:"source"`
+		SHA256 string `yaml:"sha256"`
 	}
-	if err := util.ReadJSON(filepath.Join(bezelDir, "sources.json"), &sources); err != nil {
+	if err := util.ReadYAML(filepath.Join(bezelDir, "sources.yaml"), &sources); err != nil {
 		return err
 	}
 	slugs := make([]string, 0, len(sources))

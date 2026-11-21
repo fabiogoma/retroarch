@@ -16,9 +16,11 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
+from config import CONFIG
+
 BASE = Path(__file__).resolve().parent
 CONSOLES = set(json.loads((BASE / 'consoles.json').read_text()))
-MAX_BYTES = 32 * 1024**3
+MAX_BYTES = CONFIG['max_download_bytes']
 
 
 def relative_name(value):
@@ -55,8 +57,8 @@ def request(url):
             and not any(os.environ.get(k) for k in ('SSL_CERT_FILE', 'SSL_CERT_DIR'))
             and Path('/etc/ssl/cert.pem').is_file()):
         context.load_verify_locations('/etc/ssl/cert.pem')
-    return urlopen(Request(url, headers={'User-Agent': 'RetroArchAppleTV/1.0'}),
-                   timeout=120, context=context)
+    return urlopen(Request(url, headers={'User-Agent': CONFIG['user_agent']}),
+                   timeout=CONFIG['transfer_timeout_seconds'], context=context)
 
 
 def metadata(item):

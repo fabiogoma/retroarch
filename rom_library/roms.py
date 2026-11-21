@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse, csv, ctypes as C, ctypes.util, hashlib, json, os, re, shutil, sqlite3, stat, tempfile, unicodedata, zipfile
 from pathlib import Path, PurePosixPath
 from datetime import datetime, timezone
+from config import CONFIG
 
 BASE = Path(__file__).resolve().parent
 ARCHIVES = {'.zip', '.7z', '.rar', '.tar', '.gz', '.bz2', '.xz', '.tgz'}
@@ -158,7 +159,7 @@ def scan(root,state,db):
  db.execute('DELETE FROM files');db.execute('DELETE FROM games');db.execute('DELETE FROM issues');db.execute('DELETE FROM selections')
  seen=set()
  for folder in sorted(root.iterdir()):
-  if not folder.is_dir() or folder.is_symlink() or folder.name.startswith('.') or (folder.name=='rom_library' or re.fullmatch(r'AppleTV-Top[0-9]+',folder.name)): continue
+  if not folder.is_dir() or folder.is_symlink() or folder.name.startswith('.') or (folder.name=='rom_library' or re.fullmatch(re.escape(CONFIG['export_prefix'])+'[0-9]+',folder.name)): continue
   for path in sorted(folder.rglob('*')):
    if not path.is_file() or path.is_symlink(): continue
    ext=path.suffix.lower(); status='incomplete' if ext in {'.part','.crdownload','.download'} else 'present'
@@ -186,7 +187,7 @@ def scan(root,state,db):
 
 def export(root,state,db,count,unzip=False):
  curated=json.loads((BASE/'curation.json').read_text())
- target=root/f'AppleTV-Top{count}'; stage=Path(tempfile.mkdtemp(prefix='export-',dir=state))
+ target=root/f"{CONFIG['export_prefix']}{count}"; stage=Path(tempfile.mkdtemp(prefix='export-',dir=state))
  report=[];missing=[]
  try:
   consoles=sorted({r[0] for r in db.execute('SELECT DISTINCT console FROM games')} | set(curated))
@@ -234,7 +235,7 @@ def export(root,state,db,count,unzip=False):
   if stage.exists():shutil.rmtree(stage)
 
 def main():
- parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--root',type=Path,default=BASE.parent);parser.add_argument('--count',type=int,default=40);parser.add_argument('--unzip-export',action='store_true');args=parser.parse_args()
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--root',type=Path,default=BASE.parent);parser.add_argument('--count',type=int,default=CONFIG['games_per_console']);parser.add_argument('--unzip-export',action='store_true');args=parser.parse_args()
  if args.count<1:parser.error('--count must be positive')
  root=args.root.resolve();state=root/'rom_library'/'state';state.mkdir(parents=True,exist_ok=True)
  # Refuse concurrent runs rather than race over extraction/export directories.

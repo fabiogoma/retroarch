@@ -186,3 +186,7 @@ The racing preference update promotes Top Gear and Top Gear 2 on SNES, Top Gear 
 `apple_tv_playlists.py` generates direct playlists for the uploaded `downloads/ROMS/<console>` layout. It defaults to Apple RetroArch’s `~` home alias and uses `.framework` bundle paths from `apple_tv_cores.json`, with local `state/apple-tv-core-defaults.json` taking precedence when present. Do not append the framework executable name: that changes the core identifier used for matching. Regenerate with `uv run --no-project rom_library/apple_tv_playlists.py`. Upload the resulting `.lpl` files to the device playlist directory, preserving existing originals first.
 
 The load-error investigation is recorded in `state/load-error-investigation/repair.json`. Original remote files were backed up locally and on the device before replacement. Debug file logging was enabled for the next on-device test; turn Log to File and Logging Verbosity off after the issue is resolved. Playback has not been confirmed remotely.
+
+## Configuration
+
+`rom_library/config.json` holds the settings: RetroArch server URL, games per console, export folder prefix, device home alias, remote ROM root, timeouts, download size cap and user agent. Put personal overrides in the untracked `rom_library/config.local.json` (same keys; unknown keys are rejected). Command-line flags still override both.

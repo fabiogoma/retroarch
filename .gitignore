@@ -17,6 +17,7 @@
 !/rom_library/*.py
 !/rom_library/README.md
 !/rom_library/consoles.json
+!/rom_library/config.json
 !/rom_library/curation.json
 !/rom_library/apple_tv_cores.json
 !/rom_library/archive_sources.example.json

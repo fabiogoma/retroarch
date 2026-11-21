@@ -13,9 +13,12 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from uuid import uuid4
 
+from config import CONFIG
 from roms import BASE, digest
 
-REMOTE_ROOT = ('downloads', 'ROMS')
+REMOTE_ROOT = tuple(CONFIG['remote_rom_root'])
+REQUEST_TIMEOUT = CONFIG['request_timeout_seconds']
+TRANSFER_TIMEOUT = CONFIG['transfer_timeout_seconds']
 
 
 class RetroArchServer:
@@ -24,7 +27,7 @@ class RetroArchServer:
 
     def list(self, folder):
         query = urlencode({'path': folder})
-        with urlopen(f'{self.url}/list?{query}', timeout=30) as response:
+        with urlopen(f'{self.url}/list?{query}', timeout=REQUEST_TIMEOUT) as response:
             entries = json.load(response)
         result = {}
         for entry in entries:
@@ -41,7 +44,7 @@ class RetroArchServer:
         query = urlencode({'path': remote})
         sha = hashlib.sha256()
         size = 0
-        with urlopen(f'{self.url}/download?{query}', timeout=120) as response:
+        with urlopen(f'{self.url}/download?{query}', timeout=TRANSFER_TIMEOUT) as response:
             while chunk := response.read(1024 * 1024):
                 destination.write(chunk)
                 sha.update(chunk)
@@ -50,7 +53,7 @@ class RetroArchServer:
 
     def move(self, old, new):
         data = urlencode({'oldPath': old, 'newPath': new}).encode()
-        with urlopen(f'{self.url}/move', data=data, timeout=30):
+        with urlopen(f'{self.url}/move', data=data, timeout=REQUEST_TIMEOUT):
             pass
 
     def ensure_folder(self, parts, dry_run):
@@ -62,7 +65,7 @@ class RetroArchServer:
                 if dry_run:
                     return None
                 data = urlencode({'path': child}).encode()
-                with urlopen(f'{self.url}/create', data=data, timeout=30):
+                with urlopen(f'{self.url}/create', data=data, timeout=REQUEST_TIMEOUT):
                     pass
                 entry = self.list(folder).get(name)
             if entry is None or entry['path'] != child:
@@ -89,7 +92,7 @@ class RetroArchServer:
                 'Content-Type': f'multipart/form-data; boundary={boundary}',
                 'Content-Length': str(len(prefix) + size + len(suffix)),
             })
-            with urlopen(request, timeout=120):
+            with urlopen(request, timeout=TRANSFER_TIMEOUT):
                 pass
 
 
@@ -160,8 +163,8 @@ def sync(server, groups, dry_run):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--server', default='http://192.168.0.249', help='RetroArch web file server URL')
-    parser.add_argument('--export', type=Path, default=BASE.parent / 'AppleTV-Top40')
+    parser.add_argument('--server', default=CONFIG['server'], help='RetroArch web file server URL')
+    parser.add_argument('--export', type=Path, default=BASE.parent / f"{CONFIG['export_prefix']}{CONFIG['games_per_console']}")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--backup', action='store_true', help='Capture the current Apple TV setup into a local profile')
     mode.add_argument('--restore', action='store_true', help='Restore config, ROMs, playlists and art from the local profile')

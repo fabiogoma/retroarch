@@ -12,6 +12,7 @@ import re
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
+from config import CONFIG
 from sync_apple_tv import RetroArchServer
 
 BASE = Path(__file__).resolve().parent
@@ -74,7 +75,7 @@ def prepare():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--server', default='http://192.168.0.249')
+    parser.add_argument('--server', default=CONFIG['server'])
     parser.add_argument('--install', action='store_true')
     args = parser.parse_args()
     files = prepare()
@@ -82,7 +83,7 @@ def main():
 
     def download(remote):
         url = server.url + '/download?' + urlencode({'path': remote})
-        with urlopen(url, timeout=30) as response:
+        with urlopen(url, timeout=CONFIG['request_timeout_seconds']) as response:
             return response.read()
 
     config = download('/config/retroarch.cfg')

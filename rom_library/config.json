@@ -1,0 +1,11 @@
+{
+  "server": "http://192.168.0.249",
+  "games_per_console": 50,
+  "export_prefix": "AppleTV-Top",
+  "device_home": "~",
+  "remote_rom_root": ["downloads", "ROMS"],
+  "request_timeout_seconds": 30,
+  "transfer_timeout_seconds": 120,
+  "max_download_bytes": 34359738368,
+  "user_agent": "RetroArchAppleTV/1.0"
+}

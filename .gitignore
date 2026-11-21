@@ -1,6 +1,13 @@
 # Source allowlist: downloaded content and device snapshots stay local.
 /*
 !/.gitignore
+!/go.mod
+!/go.sum
+!/main.go
+!/cmd/
+!/cmd/*.go
+!/internal/
+!/internal/**
 !/README.md
 !/COPILOT_HANDOFF.md
 !/RESUME_WITH_COPILOT.md
@@ -14,7 +21,6 @@
 !/docs/DOWNLOADS.md
 !/rom_library/
 /rom_library/*
-!/rom_library/*.py
 !/rom_library/README.md
 !/rom_library/consoles.json
 !/rom_library/curation.json
@@ -34,9 +40,7 @@
 !/config/pce-six-button.opt
 
 # Also protect against accidental assets inside source directories.
-**/__pycache__/
 **/.DS_Store
-**/*.pyc
 **/*.png
 **/*.jpg
 **/*.jpeg

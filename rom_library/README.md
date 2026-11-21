@@ -4,16 +4,16 @@ See the [repository README](../README.md) for the fresh-checkout setup flow and
 [download configuration](../docs/DOWNLOADS.md) for ROMs/artwork from Internet Archive.
 Git contains no ROMs, artwork, root device config, generated state or complete
 profile. Those remain local. Fetch pinned console PNGs with
-`python3 -B rom_library/download_assets.py --bezels` before running the bezel installer.
+`go run . download bezels` before running the bezel installer.
 The historical local records mentioned below are unavailable in a fresh clone.
 
 From the project root, run:
 
 ```sh
-uv run --no-project rom_library/roms.py
+go run . catalog
 ```
 
-Python 3.11+ and uv are required; there are no Python package dependencies. Archive support uses the system libarchive (included on this Mac; install the OS libarchive package on Linux). Cataloging and playlist generation work offline. The ROM sync and optional Master System downloader use the network. In a restricted environment, use `UV_CACHE_DIR=/private/tmp/roms-uv-cache uv run --offline --no-project rom_library/roms.py`.
+Go 1.24+ is required (`go run . <command>`); archive support is pure Go with no system libraries. Raw `.xz`/`.gz`/`.bz2` single-file archives are unsupported and reported as issues. Cataloging and playlist generation work offline. The ROM sync and optional Master System downloader use the network.
 
 The script rescans every console folder recursively, refreshes the SQLite catalog, and rebuilds `ROMs/AppleTV-Top40` with copies of the selected games. Original files are never moved or deleted. The previous generated export is retained at `rom_library/state/previous-export`; the next successful run replaces that backup. Do not put personal files inside either generated export directory. Managed extraction caches remain in `rom_library/state/extracted`; originals may already have identical extracted copies, and the catalog preserves those source records while export chooses one variant per curated title. SHA-256 hashes identify the actual ROM bytes, including inside ZIPs. This checks file consistency, not authenticity against a preservation DAT.
 
@@ -30,10 +30,10 @@ The script rescans every console folder recursively, refreshes the SQLite catalo
 A ZIP containing exactly one recognized cartridge ROM stays compressed. Collection bundles, ZIPs with multiple files, and RAR/7z archives are extracted into a managed cache; nested archives are processed recursively. Unsupported compression is therefore not sent to Apple TV. ZIP loading is supported by RetroArch, but exact behavior depends on the selected core/build. To generate entirely uncompressed exports if needed:
 
 ```sh
-uv run --no-project rom_library/roms.py --unzip-export
+go run . catalog --unzip-export
 ```
 
-The reader explicitly selects the outer RAR/7z/ZIP format: unrestricted libarchive format detection mistakes this PC Engine RAR's embedded ZIP data for a standalone ZIP. Paths are validated before extraction, links/special files are refused, nesting is limited, and extracted data is limited to 32 GiB per archive. Broken archives are reported, not silently counted as games. Incomplete `.part`, `.download` and `.crdownload` files never enter the selection.
+The reader explicitly selects the outer RAR/7z/ZIP format: the format is chosen from the outer file extension, so the PC Engine RAR's embedded ZIP data is never mistaken for a standalone ZIP. Paths are validated before extraction, links/special files are refused, nesting is limited, and extracted data is limited to 32 GiB per archive. Broken archives are reported, not silently counted as games. Incomplete `.part`, `.download` and `.crdownload` files never enter the selection.
 
 ## Selection policy and future additions
 
@@ -59,8 +59,8 @@ SELECT * FROM issues;
 The supplied source is https://archive.org/download/master_system . The existing collection already contained 372 single-game ZIPs. The metadata endpoint was accessible, but missing-game download attempts returned HTTP 401/403; no additional games were downloaded. Details are in `state/master_system_downloads.json` and the metadata snapshot in `state/master_system_metadata.json`. Once the source permits access, the optional command below downloads titles absent from the current Master System collection, validates advertised size/SHA-1 and ZIP CRC, and does not overwrite existing title files:
 
 ```sh
-uv run --no-project rom_library/download_master_system.py
-uv run --no-project rom_library/roms.py
+go run . download master-system
+go run . catalog
 ```
 
 The downloader stops on authorization failures. It has no authentication-bypass behavior. Alternate regional/renamed titles can differ in the source's filenames; comparison uses normalized names.
@@ -72,7 +72,7 @@ The downloader stops on authorization failures. It has no authentication-bypass 
 Capture the current Apple TV once, with RetroArch open and its web file server running:
 
 ```sh
-uv run --no-project rom_library/sync_apple_tv.py --backup
+go run . profile backup
 ```
 
 The reusable copy lives in `rom_library/retroarch-profile/`. It contains `manifest.json`
@@ -90,7 +90,7 @@ during capture, the snapshot is rejected so you can retry with RetroArch idle.
 On a new Apple TV, install and open RetroArch, start its web file server, then run:
 
 ```sh
-uv run --no-project rom_library/sync_apple_tv.py --restore --server http://NEW-APPLE-TV-IP
+go run . profile restore --server http://NEW-APPLE-TV-IP
 ```
 
 Fully restart RetroArch afterward to load the restored settings. Avoid saving the
@@ -121,7 +121,7 @@ is resumable file by file, rather than an atomic transaction across the entire d
 Game saves and save states are optional; include them when capturing if wanted:
 
 ```sh
-uv run --no-project rom_library/sync_apple_tv.py --backup --include-saves
+go run . profile backup --include-saves
 ```
 
 You can also capture an already copied RetroArch data folder with
@@ -144,8 +144,8 @@ Apple TV lets you recover when its cached files are removed.
 Keep RetroArch open and its web file server running. From the project root, preview or sync the generated set:
 
 ```sh
-uv run --no-project rom_library/sync_apple_tv.py --dry-run
-uv run --no-project rom_library/sync_apple_tv.py
+go run . sync --dry-run
+go run . sync
 ```
 
 The sync defaults to `http://192.168.0.249` and uploads manifest-listed ROMs to `/downloads/ROMS/<console>/`. Use `--server` for a different device or `--export` for a different generated set. Existing files with the same name and byte size are skipped. A same-name file with a different size stops the sync for review. The server listing supplies sizes but no hashes for existing files. Each new file is checked against the local manifest hash before upload and verified by name and size afterward. Rerun after an interrupted transfer to send the remaining files. Remote ROMs, playlists and thumbnails are kept in place.
@@ -170,7 +170,7 @@ Research checked 21 November 2026. Sales references are secondary compilations w
 ## Verification
 
 ```sh
-uv run --no-project python -m unittest discover -s rom_library -p 'test_*.py' -v
+go test ./...
 ```
 
 Tests cover nested bundles, single-ROM ZIP preservation, unsafe paths, preferred-region selection, stale-catalog refresh, uncompressed export, preserving the previous set after a failed export, and the PC Engine RAR format-detection regression. Final real exports are also checked against manifest hashes and ROM byte hashes.
@@ -183,6 +183,6 @@ The racing preference update promotes Top Gear and Top Gear 2 on SNES, Top Gear 
 
 ## Apple TV playlist repair
 
-`apple_tv_playlists.py` generates direct playlists for the uploaded `downloads/ROMS/<console>` layout. It defaults to Apple RetroArch’s `~` home alias and uses `.framework` bundle paths from `apple_tv_cores.json`, with local `state/apple-tv-core-defaults.json` taking precedence when present. Do not append the framework executable name: that changes the core identifier used for matching. Regenerate with `uv run --no-project rom_library/apple_tv_playlists.py`. Upload the resulting `.lpl` files to the device playlist directory, preserving existing originals first.
+`go run . playlists` generates direct playlists for the uploaded `downloads/ROMS/<console>` layout. It defaults to Apple RetroArch’s `~` home alias and uses `.framework` bundle paths from `apple_tv_cores.json`, with local `state/apple-tv-core-defaults.json` taking precedence when present. Do not append the framework executable name: that changes the core identifier used for matching. Regenerate with `go run . playlists`. Upload the resulting `.lpl` files to the device playlist directory, preserving existing originals first.
 
 The load-error investigation is recorded in `state/load-error-investigation/repair.json`. Original remote files were backed up locally and on the device before replacement. Debug file logging was enabled for the next on-device test; turn Log to File and Logging Verbosity off after the issue is resolved. Playback has not been confirmed remotely.

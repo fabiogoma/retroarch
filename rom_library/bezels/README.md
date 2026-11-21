@@ -4,7 +4,7 @@ PNG artwork is excluded from Git. Before installing from a fresh checkout, fetch
 the unchanged, SHA-256-pinned upstream images:
 
 ```sh
-python3 -B rom_library/download_assets.py --bezels
+go run . download bezels
 ```
 
 Internet Archive mappings can supply identical images instead; see
@@ -21,8 +21,8 @@ Reload a game to activate its bezel. Restarting RetroArch first is also fine. Th
 From the ROMs root, preview or reinstall missing identical files:
 
 ```sh
-python3 rom_library/install_console_bezels.py
-python3 rom_library/install_console_bezels.py --install
+go run . bezels install
+go run . bezels install --apply
 ```
 
 The installer stops if any destination has different contents. It also stops for unexpected core/game overrides rather than overwriting them. Installation metadata and a copy of the original main configuration are under rom_library/state/bezels/.

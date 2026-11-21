@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -14,23 +13,29 @@ import (
 	"github.com/fabiogoma/retroarch/internal/repocheck"
 )
 
-func server() device.Remote { return device.NewServer(viper.GetString("server")) }
+func server(c *cobra.Command) device.Remote { return device.NewServer(serverURL(c)) }
 
 var buildCmd = &cobra.Command{
 	Use:   "build",
 	Short: "Scan local ROMs and build Top 30, Top 40, and Top 50 export folders with playlists",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
-		topSpec, _ := c.Flags().GetString("top")
+		topSpec := viper.GetString("top")
+		if c.Flags().Changed("top") {
+			topSpec, _ = c.Flags().GetString("top")
+		}
 		counts, err := library.ParseCounts(topSpec)
 		if err != nil {
 			return err
 		}
-		unzip, _ := c.Flags().GetBool("unzip")
+		unzip := viper.GetBool("unzip")
+		if c.Flags().Changed("unzip") {
+			unzip, _ = c.Flags().GetBool("unzip")
+		}
 		fromCache, _ := c.Flags().GetBool("from-cache")
 		return library.Build(library.BuildOptions{
 			DataDir:    dataDir(),
-			ROMsDir:    romsDir(),
+			ROMsDir:    romsDir(c),
 			Counts:     counts,
 			Unzip:      unzip,
 			FromCache:  fromCache,
@@ -41,20 +46,23 @@ var buildCmd = &cobra.Command{
 
 var artworkCmd = &cobra.Command{
 	Use:   "artwork",
-	Short: "Download box art and console bezel PNGs locally for an export",
+	Short: "Download box art and console bezel PNGs locally in parallel for an export",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
 		export, _ := c.Flags().GetString("export")
-		top, _ := c.Flags().GetInt("top")
+		top := viper.GetInt("sync_top")
+		if c.Flags().Changed("top") {
+			top, _ = c.Flags().GetInt("top")
+		}
 		dry, _ := c.Flags().GetBool("dry-run")
 		if export == "" {
-			export = exportDirFor(top)
+			export = exportDirFor(c, top)
 		}
 		return artwork.Download(artwork.Options{
 			ExportDir:  export,
 			ArtworkDir: artworkDir(),
-			BezelDir:   filepath.Join(dataDir(), "bezels"),
-			Workers:    viper.GetInt("workers"),
+			BezelDir:   bezelDir(),
+			Workers:    workersFor(c, "artwork_workers"),
 			DryRun:     dry,
 		})
 	},
@@ -65,26 +73,33 @@ var syncCmd = &cobra.Command{
 	Short: "Sync ROMs, playlists, artwork, bezels, and DualShock 4 config to RetroArch in parallel",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, _ []string) error {
-		export, _ := c.Flags().GetString("export")
-		top, _ := c.Flags().GetInt("top")
 		dry, _ := c.Flags().GetBool("dry-run")
+		if restoreDir, _ := c.Flags().GetString("restore-config"); restoreDir != "" {
+			return device.RestoreConfig(server(c), restoreDir, dry)
+		}
+		export, _ := c.Flags().GetString("export")
+		top := viper.GetInt("sync_top")
+		if c.Flags().Changed("top") {
+			top, _ = c.Flags().GetInt("top")
+		}
 		only, _ := c.Flags().GetString("only")
 		if export == "" {
-			export = exportDirFor(top)
+			export = exportDirFor(c, top)
 		}
 		opts := device.SyncOptions{
 			ExportDir:  export,
 			ArtworkDir: artworkDir(),
-			BezelDir:   filepath.Join(dataDir(), "bezels"),
+			BezelDir:   bezelDir(),
 			ConfigDir:  configDir(),
-			StateDir:   filepath.Join(dataDir(), "state"),
-			Workers:    viper.GetInt("workers"),
+			StateDir:   stateDir(),
+			BackupDir:  backupDir(),
+			Workers:    workersFor(c, "sync_workers"),
 			DryRun:     dry,
 		}
 		if err := applyOnlyFilter(&opts, only); err != nil {
 			return err
 		}
-		return device.SyncAll(server(), opts)
+		return device.SyncAll(server(c), opts)
 	},
 }
 
@@ -122,16 +137,17 @@ func applyOnlyFilter(o *device.SyncOptions, spec string) error {
 }
 
 func init() {
-	buildCmd.Flags().String("top", defaults["top"].(string), "comma-separated top counts to generate (e.g. 30, 40, 50, or 30,40,50)")
-	buildCmd.Flags().Bool("unzip", false, "extract single-ROM ZIP archives into the export")
+	buildCmd.Flags().String("top", "", "comma-separated top counts to generate (overrides top in config)")
+	buildCmd.Flags().Bool("unzip", false, "extract single-ROM ZIP archives into the export (overrides unzip in config)")
 	buildCmd.Flags().Bool("from-cache", false, "reuse rom_library/state/scan-cache.json without rescanning ROMs/")
 
-	artworkCmd.Flags().Int("top", defaults["sync_top"].(int), "export set to fetch artwork for (30, 40, or 50)")
+	artworkCmd.Flags().Int("top", 0, "export set to fetch artwork for (overrides sync_top in config)")
 	artworkCmd.Flags().String("export", "", "explicit export folder path (overrides --top)")
 	artworkCmd.Flags().Bool("dry-run", false, "preview downloads without writing files")
 
-	syncCmd.Flags().Int("top", defaults["sync_top"].(int), "export set to sync (30, 40, or 50)")
+	syncCmd.Flags().Int("top", 0, "export set to sync (overrides sync_top in config)")
 	syncCmd.Flags().String("export", "", "explicit export folder path (overrides --top)")
 	syncCmd.Flags().String("only", "", "comma-separated subset to sync: roms,playlists,artwork,bezels,config (default: all)")
+	syncCmd.Flags().String("restore-config", "", "restore a backed-up config folder to the RetroArch server")
 	syncCmd.Flags().Bool("dry-run", false, "preview without uploading")
 }

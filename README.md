@@ -42,7 +42,15 @@ Restart RetroArch on Apple TV (without saving its stale in-memory config) after 
 
 ## Configuration
 
-Global defaults live in `retroarch-tool.yaml` and can be overridden with `RETROARCH_*` environment variables or flags (`--server`, `--roms`, `--workers`, `--top`).
+All parameters live in `retroarch-tool.yaml` (server URL, local and remote directories, default Top sets, concurrency workers, timeouts, artwork URLs).
+
+For personal/machine-specific settings such as your Apple TV IP address, create `retroarch-tool.local.yaml` (gitignored — automatically merged on top of `retroarch-tool.yaml`), or override with `RETROARCH_*` environment variables or CLI flags (`--server`, `--roms`, `--workers`, `--top`).
+
+Before updating any remote config file, `sync` downloads and backs up the current running RetroArch configuration to `rom_library/state/config-backups/<timestamp>/` (configurable via `backup_dir`). To restore a backup if anything goes wrong:
+
+```sh
+go run . sync --restore-config rom_library/state/config-backups/<timestamp>
+```
 
 Edit `rom_library/curation.json` to adjust your game preferences and ranking, then re-run `go run . build --from-cache`.
 

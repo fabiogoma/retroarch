@@ -41,7 +41,8 @@ type Options struct {
 }
 
 // Download fetches missing box art for every game in ExportDir and any missing
-// console bezel PNGs listed in BezelDir/sources.json.
+// console bezel PNGs listed in BezelDir/sources.json, running index fetches,
+// bezel downloads, and box art downloads concurrently using goroutines.
 func Download(o Options) error {
 	if o.Workers < 1 {
 		o.Workers = 4
@@ -49,11 +50,11 @@ func Download(o Options) error {
 	client := &http.Client{
 		Transport: &http.Transport{
 			ResponseHeaderTimeout: ResponseTimeout,
-			MaxIdleConnsPerHost:   o.Workers + 2,
+			MaxIdleConnsPerHost:   o.Workers + 4,
 		},
 	}
 
-	if err := downloadBezels(client, o.BezelDir, o.DryRun); err != nil {
+	if err := downloadBezels(client, o.BezelDir, o.Workers, o.DryRun); err != nil {
 		return err
 	}
 
@@ -62,17 +63,14 @@ func Download(o Options) error {
 		return err
 	}
 
-	type dlJob struct {
-		url   string
-		dest  string
-		label string
+	type consoleWork struct {
+		console library.ConsoleInfo
+		need    []library.Selection
 	}
 	var (
-		jobs    []dlJob
+		work    []consoleWork
 		skipped int
-		missing []string
 	)
-
 	for _, c := range library.Consoles {
 		picks := selections[c.Folder]
 		if len(picks) == 0 {
@@ -87,25 +85,46 @@ func Download(o Options) error {
 			}
 			need = append(need, p)
 		}
-		if len(need) == 0 {
-			continue
+		if len(need) > 0 {
+			work = append(work, consoleWork{console: c, need: need})
 		}
-		available, err := fetchBoxArtIndex(client, c.LibretroRepo)
+	}
+
+	// Fetch GitHub Named_Boxarts indices for all needed consoles in parallel.
+	indices := make([][]string, len(work))
+	if _, err := runParallel(o.Workers, len(work), func(ctx context.Context, i int) error {
+		avail, err := fetchBoxArtIndex(ctx, client, work[i].console.LibretroRepo)
 		if err != nil {
-			return fmt.Errorf("fetch box art index for %s: %w", c.System, err)
+			return fmt.Errorf("fetch box art index for %s: %w", work[i].console.System, err)
 		}
-		for _, p := range need {
-			match := MatchBoxArt(p, available)
+		indices[i] = avail
+		return nil
+	}); err != nil {
+		return err
+	}
+
+	type dlJob struct {
+		url   string
+		dest  string
+		label string
+	}
+	var (
+		jobs    []dlJob
+		missing []string
+	)
+	for i, w := range work {
+		for _, p := range w.need {
+			match := MatchBoxArt(p, indices[i])
 			if match == "" {
-				missing = append(missing, fmt.Sprintf("%s: %s", c.Folder, p.Title))
+				missing = append(missing, fmt.Sprintf("%s: %s", w.console.Folder, p.Title))
 				continue
 			}
 			rawURL := fmt.Sprintf("%s/libretro-thumbnails/%s/master/Named_Boxarts/%s",
-				strings.TrimRight(GitHubRawBase, "/"), c.LibretroRepo, url.PathEscape(match))
+				strings.TrimRight(GitHubRawBase, "/"), w.console.LibretroRepo, url.PathEscape(match))
 			jobs = append(jobs, dlJob{
 				url:   rawURL,
-				dest:  BoxArtPath(o.ArtworkDir, c.System, p.Title),
-				label: c.Folder + "/" + p.Title,
+				dest:  BoxArtPath(o.ArtworkDir, w.console.System, p.Title),
+				label: w.console.Folder + "/" + p.Title,
 			})
 		}
 	}
@@ -149,7 +168,7 @@ func printMissing(missing []string) {
 	}
 }
 
-func fetchBoxArtIndex(client *http.Client, repo string) ([]string, error) {
+func fetchBoxArtIndex(ctx context.Context, client *http.Client, repo string) ([]string, error) {
 	rootURL := fmt.Sprintf("%s/repos/libretro-thumbnails/%s/git/trees/master", strings.TrimRight(GitHubAPIBase, "/"), repo)
 	var rootTree struct {
 		Tree []struct {
@@ -158,7 +177,7 @@ func fetchBoxArtIndex(client *http.Client, repo string) ([]string, error) {
 			Type string `json:"type"`
 		} `json:"tree"`
 	}
-	if err := getJSON(client, rootURL, &rootTree); err != nil {
+	if err := getJSON(ctx, client, rootURL, &rootTree); err != nil {
 		return nil, err
 	}
 	var boxArtSHA string
@@ -178,7 +197,7 @@ func fetchBoxArtIndex(client *http.Client, repo string) ([]string, error) {
 			Type string `json:"type"`
 		} `json:"tree"`
 	}
-	if err := getJSON(client, subURL, &subTree); err != nil {
+	if err := getJSON(ctx, client, subURL, &subTree); err != nil {
 		return nil, err
 	}
 	names := make([]string, 0, len(subTree.Tree))
@@ -235,7 +254,7 @@ func MatchBoxArt(p library.Selection, available []string) string {
 	return bestName
 }
 
-func downloadBezels(client *http.Client, bezelDir string, dryRun bool) error {
+func downloadBezels(client *http.Client, bezelDir string, workers int, dryRun bool) error {
 	var sources map[string]struct {
 		Source string `json:"source"`
 		SHA256 string `json:"sha256"`
@@ -248,6 +267,14 @@ func downloadBezels(client *http.Client, bezelDir string, dryRun bool) error {
 		slugs = append(slugs, s)
 	}
 	sort.Strings(slugs)
+
+	type bezelJob struct {
+		slug   string
+		url    string
+		sha256 string
+		dest   string
+	}
+	var jobs []bezelJob
 	for _, slug := range slugs {
 		src := sources[slug]
 		dest := filepath.Join(bezelDir, slug+".png")
@@ -260,19 +287,27 @@ func downloadBezels(client *http.Client, bezelDir string, dryRun bool) error {
 			fmt.Printf("Would download bezel: %s -> %s\n", slug, dest)
 			continue
 		}
-		data, err := getBytes(context.Background(), client, src.Source)
+		jobs = append(jobs, bezelJob{slug: slug, url: src.Source, sha256: strings.ToLower(src.SHA256), dest: dest})
+	}
+	if dryRun || len(jobs) == 0 {
+		return nil
+	}
+	_, err := runParallel(workers, len(jobs), func(ctx context.Context, i int) error {
+		j := jobs[i]
+		data, err := getBytes(ctx, client, j.url)
 		if err != nil {
-			return fmt.Errorf("download bezel %s: %w", slug, err)
+			return fmt.Errorf("download bezel %s: %w", j.slug, err)
 		}
-		if util.SHA256Hex(data) != strings.ToLower(src.SHA256) {
-			return fmt.Errorf("bezel %s checksum mismatch", slug)
+		if util.SHA256Hex(data) != j.sha256 {
+			return fmt.Errorf("bezel %s checksum mismatch", j.slug)
 		}
-		if err := writeAtomic(dest, data); err != nil {
+		if err := writeAtomic(j.dest, data); err != nil {
 			return err
 		}
-		fmt.Printf("Downloaded bezel: %s\n", dest)
-	}
-	return nil
+		fmt.Printf("Downloaded bezel: %s\n", j.dest)
+		return nil
+	})
+	return err
 }
 
 func downloadPNG(ctx context.Context, client *http.Client, rawURL, dest string) error {
@@ -306,8 +341,8 @@ func writeAtomic(dest string, data []byte) error {
 	return os.Rename(tmpName, dest)
 }
 
-func getJSON(client *http.Client, rawURL string, dst any) error {
-	data, err := getBytes(context.Background(), client, rawURL)
+func getJSON(ctx context.Context, client *http.Client, rawURL string, dst any) error {
+	data, err := getBytes(ctx, client, rawURL)
 	if err != nil {
 		return err
 	}

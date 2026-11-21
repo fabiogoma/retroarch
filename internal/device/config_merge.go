@@ -11,8 +11,6 @@ import (
 	"github.com/fabiogoma/retroarch/internal/util"
 )
 
-const mainConfig = "config/retroarch.cfg"
-
 // MergeConfig updates keys from fragment into base while preserving all unrelated
 // lines, comments, and ordering in base. Missing keys are appended at the end.
 func MergeConfig(base, fragment []byte) []byte {

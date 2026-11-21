@@ -279,6 +279,56 @@ func TestMergeConfigPreservesUnrelatedSettings(t *testing.T) {
 	}
 }
 
+func TestConfigBackupAndRestoreRoundTrip(t *testing.T) {
+	export := writeExport(t, map[string]string{"A.zip": "aaa"})
+	root := t.TempDir()
+	configDir := filepath.Join(root, "config")
+	backupDir := filepath.Join(root, "backups")
+	os.MkdirAll(configDir, 0o755)
+	os.WriteFile(filepath.Join(configDir, "apple-tv.cfg"), []byte("input_max_users = \"2\"\n"), 0o644)
+	os.WriteFile(filepath.Join(configDir, "global.slangp"), []byte("shaders = \"1\"\n"), 0o644)
+
+	origCfg := "keep_me = \"yes\"\ninput_max_users = \"8\"\n"
+	origShader := "shaders = \"0\"\n"
+	srv := newMemory(map[string]string{
+		"/config/retroarch.cfg": origCfg,
+		"/config/global.slangp": origShader,
+	})
+
+	if err := SyncAll(srv, SyncOptions{
+		ExportDir: export, ConfigDir: configDir, BackupDir: backupDir, Config: true,
+	}); err != nil {
+		t.Fatalf("SyncAll config failed: %v", err)
+	}
+	if !strings.Contains(srv.visible()["/config/retroarch.cfg"], `input_max_users = "2"`) {
+		t.Fatalf("expected updated config, got %q", srv.visible()["/config/retroarch.cfg"])
+	}
+
+	// Verify timestamped local backup captured the original running files before sync.
+	entries, err := os.ReadDir(backupDir)
+	if err != nil || len(entries) != 1 {
+		t.Fatalf("expected 1 backup dir, got %v (err=%v)", entries, err)
+	}
+	snapDir := filepath.Join(backupDir, entries[0].Name())
+	if b, err := os.ReadFile(filepath.Join(snapDir, "config", "retroarch.cfg")); err != nil || string(b) != origCfg {
+		t.Fatalf("backed up retroarch.cfg = %q (err=%v)", b, err)
+	}
+	if b, err := os.ReadFile(filepath.Join(snapDir, "config", "global.slangp")); err != nil || string(b) != origShader {
+		t.Fatalf("backed up global.slangp = %q (err=%v)", b, err)
+	}
+
+	// Restore the backup and verify original running files are back on the server.
+	if err := RestoreConfig(srv, snapDir, false); err != nil {
+		t.Fatalf("RestoreConfig failed: %v", err)
+	}
+	if got := srv.visible()["/config/retroarch.cfg"]; got != origCfg {
+		t.Fatalf("restored retroarch.cfg = %q, want %q", got, origCfg)
+	}
+	if got := srv.visible()["/config/global.slangp"]; got != origShader {
+		t.Fatalf("restored global.slangp = %q, want %q", got, origShader)
+	}
+}
+
 func TestHTTPServerListUploadAndDownload(t *testing.T) {
 	var uploaded []byte
 	var folder string

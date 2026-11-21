@@ -16,8 +16,14 @@ import (
 	"github.com/fabiogoma/retroarch/internal/util"
 )
 
-// RemoteROMRoot is where RetroArch keeps imported ROMs on the Apple TV.
-var RemoteROMRoot = []string{"downloads", "ROMS"}
+// Remote directories on the Apple TV RetroArch web file server (configurable via retroarch-tool.yaml).
+var (
+	RemoteROMRoot       = []string{"downloads", "ROMS"}
+	RemotePlaylistsDir  = "playlists"
+	RemoteThumbnailsDir = "thumbnails"
+	RemoteOverlaysDir   = []string{"overlays", "console-bezels"}
+	RemoteConfigDir     = "config"
+)
 
 // SyncOptions controls what gets synced from local to the remote RetroArch server.
 type SyncOptions struct {
@@ -26,6 +32,7 @@ type SyncOptions struct {
 	BezelDir   string
 	ConfigDir  string
 	StateDir   string
+	BackupDir  string
 	Workers    int
 	DryRun     bool
 	ROMs       bool
@@ -48,6 +55,12 @@ func SyncAll(server Remote, o SyncOptions) error {
 	if o.Workers < 1 {
 		o.Workers = 4
 	}
+	backupRoot := o.BackupDir
+	if backupRoot == "" {
+		backupRoot = filepath.Join(o.StateDir, "config-backups")
+	}
+	runBackupDir := filepath.Join(backupRoot, time.Now().UTC().Format("20060102T150405Z"))
+
 	if o.ROMs {
 		if err := syncROMs(server, o.ExportDir, o.Workers, o.DryRun); err != nil {
 			return fmt.Errorf("sync roms: %w", err)
@@ -64,12 +77,12 @@ func SyncAll(server Remote, o SyncOptions) error {
 		}
 	}
 	if o.Bezels {
-		if err := syncBezels(server, o.BezelDir, o.Workers, o.DryRun); err != nil {
+		if err := syncBezels(server, o.BezelDir, runBackupDir, o.Workers, o.DryRun); err != nil {
 			return fmt.Errorf("sync bezels: %w", err)
 		}
 	}
 	if o.Config {
-		if err := syncConfig(server, o.ExportDir, o.ConfigDir, o.StateDir, o.DryRun); err != nil {
+		if err := syncConfig(server, o.ExportDir, o.ConfigDir, runBackupDir, o.DryRun); err != nil {
 			return fmt.Errorf("sync config: %w", err)
 		}
 	}
@@ -166,7 +179,7 @@ func syncPlaylists(server Remote, exportDir string, dryRun bool) error {
 	if err != nil {
 		return fmt.Errorf("read playlists in %s (run `build` first): %w", plDir, err)
 	}
-	folder, err := server.EnsureFolder([]string{"playlists"}, dryRun)
+	folder, err := server.EnsureFolder([]string{RemotePlaylistsDir}, dryRun)
 	if err != nil {
 		return err
 	}
@@ -186,7 +199,7 @@ func syncPlaylists(server Remote, exportDir string, dryRun bool) error {
 		if err != nil {
 			return err
 		}
-		remotePath := "/playlists/" + e.Name()
+		remotePath := "/" + RemotePlaylistsDir + "/" + e.Name()
 		if _, exists := remote[e.Name()]; exists {
 			cur, err := Fetch(server, remotePath)
 			if err != nil {
@@ -228,7 +241,7 @@ func syncArtwork(server Remote, exportDir, artworkDir string, workers int, dryRu
 		if len(picks) == 0 {
 			continue
 		}
-		parts := []string{"thumbnails", c.System, "Named_Boxarts"}
+		parts := []string{RemoteThumbnailsDir, c.System, "Named_Boxarts"}
 		folder, err := server.EnsureFolder(parts, dryRun)
 		if err != nil {
 			return err
@@ -329,23 +342,23 @@ func PrepareBezels(dir string) ([]struct{ Remote, Local string }, []struct{ Remo
 			return nil, nil, err
 		}
 		assets = append(assets,
-			struct{ Remote, Local string }{"/overlays/console-bezels/" + c.Slug + ".png", image},
-			struct{ Remote, Local string }{"/overlays/console-bezels/" + c.Slug + ".cfg", preset},
+			struct{ Remote, Local string }{"/" + strings.Join(RemoteOverlaysDir, "/") + "/" + c.Slug + ".png", image},
+			struct{ Remote, Local string }{"/" + strings.Join(RemoteOverlaysDir, "/") + "/" + c.Slug + ".cfg", preset},
 		)
-		overrides = append(overrides, struct{ Remote, Local string }{"/config/" + c.Core + "/" + c.Folder + ".cfg", override})
+		overrides = append(overrides, struct{ Remote, Local string }{"/" + RemoteConfigDir + "/" + c.Core + "/" + c.Folder + ".cfg", override})
 	}
 	for _, n := range []string{"LICENSE", "sources.json"} {
-		assets = append(assets, struct{ Remote, Local string }{"/overlays/console-bezels/" + n, filepath.Join(dir, n)})
+		assets = append(assets, struct{ Remote, Local string }{"/" + strings.Join(RemoteOverlaysDir, "/") + "/" + n, filepath.Join(dir, n)})
 	}
 	return assets, overrides, nil
 }
 
-func syncBezels(server Remote, bezelDir string, workers int, dryRun bool) error {
+func syncBezels(server Remote, bezelDir, backupDir string, workers int, dryRun bool) error {
 	assets, overrides, err := PrepareBezels(bezelDir)
 	if err != nil {
 		return err
 	}
-	overlayFolder, err := server.EnsureFolder([]string{"overlays", "console-bezels"}, dryRun)
+	overlayFolder, err := server.EnsureFolder(RemoteOverlaysDir, dryRun)
 	if err != nil {
 		return err
 	}
@@ -369,7 +382,7 @@ func syncBezels(server Remote, bezelDir string, workers int, dryRun bool) error 
 		}
 		display := overlayFolder
 		if display == "" {
-			display = "/overlays/console-bezels/"
+			display = "/" + strings.Join(RemoteOverlaysDir, "/") + "/"
 		}
 		assetJobs = append(assetJobs, uploadJob{folder: display, local: a.Local, size: info.Size()})
 	}
@@ -392,6 +405,7 @@ func syncBezels(server Remote, bezelDir string, workers int, dryRun bool) error 
 		if err != nil {
 			return err
 		}
+		var existingData []byte
 		if folder != "" {
 			listing, err := server.List(folder)
 			if err != nil {
@@ -406,12 +420,18 @@ func syncBezels(server Remote, bezelDir string, workers int, dryRun bool) error 
 					skipped++
 					continue
 				}
+				existingData = cur
 			}
 		}
 		if dryRun {
 			fmt.Printf("Would sync override %s\n", ov.Remote)
 			ovUpdated++
 			continue
+		}
+		if existingData != nil {
+			if err := saveLocalBackup(backupDir, ov.Remote, existingData); err != nil {
+				return err
+			}
 		}
 		if err := replaceRemoteFile(server, ov.Remote, data, "backup"); err != nil {
 			return err
@@ -427,41 +447,43 @@ func syncBezels(server Remote, bezelDir string, workers int, dryRun bool) error 
 	return nil
 }
 
-func syncConfig(server Remote, exportDir, configDir, stateDir string, dryRun bool) error {
-	// 1. Merge config/apple-tv.cfg into remote /config/retroarch.cfg.
+func syncConfig(server Remote, exportDir, configDir, backupDir string, dryRun bool) error {
+	// 1. Download current running /config/retroarch.cfg and back it up locally before any changes.
+	mainRemote := "/" + RemoteConfigDir + "/retroarch.cfg"
 	fragment, err := os.ReadFile(filepath.Join(configDir, "apple-tv.cfg"))
 	if err != nil {
 		return err
 	}
-	current, err := Fetch(server, "/"+mainConfig)
+	current, err := Fetch(server, mainRemote)
 	if err != nil {
 		return err
 	}
 	merged := MergeConfig(current, fragment)
-	if bytes.Equal(current, merged) {
-		fmt.Println("Config: /config/retroarch.cfg already up to date.")
-	} else if dryRun {
-		fmt.Printf("Would update /%s (%d -> %d bytes), keeping a backup.\n", mainConfig, len(current), len(merged))
+	if dryRun {
+		if bytes.Equal(current, merged) {
+			fmt.Printf("Config: %s already up to date.\n", mainRemote)
+		} else {
+			fmt.Printf("Would back up %s to %s and update (%d -> %d bytes).\n", mainRemote, backupDir, len(current), len(merged))
+		}
 	} else {
-		backupDir := filepath.Join(stateDir, "config-backups")
-		if err := os.MkdirAll(backupDir, 0o755); err != nil {
+		if err := saveLocalBackup(backupDir, mainRemote, current); err != nil {
 			return err
 		}
-		backup := filepath.Join(backupDir, "retroarch-"+time.Now().UTC().Format("20060102T150405Z")+".cfg")
-		if err := os.WriteFile(backup, current, 0o644); err != nil {
-			return err
+		if bytes.Equal(current, merged) {
+			fmt.Printf("Config: %s already up to date (backup saved to %s).\n", mainRemote, backupDir)
+		} else {
+			if err := replaceRemoteFile(server, mainRemote, merged, "backup"); err != nil {
+				return err
+			}
+			fmt.Printf("Config: updated %s (backup saved to %s)\n", mainRemote, backupDir)
+			fmt.Println("Fully restart RetroArch (without saving its in-memory config) to load the updated config.")
 		}
-		if err := replaceRemoteFile(server, "/"+mainConfig, merged, "backup"); err != nil {
-			return err
-		}
-		fmt.Printf("Config: updated /%s (local backup: %s)\n", mainConfig, backup)
-		fmt.Println("Fully restart RetroArch (without saving its in-memory config) to load the updated config.")
 	}
 
-	// 2. Sync CRT shader preset config/global.slangp.
+	// 2. Sync CRT shader preset config/global.slangp (backing up any existing remote copy first).
 	shaderPath := filepath.Join(configDir, "global.slangp")
 	if shaderData, err := os.ReadFile(shaderPath); err == nil {
-		if err := syncSingleConfigFile(server, "/config/global.slangp", shaderData, dryRun); err != nil {
+		if err := syncSingleConfigFile(server, "/"+RemoteConfigDir+"/global.slangp", shaderData, backupDir, dryRun); err != nil {
 			return err
 		}
 	}
@@ -475,8 +497,8 @@ func syncConfig(server Remote, exportDir, configDir, stateDir string, dryRun boo
 					continue
 				}
 				stem := strings.TrimSuffix(p.File, filepath.Ext(p.File))
-				remote := "/config/Beetle PCE Fast/" + stem + ".opt"
-				if err := syncSingleConfigFile(server, remote, optData, dryRun); err != nil {
+				remote := "/" + RemoteConfigDir + "/Beetle PCE Fast/" + stem + ".opt"
+				if err := syncSingleConfigFile(server, remote, optData, backupDir, dryRun); err != nil {
 					return err
 				}
 			}
@@ -485,12 +507,13 @@ func syncConfig(server Remote, exportDir, configDir, stateDir string, dryRun boo
 	return nil
 }
 
-func syncSingleConfigFile(server Remote, remote string, data []byte, dryRun bool) error {
+func syncSingleConfigFile(server Remote, remote string, data []byte, backupDir string, dryRun bool) error {
 	parts := strings.Split(strings.Trim(path.Dir(remote), "/"), "/")
 	folder, err := server.EnsureFolder(parts, dryRun)
 	if err != nil {
 		return err
 	}
+	var existingData []byte
 	if folder != "" {
 		listing, err := server.List(folder)
 		if err != nil {
@@ -504,16 +527,72 @@ func syncSingleConfigFile(server Remote, remote string, data []byte, dryRun bool
 			if bytes.Equal(cur, data) {
 				return nil
 			}
+			existingData = cur
 		}
 	}
 	if dryRun {
 		fmt.Printf("Would sync %s\n", remote)
 		return nil
 	}
+	if existingData != nil {
+		if err := saveLocalBackup(backupDir, remote, existingData); err != nil {
+			return err
+		}
+	}
 	if err := replaceRemoteFile(server, remote, data, "backup"); err != nil {
 		return err
 	}
 	fmt.Printf("Synced %s\n", remote)
+	return nil
+}
+
+func saveLocalBackup(backupDir, remotePath string, data []byte) error {
+	rel := strings.TrimPrefix(remotePath, "/")
+	dst := filepath.Join(backupDir, filepath.FromSlash(rel))
+	if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(dst, data, 0o644)
+}
+
+// RestoreConfig uploads every file from a timestamped local config backup directory
+// back to its original path on the RetroArch server.
+func RestoreConfig(server Remote, backupDir string, dryRun bool) error {
+	var files []struct{ local, remote string }
+	err := filepath.WalkDir(backupDir, func(p string, d os.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
+			return err
+		}
+		rel, err := filepath.Rel(backupDir, p)
+		if err != nil {
+			return err
+		}
+		files = append(files, struct{ local, remote string }{p, "/" + filepath.ToSlash(rel)})
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	if len(files) == 0 {
+		return fmt.Errorf("no config files found in backup directory: %s", backupDir)
+	}
+	for _, f := range files {
+		data, err := os.ReadFile(f.local)
+		if err != nil {
+			return err
+		}
+		if dryRun {
+			fmt.Printf("Would restore %s from %s\n", f.remote, f.local)
+			continue
+		}
+		if err := replaceRemoteFile(server, f.remote, data, "pre-restore"); err != nil {
+			return err
+		}
+		fmt.Printf("Restored %s\n", f.remote)
+	}
+	if !dryRun {
+		fmt.Println("Fully restart RetroArch (without saving its in-memory config) to load the restored config.")
+	}
 	return nil
 }
 

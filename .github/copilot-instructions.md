@@ -5,7 +5,7 @@ Read `README.md`.
 ## Project
 
 - Go CLI (cobra + viper) with 4 subcommands: `build`, `artwork`, `sync`, `check`.
-- Builds curated Top 30, Top 40, and Top 50 export folders (`ROMs/AppleTV-Top30`, `AppleTV-Top40`, `AppleTV-Top50`) with Apple TV `.lpl` playlists from local ROMs using `config/curation.yaml`.
+- Builds curated Top 30 through Top 100 export folders (`ROMs/AppleTV-Top30` .. `AppleTV-Top100`, steps of 10) with Apple TV `.lpl` playlists from local ROMs using `config/curation.yaml`.
 - Downloads box art from Libretro's official `libretro-thumbnails` repos and hash-pinned bezel PNGs locally (`artwork/` and `config/bezels/`) in parallel.
 - Syncs ROMs, playlists, artwork, bezels, and RetroArch configuration in parallel with goroutines to the Apple TV web file server (configured in `config/retroarch-tool.yaml` / `config/retroarch-tool.local.yaml`).
 - Never commit ROMs, artwork, exports, or local state. Run `go run . check` and `go test ./...`.

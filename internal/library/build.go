@@ -486,11 +486,16 @@ func extractMember(zipPath, member, out string) error {
 	return errors.New("member not found: " + member)
 }
 
-// ParseCounts parses a comma-separated list of counts like "30,40,50" or "all".
+// DefaultCounts are the curated Top-N tiers built by default (Top 30 through Top 100 in steps of 10).
+var DefaultCounts = []int{30, 40, 50, 60, 70, 80, 90, 100}
+
+// ParseCounts parses a comma-separated list of counts like "30,40,50,60,70,80,90,100" or "all".
 func ParseCounts(spec string) ([]int, error) {
 	spec = strings.TrimSpace(strings.ToLower(spec))
 	if spec == "" || spec == "all" {
-		return []int{30, 40, 50}, nil
+		out := make([]int, len(DefaultCounts))
+		copy(out, DefaultCounts)
+		return out, nil
 	}
 	var out []int
 	seen := map[int]bool{}
@@ -501,7 +506,7 @@ func ParseCounts(spec string) ([]int, error) {
 		}
 		var n int
 		if _, err := fmt.Sscanf(part, "%d", &n); err != nil || n < 1 {
-			return nil, fmt.Errorf("invalid top count %q (expected positive integers like 30,40,50)", part)
+			return nil, fmt.Errorf("invalid top count %q (expected positive integers like 30,40,50,60,70,80,90,100)", part)
 		}
 		if !seen[n] {
 			seen[n] = true

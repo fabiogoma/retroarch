@@ -577,6 +577,335 @@ nes:
     family_notes: Reading, puzzles and fantasy combat; parent leads for younger children.
     popularity: Preference pick; no verified sales claim
     sources: []
+  - title: Castlevania
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Classic gothic action-platformer with memorable stages and music.
+    family_notes: Monster theme and precise jumps; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: "Castlevania III - Dracula's Curse"
+    aliases:
+      - Castlevania III - Dracula s Curse
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Branching paths and swappable allies expand classic NES action.
+    family_notes: Challenging platforming and gothic enemies; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Ninja Gaiden
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Fast ninja action-platformer famed for its cinematic story.
+    family_notes: High difficulty and quick enemies; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Ninja Gaiden II - The Dark Sword of Chaos
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Refined sequel with shadow-clone mechanics and tight controls.
+    family_notes: Challenging stages and fast action; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Bionic Commando
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Unique grappling-arm platforming sets it apart from standard jumpers.
+    family_notes: Requires timing the bionic arm swing; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Blaster Master
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Combines tank exploration with overhead dungeon action.
+    family_notes: Open-ended exploration; parent can guide the route.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Foundational turn-based fantasy RPG with a customizable party.
+    family_notes: Reading and menus involved; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: Dragon Warrior III
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Expansive classic RPG with class changes and world exploration.
+    family_notes: Reading and turn-based battles; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: Dragon Warrior IV
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Chapter-based RPG adventure with memorable companions.
+    family_notes: Reading and turn-based battles; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: Double Dragon
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: brawler
+    reason: Arcade beat-em-up classic that pairs well with TMNT and Battletoads.
+    family_notes: Street fighting and weapon combat; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: Life Force
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: shooter
+    reason: Co-op arcade shooter alternating horizontal and vertical stages.
+    family_notes: Fast projectiles and explosions; great shared challenge.
+    popularity: Editorial selection
+    sources: []
+  - title: Gradius
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Iconic horizontal space shooter with customizable power-ups.
+    family_notes: Fast-paced shooting; losing upgrades raises the challenge.
+    popularity: Editorial selection
+    sources: []
+  - title: Jackal
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Overhead jeep rescue action with responsive two-player co-op.
+    family_notes: Military action and explosions; fast shared play.
+    popularity: Editorial selection
+    sources: []
+  - title: Tecmo Super Bowl
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Landmark 8-bit football game with crisp arcade pacing.
+    family_notes: Easy to pick up for quick two-player matches.
+    popularity: Editorial selection
+    sources: []
+  - title: Blades of Steel
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Fast-paced arcade hockey with classic 8-bit presentation.
+    family_notes: Includes brief hockey fights; great local two-player versus.
+    popularity: Editorial selection
+    sources: []
+  - title: Super Dodge Ball
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Quirky arcade sports brawler with special throws and bean-ball mode.
+    family_notes: Cartoon sports action; fun for quick shared matches.
+    popularity: Editorial selection
+    sources: []
+  - title: Little Samson
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Polished late-NES platformer letting you swap between four heroes.
+    family_notes: Varied abilities keep stages fresh; moderate challenge.
+    popularity: Editorial selection
+    sources: []
+  - title: Mr. Gimmick
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Charming physics-based star-throwing platformer with lush pixel art.
+    family_notes: Cute visuals hiding a serious skill ceiling; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Shatterhand
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Punch-heavy sci-fi action-platformer with helper robots.
+    family_notes: Brisk combat and tough bosses; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Shadow of the Ninja
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Tight two-player co-op ninja action-platformer.
+    family_notes: Fast combat and demanding jumps; great co-op challenge.
+    popularity: Editorial selection
+    sources: []
+  - title: Power Blade
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Open-stage boomerang action-platformer with energetic soundtrack.
+    family_notes: Exploration and sci-fi combat; accessible difficulty.
+    popularity: Editorial selection
+    sources: []
+  - title: Metal Storm
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Gravity-flipping mech platformer with clever level design.
+    family_notes: Gravity puzzles and tricky jumps; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Vice - Project Doom
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Blends ninja-style platforming with driving and shooting stages.
+    family_notes: Sci-fi action and varied stages; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: Journey to Silius
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Run-and-gun action known for its standout NES soundtrack.
+    family_notes: Challenging shooting stages; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Startropics
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Zelda-inspired island adventure with dungeon exploration.
+    family_notes: Reading and puzzle dungeons; parent helps younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: "Guardian Legend, The"
+    aliases:
+      - Guardian Legend The
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Hybrid overhead adventure and vertical space shooter.
+    family_notes: Combines exploration with intense shooter corridors.
+    popularity: Editorial selection
+    sources: []
+  - title: Adventures of Lolo
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Clever room-by-room block-pushing puzzle classic.
+    family_notes: Great for solving puzzles together on the couch.
+    popularity: Editorial selection
+    sources: []
+  - title: Adventures of Lolo 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: More inventive logic puzzles building on the first Lolo.
+    family_notes: Later rooms get tricky; fun to brainstorm together.
+    popularity: Editorial selection
+    sources: []
+  - title: "Fire 'n Ice"
+    aliases:
+      - Fire n Ice
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Charming ice-block puzzle game with gentle learning curve.
+    family_notes: Ideal family puzzle sessions with short stages.
+    popularity: Editorial selection
+    sources: []
+  - title: "Solomon's Key"
+    aliases:
+      - Solomon s Key
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Arcade action-puzzler where you conjure and break blocks.
+    family_notes: Timed rooms add tension; fun to solve together.
+    popularity: Editorial selection
+    sources: []
+  - title: "Yoshi's Cookie"
+    aliases:
+      - Yoshi s Cookie
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Colorful row-and-column matching puzzle with Mario characters.
+    family_notes: Easy to learn; great head-to-head family puzzle game.
+    popularity: Editorial selection
+    sources: []
+  - title: "Wario's Woods"
+    aliases:
+      - Wario s Woods
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Toad-led falling-block puzzle game with versus mode.
+    family_notes: Playful visuals; requires learning block-stacking controls.
+    popularity: Editorial selection
+    sources: []
+  - title: Tiny Toon Adventures
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Colorful cartoon platformer starring Buster Bunny and friends.
+    family_notes: "Bright, approachable platforming with classic Mario feel."
+    popularity: Editorial selection
+    sources: []
+  - title: Gremlins 2 - The New Batch
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Polished overhead action adventure starring Gizmo.
+    family_notes: Cartoon monsters and tricky jumps; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man
+    aliases:
+      - Megaman
+    play_mode: 1 player; take turns
+    genre: action
+    reason: The original robot-master action-platformer that started the series.
+    family_notes: Demanding jumps and bosses; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man 5
+    aliases:
+      - Megaman V
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Refined Mega Man entry with big charge shots and creative stages.
+    family_notes: Approachable compared to earlier entries; classic action.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man 6
+    aliases:
+      - Megaman VI
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Late-NES Mega Man with Rush armor upgrades and alternate paths.
+    family_notes: Colorful stages and solid pacing for action fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Bubble Bobble Part 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Cute bubble-trapping arcade platformer sequel.
+    family_notes: Accessible early stages with bright cartoon enemies.
+    popularity: Editorial selection
+    sources: []
+  - title: Gun-Nac
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: "Fast, whimsical vertical shooter with deep weapon upgrades."
+    family_notes: Busy bullet patterns; great for arcade shooter fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Bomberman II
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Classic maze-bombing action with local versus battles.
+    family_notes: Cartoon explosions; fun competitive couch sessions.
+    popularity: Editorial selection
+    sources: []
 snes:
   - title: Magical Quest Starring Mickey Mouse, The
     aliases:
@@ -1166,6 +1495,294 @@ snes:
     family_notes: Reading, puzzles and fantasy combat; parent leads for younger children.
     popularity: Preference pick; no verified sales claim
     sources: []
+  - title: Chrono Trigger
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Beloved time-traveling RPG with expressive art and memorable story.
+    family_notes: Reading and turn-based combat; great to follow together.
+    popularity: Editorial selection
+    sources: []
+  - title: EarthBound
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Quirky modern-day RPG full of humor and heart.
+    family_notes: Reading and turn-based battles; playful tone throughout.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy III
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Ensemble-cast 16-bit RPG classic with iconic music.
+    family_notes: Reading and fantasy combat; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy II
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Story-driven classic RPG introducing Active Time Battle.
+    family_notes: Reading and turn-based battles; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: Super Castlevania IV
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Atmospheric 16-bit action-platformer with 8-directional whip control.
+    family_notes: Gothic monsters and challenging stages; preview first.
+    popularity: Editorial selection
+    sources: []
+  - title: Contra III - The Alien Wars
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Explosive two-player run-and-gun action showcase.
+    family_notes: Intense shooting and high difficulty; classic co-op thrill.
+    popularity: Editorial selection
+    sources: []
+  - title: F-Zero
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: High-speed futuristic Mode 7 racing pioneer.
+    family_notes: Fast turns and tight tracks; great for quick time trials.
+    popularity: Editorial selection
+    sources: []
+  - title: Star Fox
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Pioneering 3D rail shooter with team radio chatter.
+    family_notes: Sci-fi dogfights and branching routes; accessible fun.
+    popularity: Editorial selection
+    sources: []
+  - title: "Super Punch-Out!!"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: sports
+    reason: Pattern-based cartoon boxing with expressive opponents.
+    family_notes: Cartoon boxing; rewards timing and observation.
+    popularity: Editorial selection
+    sources: []
+  - title: "Super Ghouls 'N Ghosts"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Challenging medieval arcade platformer with double-jump action.
+    family_notes: Famously tough; best for patient action fans.
+    popularity: Editorial selection
+    sources: []
+  - title: ActRaiser
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Blends side-scrolling sword action with top-down town building.
+    family_notes: Varied pacing between action stages and light strategy.
+    popularity: Editorial selection
+    sources: []
+  - title: Illusion of Gaia
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Real-time action-RPG journey across ancient wonders.
+    family_notes: Reading and action combat; accessible Zelda-adjacent feel.
+    popularity: Editorial selection
+    sources: []
+  - title: Soul Blazer
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Brisk action-RPG where clearing dungeons restores living towns.
+    family_notes: Straightforward combat and rewarding world rebuilding.
+    popularity: Editorial selection
+    sources: []
+  - title: Secret of Evermore
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Real-time action-RPG starring a boy and his shape-shifting dog.
+    family_notes: Playful humor and accessible exploration; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Lufia II - Rise of the Sinistrals
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Classic RPG praised for Zelda-style dungeon puzzles.
+    family_notes: Reading and puzzle dungeons; great to solve together.
+    popularity: Editorial selection
+    sources: []
+  - title: Breath of Fire II
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Colorful fantasy RPG with character fusion and town building.
+    family_notes: Reading and turn-based combat; long-form adventure.
+    popularity: Editorial selection
+    sources: []
+  - title: Harvest Moon
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: simulation
+    reason: Cozy farming and village life simulator with gentle pacing.
+    family_notes: "Relaxed, family-friendly play with no combat."
+    popularity: Editorial selection
+    sources: []
+  - title: "Demon's Crest"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Atmospheric gothic action-platformer with flight and forms.
+    family_notes: Dark monster theme and tough bosses; preview first.
+    popularity: Editorial selection
+    sources: []
+  - title: Wild Guns
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Sci-fi western gallery shooter with crisp two-player co-op.
+    family_notes: Fast-paced shooting and dodging; standout couch co-op.
+    popularity: Editorial selection
+    sources: []
+  - title: Sunset Riders
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Colorful wild-west arcade run-and-gun with two-player co-op.
+    family_notes: Cartoon cowboy shootouts; upbeat arcade energy.
+    popularity: Editorial selection
+    sources: []
+  - title: Zombies Ate My Neighbors
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Campy monster-movie co-op action rescuing neighbors.
+    family_notes: Playful B-movie monsters; great shared couch sessions.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man X2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: "Fast sci-fi action-platformer expanding Mega Man X's mobility."
+    family_notes: Demanding bosses and secrets; crisp controls.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man X3
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Action-packed sequel adding Zero and ride armor upgrades.
+    family_notes: High challenge and rewarding exploration.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man 7
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Bright 16-bit take on classic Mega Man stage design.
+    family_notes: Accessible early stages with classic robot-master duels.
+    popularity: Editorial selection
+    sources: []
+  - title: Street Fighter Alpha 2
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: fighting
+    reason: Deep arcade fighting game impressively ported to SNES.
+    family_notes: Martial arts combat; great two-player versus option.
+    popularity: Editorial selection
+    sources: []
+  - title: NBA Jam Tournament Edition
+    aliases: []
+    play_mode: 2 players; simultaneous
+    genre: sports
+    reason: Over-the-top 2-on-2 arcade basketball with huge dunks.
+    family_notes: Instant fun for two players on the couch.
+    popularity: Editorial selection
+    sources: []
+  - title: "NHL '94"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Timeless 16-bit arcade hockey with responsive passing and shooting.
+    family_notes: Easy to learn; iconic head-to-head sports classic.
+    popularity: Editorial selection
+    sources: []
+  - title: "Tetris & Dr. Mario"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Two all-time puzzle classics with a mixed match mode.
+    family_notes: Ideal family-friendly competitive puzzle cartridge.
+    popularity: Editorial selection
+    sources: []
+  - title: Bust-A-Move
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Colorful bubble-shooting puzzle game with addictive versus play.
+    family_notes: "Bright, intuitive rules for all ages."
+    popularity: Editorial selection
+    sources: []
+  - title: "Lost Vikings, The"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Puzzle-platformer switching between three unique Vikings.
+    family_notes: Clever teamwork puzzles; fun to figure out together.
+    popularity: Editorial selection
+    sources: []
+  - title: Axelay
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Showcase Konami space shooter with Mode 7 vertical stages.
+    family_notes: Fast arcade shooting and dramatic boss encounters.
+    popularity: Editorial selection
+    sources: []
+  - title: Space Megaforce
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: "Smooth, forgiving vertical shooter with eight weapon types."
+    family_notes: Busy action with customizable difficulty settings.
+    popularity: Editorial selection
+    sources: []
+  - title: U.N. Squadron
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Arcade jet shooter with plane upgrades and mission choice.
+    family_notes: Crisp horizontal shooting with manageable pacing.
+    popularity: Editorial selection
+    sources: []
+  - title: R-Type III - The Third Lightning
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Intense horizontal shooter with selectable Force pods.
+    family_notes: Challenging arcade precision; rewarding to master.
+    popularity: Editorial selection
+    sources: []
+  - title: Pilotwings
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: simulation
+    reason: "Lighthearted flight school with skydiving, hang gliding, and planes."
+    family_notes: Non-violent skill challenges; fun to pass the controller.
+    popularity: Editorial selection
+    sources: []
+  - title: Uniracers
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: High-speed stunt racing on unicycles with split-screen versus.
+    family_notes: "Fast, bright, and energetic two-player races."
+    popularity: Editorial selection
+    sources: []
 genesis:
   - title: World of Illusion Starring Mickey Mouse and Donald Duck
     aliases: []
@@ -1744,6 +2361,310 @@ genesis:
     family_notes: Good starting point with a parent; difficulty still varies.
     popularity: Preference pick; no verified sales claim
     sources: []
+  - title: Phantasy Star IV
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Pinnacle 16-bit sci-fi RPG with manga-style story panels.
+    family_notes: Reading and turn-based battles; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: Shining Force
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Approachable tactical fantasy RPG with colorful battle animations.
+    family_notes: Turn-based strategy; great introduction to tactical RPGs.
+    popularity: Editorial selection
+    sources: []
+  - title: Shining Force II
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Expanded tactical RPG sequel with freer world exploration.
+    family_notes: Turn-based strategy and reading; engaging adventure.
+    popularity: Editorial selection
+    sources: []
+  - title: Castlevania - Bloodlines
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Fast Genesis Castlevania with two distinct playable hunters.
+    family_notes: Gothic monsters and action combat; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: Comix Zone
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Play inside living comic-book panels with stylized beat-em-up action.
+    family_notes: Challenging combat with limited lives; striking presentation.
+    popularity: Editorial selection
+    sources: []
+  - title: "Revenge of Shinobi, The"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Landmark Sega ninja action-platformer with iconic Yuzo Koshiro soundtrack.
+    family_notes: Classic action challenge with martial-arts combat.
+    popularity: Editorial selection
+    sources: []
+  - title: Shadow Dancer - The Secret of Shinobi
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Arcade-style ninja action featuring a loyal attack dog.
+    family_notes: One-hit-kill tension keeps sessions brisk and exciting.
+    popularity: Editorial selection
+    sources: []
+  - title: "Ghouls 'n Ghosts"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: "Crisp Genesis port of Capcom's classic armored action-platformer."
+    family_notes: Challenging stages and monster bosses; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Earthworm Jim
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: "Wacky, hand-animated cartoon run-and-gun platformer."
+    family_notes: Offbeat humor and creative stages; moderate difficulty.
+    popularity: Editorial selection
+    sources: []
+  - title: Earthworm Jim 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Even more inventive cartoon platforming and mini-game twists.
+    family_notes: Playful humor and varied gameplay throughout.
+    popularity: Editorial selection
+    sources: []
+  - title: Vectorman
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Fluid pre-rendered 16-bit run-and-gun action showcase.
+    family_notes: Fast shooting and transforming moves; energetic pace.
+    popularity: Editorial selection
+    sources: []
+  - title: Vectorman 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Action-packed sequel with new insect forms and stages.
+    family_notes: Brisk shooting and platforming for action fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Landstalker
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Isometric action-adventure full of dungeons and treasure hunting.
+    family_notes: Isometric jumping takes practice; Zelda-like exploration.
+    popularity: Editorial selection
+    sources: []
+  - title: Crusader of Centy
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Colorful Zelda-style action-adventure with animal companions.
+    family_notes: Charming story and accessible real-time combat.
+    popularity: Editorial selection
+    sources: []
+  - title: "Story of Thor, The"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Lush real-time action-adventure with elemental spirits and combos.
+    family_notes: Smooth brawler-style combat in an adventure world.
+    popularity: Editorial selection
+    sources: []
+  - title: MUSHA - Metallic Uniframe Super Hybrid Armor
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Blistering vertical mech shooter with heavy synth soundtrack.
+    family_notes: "Intense bullet action; one of the system's finest shooters."
+    popularity: Editorial selection
+    sources: []
+  - title: Lightening Force - Quest for the Darkstar
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Thunder Force IV delivers dazzling parallax space-shooter action.
+    family_notes: Fast horizontal shooting with selectable stage order.
+    popularity: Editorial selection
+    sources: []
+  - title: Thunder Force III
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: "Tight, approachable horizontal space shooter with classic tunes."
+    family_notes: Brisk arcade rounds with manageable difficulty.
+    popularity: Editorial selection
+    sources: []
+  - title: Alien Soldier
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: "Treasure's boss-rush run-and-gun masterpiece."
+    family_notes: Intense action built for players who enjoy big boss fights.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Turrican
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Explosive run-and-gun platformer with grappling plasma rope.
+    family_notes: Fast sci-fi shooting and secret-filled stages.
+    popularity: Editorial selection
+    sources: []
+  - title: Ranger-X
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Detailed mech action with a controllable support bike.
+    family_notes: Unique controls reward practice; impressive 16-bit visuals.
+    popularity: Editorial selection
+    sources: []
+  - title: Sparkster
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: High-energy jetpack possum platformer sequel to Rocket Knight.
+    family_notes: Colorful stages and exhilarating rocket-boost action.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man - The Wily Wars
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: "16-bit remake collection of Mega Man 1, 2, and 3 plus bonus stages."
+    family_notes: Classic robot-master platforming with updated graphics.
+    popularity: Editorial selection
+    sources: []
+  - title: Road Rash II
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: High-speed motorcycle racing with split-screen two-player mode.
+    family_notes: Includes cartoon bike brawling; thrilling arcade races.
+    popularity: Editorial selection
+    sources: []
+  - title: "Rock n' Roll Racing"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Isometric combat racing with upgrades and classic rock soundtrack.
+    family_notes: Fantastic two-player couch racing with punchy action.
+    popularity: Editorial selection
+    sources: []
+  - title: Micro Machines Turbo Tournament 96
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: "Top-down tabletop racing across desks, pools, and gardens."
+    family_notes: "Short, hilarious multiplayer rounds for all ages."
+    popularity: Editorial selection
+    sources: []
+  - title: OutRunners
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Vibrant arcade sports-car racing built around head-to-head play.
+    family_notes: "Bright, breezy arcade racing with branching routes."
+    popularity: Editorial selection
+    sources: []
+  - title: Virtua Racing
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Landmark polygon arcade Formula 1 racer on Genesis.
+    family_notes: Crisp arcade handling and two-player split-screen.
+    popularity: Editorial selection
+    sources: []
+  - title: "Dr. Robotnik's Mean Bean Machine"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Sonic-themed Puyo Puyo puzzle battles.
+    family_notes: "Colorful, fast-paced head-to-head puzzle fun."
+    popularity: Editorial selection
+    sources: []
+  - title: Columns
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Classic Sega falling-jewel matching puzzle game.
+    family_notes: Simple rules and soothing pace; great two-player versus.
+    popularity: Editorial selection
+    sources: []
+  - title: NBA Jam Tournament Edition
+    aliases: []
+    play_mode: 2 players; simultaneous
+    genre: sports
+    reason: Iconic 2-on-2 arcade basketball packed with secrets and dunks.
+    family_notes: Instant couch multiplayer favorite.
+    popularity: Editorial selection
+    sources: []
+  - title: "NHL '94"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Gold-standard 16-bit hockey with crisp two-player play.
+    family_notes: Easy to pick up and endlessly replayable.
+    popularity: Editorial selection
+    sources: []
+  - title: Mutant League Football
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Comedic monster-themed arcade football with wild hazards.
+    family_notes: Cartoon monster mayhem; fun local versus.
+    popularity: Editorial selection
+    sources: []
+  - title: Ecco the Dolphin
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Atmospheric ocean adventure starring a dolphin solving mysteries.
+    family_notes: Peaceful swimming mixed with tricky later puzzles.
+    popularity: Editorial selection
+    sources: []
+  - title: Flashback - The Quest for Identity
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Cinematic sci-fi platform-adventure with rotoscoped animation.
+    family_notes: Methodical exploration and sci-fi gunplay; preview first.
+    popularity: Editorial selection
+    sources: []
+  - title: Strider
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Acrobatic arcade sword-action classic with dramatic set pieces.
+    family_notes: Fast-paced platforming and bold 16-bit spectacle.
+    popularity: Editorial selection
+    sources: []
+  - title: Sunset Riders
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Lively wild-west run-and-gun with two-player co-op.
+    family_notes: Cartoon cowboy action; quick arcade fun.
+    popularity: Editorial selection
+    sources: []
+  - title: Zombies Ate My Neighbors
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Humorous horror-comedy co-op action across quirky neighborhoods.
+    family_notes: Playful B-movie monsters; great couch co-op.
+    popularity: Editorial selection
+    sources: []
 master system:
   - title: Castle of Illusion Starring Mickey Mouse
     aliases: []
@@ -2239,6 +3160,366 @@ master system:
     reason: Colorful platform adventure; recognizable characters and exploration.
     family_notes: Some stages demand precise timing; parent helps with bosses.
     popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Phantasy Star
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Groundbreaking 8-bit sci-fi RPG with smooth 3D dungeons.
+    family_notes: Reading and turn-based combat; parent leads for younger players.
+    popularity: Editorial selection
+    sources: []
+  - title: "Ghouls'n Ghosts"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Unique Master System version with armor and magic upgrades.
+    family_notes: Monster theme and classic arcade challenge; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Golvellius - Valley of Doom
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Zelda-inspired fantasy adventure with overhead and side-scroll stages.
+    family_notes: Exploration and sword combat; great for adventure fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Fantasy Zone II
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: "Colorful, cheerful arcade shooter with shop upgrades and warp gates."
+    family_notes: Bright pastel visuals and brisk shooter rounds.
+    popularity: Editorial selection
+    sources: []
+  - title: Fantasy Zone - The Maze
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: arcade
+    reason: Pac-Man-style maze-chase spin-off with two-player co-op.
+    family_notes: "Approachable, colorful family arcade fun."
+    popularity: Editorial selection
+    sources: []
+  - title: Master of Darkness
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Victorian Castlevania-style action-platformer with crisp controls.
+    family_notes: Gothic monster theme; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: Kenseiden
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Atmospheric samurai action-platformer with training dojos.
+    family_notes: Sword combat and challenging bosses; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Psycho Fox
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Charming shape-shifting animal platformer with high jumps.
+    family_notes: Playful cartoon style; momentum takes a little practice.
+    popularity: Editorial selection
+    sources: []
+  - title: Rainbow Islands
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Bright arcade sequel to Bubble Bobble climbing rainbow bridges.
+    family_notes: "Cheerful, family-friendly arcade platforming."
+    popularity: Editorial selection
+    sources: []
+  - title: Zillion
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Metroid-style sci-fi base infiltration with three playable agents.
+    family_notes: Code-entry puzzles and exploration; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Zillion II - The Tri Formation
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Fast motorcycle and armor-suit sci-fi action sequel.
+    family_notes: Brisk side-scrolling shooting and rescue stages.
+    popularity: Editorial selection
+    sources: []
+  - title: Space Harrier
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Classic Sega forward-scrolling fantasy rail shooter.
+    family_notes: Fast arcade action with imaginative enemies.
+    popularity: Editorial selection
+    sources: []
+  - title: After Burner
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: High-speed arcade fighter-jet shooter.
+    family_notes: "Short, intense arcade dogfight sessions."
+    popularity: Editorial selection
+    sources: []
+  - title: Super Monaco GP
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Arcade Formula 1 racing with rival challenges.
+    family_notes: Clean racing controls; fun for quick laps.
+    popularity: Editorial selection
+    sources: []
+  - title: "Ayrton Senna's Super Monaco GP II"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Refined Formula 1 racing sequel with world circuits.
+    family_notes: Rewarding cornering and smooth 8-bit speed.
+    popularity: Editorial selection
+    sources: []
+  - title: OutRun 3-D
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Enhanced arcade sports-car cruising with multiple routes.
+    family_notes: Upbeat music and classic Sega arcade racing.
+    popularity: Editorial selection
+    sources: []
+  - title: Road Rash
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: High-speed motorcycle racing packed with thrills.
+    family_notes: Includes cartoon bike brawling; energetic arcade racing.
+    popularity: Editorial selection
+    sources: []
+  - title: R.C. Grand Prix
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: racing
+    reason: Isometric radio-controlled car racing with upgrades.
+    family_notes: Approachable tracks and fun upgrade loop.
+    popularity: Editorial selection
+    sources: []
+  - title: Buggy Run
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Colorful top-down off-road buggy racing with versus mode.
+    family_notes: Bright visuals and fun local two-player races.
+    popularity: Editorial selection
+    sources: []
+  - title: "Dr. Robotnik's Mean Bean Machine"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Sonic-themed Puyo Puyo puzzle battles.
+    family_notes: "Colorful, intuitive head-to-head puzzle play."
+    popularity: Editorial selection
+    sources: []
+  - title: Columns
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Timeless Sega jewel-matching puzzle classic.
+    family_notes: Easy to learn; great relaxing or competitive sessions.
+    popularity: Editorial selection
+    sources: []
+  - title: Lemmings
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Guide tiny Lemmings safely across clever obstacle stages.
+    family_notes: Thoughtful puzzle-solving that works well together.
+    popularity: Editorial selection
+    sources: []
+  - title: Ms. Pac-Man
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: arcade
+    reason: All-time arcade maze classic with smooth Master System play.
+    family_notes: "Instantly familiar, family-friendly high-score fun."
+    popularity: Editorial selection
+    sources: []
+  - title: Choplifter
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Arcade helicopter rescue action.
+    family_notes: Simple premise with tense rescue runs.
+    popularity: Editorial selection
+    sources: []
+  - title: Sagaia
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Impressive Master System port of Darius II space shooter.
+    family_notes: Mechanical sea-creature bosses and crisp shooting.
+    popularity: Editorial selection
+    sources: []
+  - title: Bomber Raid
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Smooth vertical airplane shooter with wingman power-ups.
+    family_notes: Classic arcade shooter pacing.
+    popularity: Editorial selection
+    sources: []
+  - title: Cloud Master
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Whimsical horizontal shooter riding a cloud through mythology.
+    family_notes: "Colorful, quirky enemies and steady action."
+    popularity: Editorial selection
+    sources: []
+  - title: Alien Syndrome
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: action
+    reason: Overhead sci-fi maze rescue shooter.
+    family_notes: Sci-fi monster action with timed rescues.
+    popularity: Editorial selection
+    sources: []
+  - title: Alien Storm
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Arcade sci-fi beat-em-up mixing street stages and shooting galleries.
+    family_notes: Cartoonish alien brawler action.
+    popularity: Editorial selection
+    sources: []
+  - title: Altered Beast
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Classic Sega mythological brawler with beast transformations.
+    family_notes: Short arcade rounds with iconic transformations.
+    popularity: Editorial selection
+    sources: []
+  - title: Bonanza Bros.
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Playful cartoon heist action with split-screen two-player co-op.
+    family_notes: Lighthearted stealth-comedy; great couch co-op.
+    popularity: Editorial selection
+    sources: []
+  - title: Gain Ground
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Tactical arcade action rescuing heroes with unique weapons.
+    family_notes: Brilliant two-player co-op strategy and shooting.
+    popularity: Editorial selection
+    sources: []
+  - title: Gauntlet
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Classic top-down dungeon crawler for two players.
+    family_notes: Cooperative monster-clearing and treasure hunting.
+    popularity: Editorial selection
+    sources: []
+  - title: Quartet
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Jetpack arcade run-and-gun with simultaneous two-player co-op.
+    family_notes: Upbeat sci-fi co-op action.
+    popularity: Editorial selection
+    sources: []
+  - title: Mercs
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Crisp overhead military run-and-gun arcade conversion.
+    family_notes: Fast-paced shooting and vehicle stages.
+    popularity: Editorial selection
+    sources: []
+  - title: Forgotten Worlds
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: 360-degree aiming fantasy shooter with in-stage shops.
+    family_notes: Distinctive arcade shooting and boss encounters.
+    popularity: Editorial selection
+    sources: []
+  - title: Shadow Dancer - The Secret of Shinobi
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Punchy ninja action with your wolf companion.
+    family_notes: Challenging arcade stages; quick retries.
+    popularity: Editorial selection
+    sources: []
+  - title: Strider
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Acrobatic sword-fighting platformer.
+    family_notes: Fast sci-fi action with dramatic stages.
+    popularity: Editorial selection
+    sources: []
+  - title: "Michael Jackson's Moonwalker"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Stylish arcade rescue action set to iconic pop tracks.
+    family_notes: Playful dance-magic combat and catchy chiptunes.
+    popularity: Editorial selection
+    sources: []
+  - title: Prince of Persia
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Fluid cinematic dungeon platforming and sword duels.
+    family_notes: Careful timing and trap navigation; parent helps.
+    popularity: Editorial selection
+    sources: []
+  - title: Earthworm Jim
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Wacky cartoon run-and-gun adapted for 8-bit hardware.
+    family_notes: Offbeat humor and energetic platforming.
+    popularity: Editorial selection
+    sources: []
+  - title: Ecco The Dolphin
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Serene ocean exploration and mystery-solving.
+    family_notes: Gentle swimming paired with clever later puzzles.
+    popularity: Editorial selection
+    sources: []
+  - title: "Fire & Ice"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Colorful coyote platformer freezing enemies into ice blocks.
+    family_notes: "Bright, cheerful stages suitable for family play."
+    popularity: Editorial selection
+    sources: []
+  - title: SpellCaster
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Blends side-scrolling spell action with adventure investigation.
+    family_notes: Fantasy story and varied gameplay.
+    popularity: Editorial selection
+    sources: []
+  - title: California Games
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: sports
+    reason: "Sunny 80s skate, surf, BMX, and footbag mini-games."
+    family_notes: Fun party-style score chasing for all ages.
+    popularity: Editorial selection
     sources: []
 n64:
   - title: Mickey's Speedway USA
@@ -2757,6 +4038,366 @@ n64:
     family_notes: Timing/steering need practice; help younger players.
     popularity: Preference pick; no verified sales claim
     sources: []
+  - title: Paper Mario
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Charming storybook Mario RPG with timed-hit battles and humor.
+    family_notes: "Playful, family-friendly adventure; read dialogue together."
+    popularity: Editorial selection
+    sources: []
+  - title: Perfect Dark
+    aliases: []
+    play_mode: 2 players; simultaneous
+    genre: shooter
+    reason: Feature-packed sci-fi FPS successor to GoldenEye with co-op and bots.
+    family_notes: Sci-fi gunplay; preview for age appropriateness.
+    popularity: Editorial selection
+    sources: []
+  - title: Blast Corps
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Inventive demolition puzzle-action clearing paths with giant vehicles.
+    family_notes: Explosive cartoon destruction; creative and addictive.
+    popularity: Editorial selection
+    sources: []
+  - title: Jet Force Gemini
+    aliases: []
+    play_mode: 2 players; simultaneous
+    genre: action
+    reason: Sprawling sci-fi third-person shooter adventure from Rare.
+    family_notes: Bug-alien combat; player 2 can assist as the floating drone.
+    popularity: Editorial selection
+    sources: []
+  - title: "Conker's Bad Fur Day"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: platform
+    reason: Technically stunning 3D platformer with varied multiplayer modes.
+    family_notes: "Mature humor and violence; adults only, not for young children."
+    popularity: Editorial selection
+    sources: []
+  - title: Pokemon Stadium
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: rpg
+    reason: 3D Pokemon battles plus hilarious four-player mini-games.
+    family_notes: "Great family fun, especially the mini-game arena."
+    popularity: Editorial selection
+    sources: []
+  - title: Pokemon Stadium 2
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: rpg
+    reason: Expanded 3D Pokemon arena with Gold/Silver roster and mini-games.
+    family_notes: Family-friendly battles and lively couch mini-games.
+    popularity: Editorial selection
+    sources: []
+  - title: Pokemon Puzzle League
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Fast-paced Panel de Pon matching with Pokemon presentation.
+    family_notes: "Addictive, colorful two-player puzzle battles."
+    popularity: Editorial selection
+    sources: []
+  - title: Doom 64
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: "Moody, exclusive N64 Doom chapter with atmospheric lighting."
+    family_notes: Intense demon-fighting FPS; adults/older players only.
+    popularity: Editorial selection
+    sources: []
+  - title: Resident Evil 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Landmark survival-horror classic impressively compressed onto N64.
+    family_notes: Scary zombies and gore; adults/older players only.
+    popularity: Editorial selection
+    sources: []
+  - title: Castlevania
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Atmospheric 3D gothic action-adventure with two playable heroes.
+    family_notes: Monster theme and 3D platforming; preview first.
+    popularity: Editorial selection
+    sources: []
+  - title: Castlevania - Legacy of Darkness
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: "Expanded 3D Castlevania with Cornell's quest and refined camera."
+    family_notes: Gothic monster action; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: "Tony Hawk's Pro Skater 2"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: All-time classic trick-combo skateboarding with split-screen modes.
+    family_notes: Endless replayability and energetic two-player score battles.
+    popularity: Editorial selection
+    sources: []
+  - title: "Tony Hawk's Skateboarding"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: The groundbreaking original arcade skateboarding classic.
+    family_notes: Easy to pick up for quick two-minute trick runs.
+    popularity: Editorial selection
+    sources: []
+  - title: Gauntlet Legends
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Arcade-style 3D dungeon brawler built for couch co-op.
+    family_notes: Fantasy monster-slaying; great shared action.
+    popularity: Editorial selection
+    sources: []
+  - title: RR64 - Ridge Racer 64
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Silky-smooth arcade drift racing with split-screen versus.
+    family_notes: Accessible arcade handling and upbeat tracks.
+    popularity: Editorial selection
+    sources: []
+  - title: Wipeout 64
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: High-speed anti-gravity combat racing.
+    family_notes: Fast futuristic tracks with two-player split-screen.
+    popularity: Editorial selection
+    sources: []
+  - title: Hydro Thunder
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Over-the-top arcade speedboat racing across wild courses.
+    family_notes: "Big jumps, boost pads, and instant couch fun."
+    popularity: Editorial selection
+    sources: []
+  - title: Extreme-G
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Blistering futuristic motorcycle racing with split-screen battles.
+    family_notes: Super-fast arcade pacing and neon tracks.
+    popularity: Editorial selection
+    sources: []
+  - title: Extreme-G XG2
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: "Faster, sleeker futuristic bike racing sequel."
+    family_notes: High-speed split-screen racing for action fans.
+    popularity: Editorial selection
+    sources: []
+  - title: San Francisco Rush - Extreme Racing
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Wild arcade street racing packed with huge jumps and shortcuts.
+    family_notes: Playful stunt-filled races; great two-player fun.
+    popularity: Editorial selection
+    sources: []
+  - title: Rush 2 - Extreme Racing USA
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Adds the legendary Stunt Arena alongside high-flying city races.
+    family_notes: Stunt mode is an instant multiplayer crowd-pleaser.
+    popularity: Editorial selection
+    sources: []
+  - title: "Cruis'n USA"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Breezy cross-country arcade road racing.
+    family_notes: "Simple, forgiving controls ideal for casual two-player races."
+    popularity: Editorial selection
+    sources: []
+  - title: Road Rash 64
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: "Chaotic, comedic motorcycle racing with split-screen mayhem."
+    family_notes: Cartoonish bike combat; laughs in multiplayer.
+    popularity: Editorial selection
+    sources: []
+  - title: Top Gear Rally
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Responsive arcade rally racing with weather and custom paint.
+    family_notes: Approachable off-road drifting and versus play.
+    popularity: Editorial selection
+    sources: []
+  - title: F-1 World Grand Prix
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Polished Formula 1 simulation with challenge scenarios.
+    family_notes: Rewards clean racing lines; great for motorsport fans.
+    popularity: Editorial selection
+    sources: []
+  - title: World Driver Championship
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Sharp GT racing showcase with sleek N64 visuals.
+    family_notes: Satisfying handling and two-player head-to-head races.
+    popularity: Editorial selection
+    sources: []
+  - title: WWF No Mercy
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: fighting
+    reason: Widely hailed as the greatest 3D wrestling game ever made.
+    family_notes: Pro-wrestling action; fantastic couch multiplayer.
+    popularity: Editorial selection
+    sources: []
+  - title: WWF WrestleMania 2000
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: fighting
+    reason: "Deep, fluid AKI-engine pro wrestling with massive roster."
+    family_notes: Great two-player matches and custom arenas.
+    popularity: Editorial selection
+    sources: []
+  - title: WCW-nWo Revenge
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: fighting
+    reason: "Accessible, hard-hitting arcade wrestling classic."
+    family_notes: Easy to learn for immediate couch wrestling bouts.
+    popularity: Editorial selection
+    sources: []
+  - title: "International Superstar Soccer '98"
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: "Crisp, responsive 3D arcade soccer."
+    family_notes: Smooth passing and shooting; great two-player matches.
+    popularity: Editorial selection
+    sources: []
+  - title: International Superstar Soccer 2000
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Refined N64 soccer with career mode and tight controls.
+    family_notes: Top-tier retro couch soccer.
+    popularity: Editorial selection
+    sources: []
+  - title: NBA Hangtime
+    aliases: []
+    play_mode: 2 players; simultaneous
+    genre: sports
+    reason: High-flying 2-on-2 arcade basketball in the NBA Jam tradition.
+    family_notes: Instant two-player fun with flaming dunks.
+    popularity: Editorial selection
+    sources: []
+  - title: "Wayne Gretzky's 3D Hockey '98"
+    aliases: []
+    play_mode: 2 players; simultaneous
+    genre: sports
+    reason: Over-the-top arcade hockey with fiery shots and fast pacing.
+    family_notes: "Accessible, hilarious couch sports action."
+    popularity: Editorial selection
+    sources: []
+  - title: SpaceStation Silicon Valley
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Clever comedic 3D puzzle-platformer swapping robotic animal bodies.
+    family_notes: Whimsical humor and creative abilities throughout.
+    popularity: Editorial selection
+    sources: []
+  - title: Glover
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Unique 3D platformer guiding a magic bouncing ball.
+    family_notes: Playful fantasy tone; ball physics take a little practice.
+    popularity: Editorial selection
+    sources: []
+  - title: Gex 64 - Enter the Gecko
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: TV-parody 3D collectathon platformer.
+    family_notes: Lighthearted cartoon worlds and classic N64 exploration.
+    popularity: Editorial selection
+    sources: []
+  - title: Gex 3 - Deep Cover Gecko
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Refined sequel with diverse movie-themed stages.
+    family_notes: Colorful 3D platforming with playful humor.
+    popularity: Editorial selection
+    sources: []
+  - title: Chameleon Twist
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: platform
+    reason: Cute tongue-swinging 3D platformer with multiplayer battle mode.
+    family_notes: "Bright, kid-friendly visuals and playful mechanics."
+    popularity: Editorial selection
+    sources: []
+  - title: Chameleon Twist 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Expanded chameleon platforming with tighter stage design.
+    family_notes: "Colorful, approachable 3D stages."
+    popularity: Editorial selection
+    sources: []
+  - title: Tetrisphere
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Inventive 3D spherical puzzle game with standout electronic music.
+    family_notes: Unique spatial puzzling plus two-player versus.
+    popularity: Editorial selection
+    sources: []
+  - title: Bust-A-Move 2 - Arcade Edition
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: puzzle
+    reason: Bright bubble-popping puzzle fun with crisp two-player versus.
+    family_notes: Intuitive rules for players of any age.
+    popularity: Editorial selection
+    sources: []
+  - title: Worms Armageddon
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: strategy
+    reason: Turn-based cartoon artillery comedy with wild weapons.
+    family_notes: Hilarious pass-and-play or two-controller matches.
+    popularity: Editorial selection
+    sources: []
+  - title: Turok 2 - Seeds of Evil
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: shooter
+    reason: Expansive dinosaur-hunting FPS with creative weapons and multiplayer.
+    family_notes: Sci-fi/dinosaur violence; preview for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: Star Wars Episode I - Battle for Naboo
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Vehicle-action spiritual sequel to Rogue Squadron.
+    family_notes: Exciting Star Wars land and air missions.
+    popularity: Editorial selection
+    sources: []
 PC Engine:
   - title: Bonk's Adventure
     aliases:
@@ -3234,3 +4875,419 @@ PC Engine:
     popularity: Editorial selection
     sources: []
     allow_japanese: true
+  - title: Cadash
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: rpg
+    reason: Arcade side-scrolling action-RPG with four fantasy classes.
+    family_notes: Great two-player co-op sword-and-magic adventure.
+    popularity: Editorial selection
+    sources: []
+  - title: Military Madness
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: strategy
+    reason: Landmark hex-grid sci-fi turn-based strategy classic.
+    family_notes: Thoughtful tactical battles; fun to plan moves together.
+    popularity: Editorial selection
+    sources: []
+  - title: Splatterhouse
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Iconic horror-themed side-scrolling beat-em-up.
+    family_notes: Horror monsters and gore; adults/older players only.
+    popularity: Editorial selection
+    sources: []
+  - title: Raiden
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: shooter
+    reason: Crisp arcade vertical shooter with classic spread and laser weapons.
+    family_notes: Fast-paced shooting; strong two-player co-op option.
+    popularity: Editorial selection
+    sources: []
+  - title: Fantasy Zone
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Cheerful pastel arcade shooter with weapon shops.
+    family_notes: "Bright, upbeat visuals and short arcade runs."
+    popularity: Editorial selection
+    sources: []
+  - title: SideArms - Hyper Dyne
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Bi-directional flying-mech arcade shooter from Capcom.
+    family_notes: Brisk sci-fi shooting with transforming firepower.
+    popularity: Editorial selection
+    sources: []
+  - title: Bloody Wolf
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Punchy overhead commando rescue action with motorcycle stages.
+    family_notes: Arcade military action and explosions; preview first.
+    popularity: Editorial selection
+    sources: []
+  - title: Cyber Core
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Insect-themed vertical shooter with smooth scrolling and power-ups.
+    family_notes: Energetic arcade shooting sessions.
+    popularity: Editorial selection
+    sources: []
+  - title: Dead Moon
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Sleek horizontal space shooter with detailed moonbase stages.
+    family_notes: Classic 16-bit shooting with brisk pacing.
+    popularity: Editorial selection
+    sources: []
+  - title: Ordyne
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: shooter
+    reason: "Colorful, lighthearted horizontal shooter with mid-stage shops."
+    family_notes: Cartoonish visuals and fun two-player co-op.
+    popularity: Editorial selection
+    sources: []
+  - title: Psychosis
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: "Surreal, imaginative horizontal shooter with rotating shield pods."
+    family_notes: Unique dreamlike art style and steady challenge.
+    popularity: Editorial selection
+    sources: []
+  - title: Sinistron
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Horizontal space shooter featuring an armored nose-cone shield.
+    family_notes: Tight arcade shooting with creative ship mechanics.
+    popularity: Editorial selection
+    sources: []
+  - title: Shockman
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: action
+    reason: Bright Mega Man-inspired action-platformer with two-player co-op.
+    family_notes: Colorful stages and fun shared superhero action.
+    popularity: Editorial selection
+    sources: []
+  - title: Turrican
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Sprawling run-and-gun exploration packed with secrets.
+    family_notes: Energetic sci-fi action and big stages.
+    popularity: Editorial selection
+    sources: []
+  - title: Vigilante
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Kung-Fu-style arcade street brawler with nunchaku action.
+    family_notes: "Simple, direct beat-em-up rounds; preview first."
+    popularity: Editorial selection
+    sources: []
+  - title: Veigues - Tactical Gladiator
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Heavy-mech run-and-gun with upgradable armor and shields.
+    family_notes: Methodical sci-fi action with satisfying power-ups.
+    popularity: Editorial selection
+    sources: []
+  - title: Bravoman
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Quirky stretching-limb superhero comedy action-platformer.
+    family_notes: Playful cartoon tone and goofy villains.
+    popularity: Editorial selection
+    sources: []
+  - title: Pac-Land
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Classic arcade side-scrolling Pac-Man adventure.
+    family_notes: "Cheerful, family-friendly platforming with retro charm."
+    popularity: Editorial selection
+    sources: []
+  - title: Keith Courage in Alpha Zones
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Iconic TurboGrafx-16 launch platformer with mech transformations.
+    family_notes: Accessible early stages and nostalgic 16-bit charm.
+    popularity: Editorial selection
+    sources: []
+  - title: Samurai-Ghost
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Large-sprite mythological sword-action sequel to Genpei Touma Den.
+    family_notes: Bold Japanese folklore visuals and brisk combat.
+    popularity: Editorial selection
+    sources: []
+  - title: Night Creatures
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Gothic monster-hunting action-platformer.
+    family_notes: Horror theme and combat; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: Ghost Manor
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Spooky cartoon haunted-house action-platformer.
+    family_notes: Halloween-style monsters and accessible stage pacing.
+    popularity: Editorial selection
+    sources: []
+  - title: "J.J. & Jeff"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Slapstick comedy platformer packed with hidden secrets.
+    family_notes: Goofy cartoon humor and brisk Wonder Boy-style jumps.
+    popularity: Editorial selection
+    sources: []
+  - title: Impossamole
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Martial-arts superhero mole platformer with varied worlds.
+    family_notes: Colorful cartoon stages with challenging jumps.
+    popularity: Editorial selection
+    sources: []
+  - title: Time Cruise
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: arcade
+    reason: Multi-screen sci-fi video pinball with time-travel bonus tables.
+    family_notes: "Great pinball companion to Alien Crush and Devil's Crush."
+    popularity: Editorial selection
+    sources: []
+  - title: Chew Man Fu
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: puzzle
+    reason: Clever ball-rolling maze puzzler with two-player co-op.
+    family_notes: "Bright, inventive puzzle rounds great for family play."
+    popularity: Editorial selection
+    sources: []
+  - title: Cratermaze
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Pit-digging arcade maze-chase puzzler.
+    family_notes: "Simple rules and quick, charming stages."
+    popularity: Editorial selection
+    sources: []
+  - title: Boxyboy
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Classic Sokoban crate-pushing logic puzzles.
+    family_notes: "Calm, brain-teasing puzzles to solve together."
+    popularity: Editorial selection
+    sources: []
+  - title: Tricky Kick
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Sliding-tile matching puzzler with playful anime themes.
+    family_notes: Relaxed pace and clever stage layouts.
+    popularity: Editorial selection
+    sources: []
+  - title: Ballistix
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: arcade
+    reason: Futuristic puck-shooting arena sport for one or two players.
+    family_notes: "Quick, energetic head-to-head arcade matches."
+    popularity: Editorial selection
+    sources: []
+  - title: Drop.Off
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: arcade
+    reason: Fast brick-breaking arcade action with power-ups.
+    family_notes: "Simple, pick-up-and-play paddle rounds."
+    popularity: Editorial selection
+    sources: []
+  - title: Timeball
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: arcade
+    reason: Rolling-ball puzzle-action racing the clock.
+    family_notes: "Short, tactile arcade stages."
+    popularity: Editorial selection
+    sources: []
+  - title: Somer Assault
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Unique wall-crawling mechanical-slinky 360-degree shooter.
+    family_notes: Creative concept with zodiac-themed bosses.
+    popularity: Editorial selection
+    sources: []
+  - title: Moto Roader
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Top-down futuristic street racing built for multiplayer chaos.
+    family_notes: "Short, lively couch racing rounds."
+    popularity: Editorial selection
+    sources: []
+  - title: Final Lap Twin
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: racing
+    reason: Pole Position-style arcade racing plus a quirky racing-RPG mode.
+    family_notes: Fun split-screen racing and lighthearted adventure.
+    popularity: Editorial selection
+    sources: []
+  - title: "F1 Circus '91 - World Championship"
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Snappy top-down Formula 1 racing with deep car tuning.
+    family_notes: Smooth speed and crisp cornering.
+    popularity: Editorial selection
+    sources: []
+  - title: World Circuit
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Accessible top-down grand prix racing.
+    family_notes: Quick arcade laps with clean visuals.
+    popularity: Editorial selection
+    sources: []
+  - title: Order of the Griffon
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: "Classic Dungeons & Dragons first-person fantasy RPG."
+    family_notes: Reading and tactical turn-based battles; parent leads.
+    popularity: Editorial selection
+    sources: []
+  - title: Double Dungeons - W
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: rpg
+    reason: Split-screen two-player first-person dungeon crawler.
+    family_notes: Rare simultaneous co-op RPG for couch exploration.
+    popularity: Editorial selection
+    sources: []
+  - title: Silent Debuggers
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Atmospheric first-person sci-fi corridor shooter.
+    family_notes: Tense alien-hunting exploration; preview first.
+    popularity: Editorial selection
+    sources: []
+  - title: Hit the Ice - VHL - The Official Video Hockey League
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Over-the-top arcade 3-on-3 hockey with super shots.
+    family_notes: Rowdy cartoon sports action; great two-player versus.
+    popularity: Editorial selection
+    sources: []
+  - title: Super Volleyball
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: "Crisp, responsive indoor arcade volleyball."
+    family_notes: Easy to learn for lively two-player rallies.
+    popularity: Editorial selection
+    sources: []
+  - title: World Beach Volley
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Sunny 2-on-2 beach volleyball with smooth arcade controls.
+    family_notes: "Breezy, family-friendly versus sports."
+    popularity: Editorial selection
+    sources: []
+  - title: Sonic Spike - World Championship Beach Volleyball
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Fast arcade beach volleyball with world tour teams.
+    family_notes: Fun two-player couch rallies.
+    popularity: Editorial selection
+    sources: []
+  - title: Pro Tennis World Court
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Classic Namco arcade tennis with a surprise tennis-RPG quest.
+    family_notes: Approachable two-player matches plus quirky solo mode.
+    popularity: Editorial selection
+    sources: []
+  - title: Davis Cup Tennis
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: "Clean, realistic 16-bit court tennis."
+    family_notes: Solid two-player head-to-head tennis option.
+    popularity: Editorial selection
+    sources: []
+  - title: Power Golf
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: sports
+    reason: "Relaxed, colorful 16-bit golf classic."
+    family_notes: Easy pass-and-play rounds for all ages.
+    popularity: Editorial selection
+    sources: []
+  - title: World Class Baseball
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Classic arcade baseball with crisp pitching and batting.
+    family_notes: Great nostalgic two-player couch baseball.
+    popularity: Editorial selection
+    sources: []
+  - title: TV Sports Football
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Broadcast-style arcade football with clear presentation.
+    family_notes: Energetic two-player sports sessions.
+    popularity: Editorial selection
+    sources: []
+  - title: TV Sports Basketball
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Fast broadcast-style arcade basketball.
+    family_notes: Fun two-player court matchups.
+    popularity: Editorial selection
+    sources: []
+  - title: TV Sports Hockey
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: Brisk arcade ice hockey with two-player versus.
+    family_notes: "Quick, accessible hockey periods."
+    popularity: Editorial selection
+    sources: []
+  - title: World Sports Competition
+    aliases: []
+    play_mode: 2 players; competitive
+    genre: sports
+    reason: "Multi-event Olympic track, swimming, and archery showcase."
+    family_notes: Great party-style variety for two players.
+    popularity: Editorial selection
+    sources: []

@@ -237,8 +237,47 @@ func TestNormalizedRegionScoreAndParseCounts(t *testing.T) {
 	if got := SanitizeThumbnailName("Chip 'n Dale: Rescue Rangers & Friends"); got != "Chip 'n Dale_ Rescue Rangers _ Friends" {
 		t.Fatalf("sanitized = %q", got)
 	}
-	counts, err := ParseCounts("30,40,50")
-	if err != nil || len(counts) != 3 || counts[0] != 30 || counts[1] != 40 || counts[2] != 50 {
+	counts, err := ParseCounts("30,40,50,60,70,80,90,100")
+	if err != nil || len(counts) != 8 || counts[0] != 30 || counts[7] != 100 {
 		t.Fatalf("ParseCounts = %v, %v", counts, err)
+	}
+	allCounts, err := ParseCounts("all")
+	wantAll := []int{30, 40, 50, 60, 70, 80, 90, 100}
+	if err != nil || len(allCounts) != len(wantAll) {
+		t.Fatalf("ParseCounts(all) = %v, %v", allCounts, err)
+	}
+	for i, want := range wantAll {
+		if allCounts[i] != want {
+			t.Fatalf("ParseCounts(all)[%d] = %d, want %d", i, allCounts[i], want)
+		}
+	}
+	emptyCounts, err := ParseCounts("")
+	if err != nil || len(emptyCounts) != len(wantAll) {
+		t.Fatalf("ParseCounts(\"\") = %v, %v", emptyCounts, err)
+	}
+}
+
+func TestCurationCoversUpToTop100(t *testing.T) {
+	dataDir := filepath.Join("..", "..", "config")
+	lib, err := Load(dataDir)
+	if err != nil {
+		t.Fatalf("Load: %v", err)
+	}
+	if err := lib.LoadCuration(dataDir); err != nil {
+		t.Fatalf("LoadCuration: %v", err)
+	}
+	for _, c := range Consoles {
+		entries := lib.Curated[c.Folder]
+		if len(entries) < 100 {
+			t.Errorf("%s has %d curated entries, want at least 100", c.Folder, len(entries))
+		}
+		seen := map[string]bool{}
+		for _, e := range entries {
+			key := Normalized(e.Title)
+			if seen[key] {
+				t.Errorf("%s has duplicate curated title %q", c.Folder, e.Title)
+			}
+			seen[key] = true
+		}
 	}
 }

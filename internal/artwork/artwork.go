@@ -11,11 +11,13 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
 	"time"
+	"unicode/utf8"
 
 	"github.com/fabiogoma/retroarch/internal/library"
 	"github.com/fabiogoma/retroarch/internal/util"
@@ -311,14 +313,51 @@ func downloadBezels(client *http.Client, bezelDir string, workers int, dryRun bo
 }
 
 func downloadPNG(ctx context.Context, client *http.Client, rawURL, dest string) error {
-	data, err := getBytes(ctx, client, rawURL)
+	const maxSymlinkHops = 5
+	curURL := rawURL
+	for hop := 0; hop <= maxSymlinkHops; hop++ {
+		data, err := getBytes(ctx, client, curURL)
+		if err != nil {
+			return err
+		}
+		if bytes.HasPrefix(data, pngMagic) {
+			return writeAtomic(dest, data)
+		}
+		// raw.githubusercontent.com serves Git symlinks as plain text containing the relative target path.
+		nextURL, ok := resolveGitSymlinkURL(curURL, data)
+		if !ok || hop == maxSymlinkHops {
+			return fmt.Errorf("response is not a valid PNG: %s", curURL)
+		}
+		curURL = nextURL
+	}
+	return fmt.Errorf("response is not a valid PNG: %s", rawURL)
+}
+
+func resolveGitSymlinkURL(rawURL string, data []byte) (string, bool) {
+	if len(data) == 0 || len(data) > 1024 {
+		return "", false
+	}
+	target := string(bytes.TrimRight(data, "\r\n"))
+	if target == "" || !utf8.ValidString(target) || strings.ContainsAny(target, "\r\n\x00") {
+		return "", false
+	}
+	if strings.HasPrefix(target, "/") || strings.Contains(target, "://") {
+		return "", false
+	}
+	if !strings.HasSuffix(strings.ToLower(target), ".png") {
+		return "", false
+	}
+	u, err := url.Parse(rawURL)
 	if err != nil {
-		return err
+		return "", false
 	}
-	if !bytes.HasPrefix(data, pngMagic) {
-		return fmt.Errorf("response is not a valid PNG: %s", rawURL)
+	resolved := path.Clean(path.Join(path.Dir(u.Path), target))
+	if !strings.HasPrefix(resolved, "/") || resolved == u.Path {
+		return "", false
 	}
-	return writeAtomic(dest, data)
+	u.Path = resolved
+	u.RawPath = ""
+	return u.String(), true
 }
 
 func writeAtomic(dest string, data []byte) error {

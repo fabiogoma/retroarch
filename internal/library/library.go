@@ -14,12 +14,13 @@ import (
 
 // ConsoleInfo describes one supported Apple TV console.
 type ConsoleInfo struct {
-	Slug         string
-	Folder       string
-	Core         string
-	System       string
-	LibretroRepo string
-	DPadOnly     bool
+	Slug             string
+	Folder           string
+	Core             string
+	System           string
+	LibretroRepo     string
+	DPadOnly         bool
+	AspectRatioIndex string
 }
 
 // Consoles is the single source of truth for every supported console.
@@ -30,6 +31,7 @@ var Consoles = []ConsoleInfo{
 	{Slug: "master-system", Folder: "master system", Core: "Genesis Plus GX", System: "Sega - Master System - Mark III", LibretroRepo: "Sega_-_Master_System_-_Mark_III", DPadOnly: true},
 	{Slug: "pc-engine", Folder: "PC Engine", Core: "Beetle PCE Fast", System: "NEC - PC Engine - TurboGrafx 16", LibretroRepo: "NEC_-_PC_Engine_-_TurboGrafx_16", DPadOnly: true},
 	{Slug: "n64", Folder: "n64", Core: "Mupen64Plus-Next", System: "Nintendo - Nintendo 64", LibretroRepo: "Nintendo_-_Nintendo_64", DPadOnly: false},
+	{Slug: "gba", Folder: "gba", Core: "mGBA", System: "Nintendo - Game Boy Advance", LibretroRepo: "Nintendo_-_Game_Boy_Advance", DPadOnly: true, AspectRatioIndex: "7"},
 }
 
 // ConsoleByFolder looks up console metadata by its ROM folder name.

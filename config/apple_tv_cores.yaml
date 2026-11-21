@@ -16,3 +16,6 @@
 - system: Nintendo - Nintendo 64
   core_path: :/Frameworks/mupen64plus.next.libretro.framework
   core_name: Nintendo - Nintendo 64 (Mupen64Plus-Next)
+- system: Nintendo - Game Boy Advance
+  core_path: :/Frameworks/mgba.libretro.framework
+  core_name: Nintendo - Game Boy Advance (mGBA)

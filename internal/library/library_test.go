@@ -281,3 +281,32 @@ func TestCurationCoversUpToTop100(t *testing.T) {
 		}
 	}
 }
+
+func TestGBAExportAndPlaylist(t *testing.T) {
+	root := t.TempDir()
+	dataDir := filepath.Join(root, "config")
+	stateDir := filepath.Join(root, "state")
+	romsDir := filepath.Join(root, "ROMs")
+	if err := os.MkdirAll(filepath.Join(romsDir, "gba"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(dataDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	os.WriteFile(filepath.Join(dataDir, "consoles.yaml"), []byte("gba:\n  extensions: [.gba]\n  folder_aliases: [gba, game boy advance]\n"), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "apple_tv_cores.yaml"), []byte("- system: Nintendo - Game Boy Advance\n  core_path: :/Frameworks/mgba.libretro.framework\n  core_name: Nintendo - Game Boy Advance (mGBA)\n"), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "curation.yaml"), []byte("gba:\n  - title: Metroid Fusion\n    aliases: []\n    play_mode: 1 player\n    genre: adventure\n    reason: Action\n    family_notes: \"\"\n    popularity: \"\"\n    sources: []\n"), 0o644)
+	os.WriteFile(filepath.Join(romsDir, "gba", "Metroid Fusion (USA).gba"), []byte("gba-rom"), 0o644)
+
+	if err := Build(BuildOptions{DataDir: dataDir, StateDir: stateDir, ROMsDir: romsDir, Counts: []int{10}}); err != nil {
+		t.Fatalf("Build GBA failed: %v", err)
+	}
+	plRaw, err := os.ReadFile(filepath.Join(romsDir, "AppleTV-Top10", "playlists", "Nintendo - Game Boy Advance.lpl"))
+	if err != nil {
+		t.Fatalf("missing GBA playlist: %v", err)
+	}
+	if !strings.Contains(string(plRaw), "~/Library/Caches/RetroArch/downloads/ROMS/gba/Metroid Fusion.gba") ||
+		!strings.Contains(string(plRaw), ":/Frameworks/mgba.libretro.framework") {
+		t.Fatalf("unexpected GBA playlist content: %s", plRaw)
+	}
+}

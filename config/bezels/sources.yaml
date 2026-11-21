@@ -40,3 +40,10 @@ n64:
   git_blob_sha1: 41ac0538541b65ce4e372d54c79ae1d5835407dd
   sha256: 92e27331ec1cfc56869fc06d35495aff3c9c5f9c420915059d3334a5c93e1981
   modified: false
+gba:
+  author: The Bezel Project
+  collection: bezelproject-GBA
+  source: https://raw.githubusercontent.com/thebezelproject/bezelproject-GBA/master/retroarch/overlay/Nintendo-Game-Boy-Advance.png
+  git_blob_sha1: a0eeed0de6c8bc8577ec67c3534928adfb0c1be9
+  sha256: fee1497c0a5624aa556b6b97900955a24a594c4ac69ae0dcc6a2cafb972a5576
+  modified: false

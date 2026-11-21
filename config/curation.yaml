@@ -5291,3 +5291,961 @@ PC Engine:
     family_notes: Great party-style variety for two players.
     popularity: Editorial selection
     sources: []
+gba:
+  - title: Magical Quest Starring Mickey & Minnie
+    aliases:
+      - Disney's Magical Quest Starring Mickey & Minnie
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Classic Capcom Mickey platformer with costume powers, enhanced for GBA.
+    family_notes: Bright, approachable Disney platforming for all ages.
+    popularity: Editorial selection
+    sources: []
+    mickey: true
+  - title: Magical Quest 2 Starring Mickey & Minnie
+    aliases:
+      - Disney's Magical Quest 2 Starring Mickey & Minnie
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Great Circus Mystery returns on GBA starring Mickey and Minnie.
+    family_notes: Playful circus stages and costume abilities; great for family play.
+    popularity: Editorial selection
+    sources: []
+    mickey: true
+  - title: Magical Quest 3 Starring Mickey & Donald
+    aliases:
+      - Disney's Magical Quest 3 Starring Mickey & Donald
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: English GBA release of Capcom's third Magical Quest starring Mickey and Donald.
+    family_notes: Colorful stages and cooperative-feel character swaps.
+    popularity: Editorial selection
+    sources: []
+    mickey: true
+  - title: Legend of Zelda, The - The Minish Cap
+    aliases:
+      - Legend of Zelda - The Minish Cap
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Capcom-developed 2D Zelda adventure with shrinking puzzles and rich pixel art.
+    family_notes: Reading, puzzles, and fantasy combat; parent helps younger players.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Super Mario Advance 4 - Super Mario Bros. 3
+    aliases:
+      - Super Mario Bros. 3 - Super Mario Advance 4
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Enhanced GBA edition of Super Mario Bros. 3 with vibrant visuals and save support.
+    family_notes: Recognizable Mario levels; later worlds need careful timing.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Super Mario Advance 2 - Super Mario World
+    aliases:
+      - Super Mario World - Super Mario Advance 2
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Portable Super Mario World with Luigi physics and save-anywhere progress.
+    family_notes: Forgiving early stages and Yoshi riding make it great for family turns.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Mario Kart - Super Circuit
+    aliases:
+      - Mario Kart Super Circuit
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Fast arcade Mario Kart racing with all SNES tracks unlockable.
+    family_notes: Easy to pick up on 50cc; great for taking turns on time trials and cups.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Pokemon - Emerald Version
+    aliases:
+      - Pokémon Emerald
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Definitive Gen III Pokémon adventure with Battle Frontier and animated sprites.
+    family_notes: Reading-heavy RPG; kids love collecting and trading favorite monsters.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Metroid Fusion
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Atmospheric, story-driven 2D Metroid action with tight controls.
+    family_notes: Mild sci-fi tension and boss fights; best for older kids or parents.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Kirby - Nightmare in Dream Land
+    aliases:
+      - Kirby Nightmare in Dream Land
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Bright, welcoming Kirby remake with copy abilities and minigames.
+    family_notes: Very approachable difficulty; ideal for younger players.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Scooby-Doo! - Mystery Mayhem
+    aliases:
+      - Scooby-Doo - Mystery Mayhem
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Cartoon mystery adventure starring Scooby-Doo and Shaggy.
+    family_notes: Mild cartoon spookiness; fun exploration for Scooby-Doo fans.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Scooby-Doo! - Unmasked
+    aliases:
+      - Scooby-Doo - Unmasked
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Action-platformer with Scooby-Doo costumes and cartoon villains.
+    family_notes: Cartoon mischief and lighthearted platforming.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Super Mario Advance 3 - Yoshi's Island
+    aliases:
+      - Yoshi's Island - Super Mario Advance 3
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Storybook art style and inventive egg-throwing platforming.
+    family_notes: Gentle pacing and charming visuals; great family favorite.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Legend of Zelda, The - A Link to the Past & Four Swords
+    aliases:
+      - Legend of Zelda - A Link to the Past & Four Swords
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Timeless 16-bit Zelda adventure ported cleanly to GBA.
+    family_notes: Reading, puzzles, and fantasy combat; parent leads for younger children.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Mario & Luigi - Superstar Saga
+    aliases:
+      - Mario and Luigi - Superstar Saga
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Hilarious timed-hit Mario RPG with charming animations.
+    family_notes: Reading and timing-based battles; funny slapstick story.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Pokemon - FireRed Version
+    aliases:
+      - Pokémon FireRed
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Vibrant GBA remake of the original Kanto Pokémon adventure.
+    family_notes: Accessible turn-based RPG with classic Pokémon roster.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Metroid - Zero Mission
+    aliases:
+      - Metroid Zero Mission
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Ground-up remake of the original Metroid with fluid controls and bonus chapter.
+    family_notes: Sci-fi exploration and bosses; crisp pacing for short sessions.
+    popularity: Editorial selection
+    sources: []
+  - title: Castlevania - Aria of Sorrow
+    aliases:
+      - Castlevania Aria of Sorrow
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Standout GBA action-adventure with soul-collecting abilities.
+    family_notes: Gothic monsters and fantasy combat; best for teens and adults.
+    popularity: Editorial selection
+    sources: []
+  - title: Sonic Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Classic 2D Sonic speed and four playable characters on GBA.
+    family_notes: Fast, colorful stages with cartoon robot enemies.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Donkey Kong Country
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Jungle platforming adventure with bonus GBA minigames.
+    family_notes: Some tricky mine-cart and barrel jumps; fun to pass the controller.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Advance Wars
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Accessible, brightly styled turn-based tactics classic.
+    family_notes: Cartoon military units and puzzle-like strategy missions.
+    popularity: Editorial selection
+    sources: []
+  - title: Golden Sun
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Gorgeous fantasy RPG with dungeon puzzles and Djinn summons.
+    family_notes: Story-driven fantasy RPG; best for readers.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Kirby & the Amazing Mirror
+    aliases:
+      - Kirby and the Amazing Mirror
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Open-ended Kirby exploration with colorful interconnected worlds.
+    family_notes: Friendly action and forgiving health; great for kids.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Wario Land 4
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Expressive, treasure-hunting platformer full of creative transformations.
+    family_notes: Goofy cartoon humor and forgiving exploration.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: WarioWare, Inc. - Mega Microgame$!
+    aliases:
+      - WarioWare, Inc. - Minigame Mania
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Rapid-fire five-second microgames that keep everyone laughing.
+    family_notes: Instant fun for passing the controller between players.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Mario vs. Donkey Kong
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Clever puzzle-platformer carrying the spirit of Donkey Kong '94.
+    family_notes: Short bite-sized puzzle stages great for solving together.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Pokemon - LeafGreen Version
+    aliases:
+      - Pokémon LeafGreen
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Companion Kanto remake with version-exclusive Pokémon.
+    family_notes: Friendly turn-based RPG with classic characters.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Fire Emblem
+    aliases:
+      - Fire Emblem - The Blazing Blade
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Landmark tactical RPG with memorable characters and crisp animations.
+    family_notes: Fantasy sword-and-magic battles; strategic depth for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy Tactics Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Deep, colorful isometric tactics RPG with dozens of job classes.
+    family_notes: Storybook fantasy setting and turn-based battles.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Sonic Advance 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Blistering high-speed Sonic platformer introducing Cream the Rabbit.
+    family_notes: Fast cartoon action; boss stages can be challenging.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Scooby-Doo 2 - Monsters Unleashed
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Movie tie-in platformer with classic Scooby-Doo monsters.
+    family_notes: Mild cartoon monsters; approachable family platforming.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Scooby-Doo and the Cyber Chase
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Side-scrolling Scooby-Doo adventure through themed movie worlds.
+    family_notes: Cartoon mischief and easy-to-follow stages.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Aladdin
+    aliases:
+      - Disney's Aladdin
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Enhanced GBA port of Capcom's beloved SNES Aladdin platformer.
+    family_notes: Colorful Disney adventure with flying-carpet stages.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Lilo & Stitch
+    aliases:
+      - Lilo and Stitch
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Surprisingly punchy run-and-gun Disney action game starring Stitch.
+    family_notes: Cartoon sci-fi blasters and upbeat Hawaiian setting.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Kingdom Hearts - Chain of Memories
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Action RPG blending Disney worlds with card-based combat.
+    family_notes: Features Donald, Goofy, and classic Disney characters.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Mega Man Zero
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Razor-sharp 2D action platformer with saber and buster combat.
+    family_notes: High difficulty; great for experienced action fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Castlevania - Circle of the Moon
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Launch-day Castlevania classic with Dual Setup card combos.
+    family_notes: Gothic monsters and challenging bosses; best for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: Astro Boy - Omega Factor
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Treasure-developed superhero beat-em-up and shooter showcase.
+    family_notes: Animated robot action with energetic boss battles.
+    popularity: Editorial selection
+    sources: []
+  - title: Teenage Mutant Ninja Turtles
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Konami's arcade-style TMNT brawler with all four turtles.
+    family_notes: Cartoon martial arts action; great match for beat-em-up fans.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Donkey Kong Country 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Diddy and Dixie's acclaimed pirate-themed platformer on GBA.
+    family_notes: Challenging jumps and bonus rooms; fun to alternate turns.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Advance Wars 2 - Black Hole Rising
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Expanded campaign, new COs, and refined tactical maps.
+    family_notes: Cartoon strategy warfare with forgiving tutorial missions.
+    popularity: Editorial selection
+    sources: []
+  - title: Golden Sun - The Lost Age
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Direct sequel expanding Golden Sun with open-sea exploration.
+    family_notes: Story-heavy fantasy RPG with clever environmental puzzles.
+    popularity: Editorial selection
+    sources: []
+  - title: Fire Emblem - The Sacred Stones
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Accessible Fire Emblem with world-map skirmishes and branching classes.
+    family_notes: Fantasy tactical battles; easier entry point than the first GBA game.
+    popularity: Editorial selection
+    sources: []
+  - title: Pokemon - Ruby Version
+    aliases:
+      - Pokémon Ruby
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Hoenn Pokémon adventure featuring Groudon and Team Magma.
+    family_notes: Family-friendly monster collecting and turn-based battles.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Pokemon - Sapphire Version
+    aliases:
+      - Pokémon Sapphire
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Companion Hoenn adventure featuring Kyogre and Team Aqua.
+    family_notes: Family-friendly monster collecting and turn-based battles.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Final Fantasy VI Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Acclaimed ensemble RPG with revised translation and bonus dungeons.
+    family_notes: Rich story and fantasy combat; best for older readers.
+    popularity: Editorial selection
+    sources: []
+  - title: Sonic Advance 3
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Tag-team Sonic platforming with customizable partner abilities.
+    family_notes: Bright, energetic stages with cartoon enemies.
+    popularity: Editorial selection
+    sources: []
+  - title: Mario Golf - Advance Tour
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: sports
+    reason: Camelot's charming golf RPG with crisp three-click swings.
+    family_notes: Relaxed pace and easy-to-learn controls for all ages.
+    popularity: Editorial selection
+    sources: []
+  - title: Mario Tennis - Power Tour
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: sports
+    reason: Snappy arcade tennis combined with an engaging RPG story mode.
+    family_notes: Accessible sports action with fun special shots.
+    popularity: Editorial selection
+    sources: []
+  - title: Super Mario Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Super Mario Bros. 2 enhanced for GBA plus classic Mario Bros. arcade.
+    family_notes: Playable Mario, Luigi, Peach, and Toad with playful vegetable-tossing action.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Drill Dozer
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Game Freak's inventive drill-mech action platformer.
+    family_notes: Expressive cartoon art and tactile gear-shifting mechanics.
+    popularity: Editorial selection
+    sources: []
+  - title: Gunstar Super Heroes
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Explosive Treasure run-and-gun sequel bursting with set pieces.
+    family_notes: Colorful arcade action with selectable difficulty modes.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man Zero 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Refined Mega Man Zero sequel with forms and chain rod mobility.
+    family_notes: Fast, demanding sci-fi platforming.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man Zero 3
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Peak of the Zero series with tight stage design and recoil rod.
+    family_notes: Challenging action platformer for experienced players.
+    popularity: Editorial selection
+    sources: []
+  - title: Castlevania - Harmony of Dissonance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Fast-paced Castlevania adventure with spellbook combos and dashes.
+    family_notes: Gothic fantasy combat; best for teens and adults.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy IV Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Classic fantasy RPG with party-swapping finale and bonus trials.
+    family_notes: Engaging story and turn-based battles.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy V Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Beloved job-system RPG with extra classes and dungeons.
+    family_notes: Lighthearted adventure tone with deep customization.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fantasy I & II - Dawn of Souls
+    aliases:
+      - Final Fantasy I and II - Dawn of Souls
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Two foundational RPGs modernized with smooth pacing and extra bosses.
+    family_notes: Classic fantasy questing; accessible turn-based play.
+    popularity: Editorial selection
+    sources: []
+  - title: Spider-Man - Mysterio's Menace
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: hero
+    reason: Tight comic-book Spider-Man action with web-swinging and classic villains.
+    family_notes: Superhero combat with cartoon flair.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Batman - Vengeance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: hero
+    reason: Animated-series Batman side-scrolling action and stealth.
+    family_notes: Superhero combat against classic Gotham villains.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Donkey Kong Country 3
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Dixie and Kiddy's platforming adventure with a brand-new GBA soundtrack.
+    family_notes: Varied vehicle stages and secrets to discover together.
+    popularity: Editorial selection
+    sources: []
+  - title: Finding Nemo
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Best-selling Pixar tie-in with varied underwater puzzle and action stages.
+    family_notes: Familiar movie characters and gentle early challenges.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Incredibles, The
+    aliases:
+      - The Incredibles
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Pixar superhero action featuring the Parr family's powers.
+    family_notes: Cartoon superhero action; fun for Disney/Pixar fans.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Lilo & Stitch 2 - Haemsterviel Havoc
+    aliases:
+      - Lilo & Stitch 2 - Hamsterviel Havoc
+      - Lilo & Stitch 2
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Follow-up Stitch action-platformer with gadgets and boss fights.
+    family_notes: Upbeat Disney sci-fi comedy and colorful stages.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Lion King 1 1/2, The
+    aliases:
+      - The Lion King 1 1/2
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Playful Timon and Pumbaa puzzle-platformer with crisp animation.
+    family_notes: Friendly Disney humor and cooperative character switching.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Donald Duck Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: disney
+    reason: Bright side-scrolling platformer starring Donald Duck.
+    family_notes: Classic Disney comedy and approachable platforming.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: TMNT
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Acclaimed Ubisoft GBA beat-em-up with tight combos and upgradeable moves.
+    family_notes: Energetic cartoon martial arts action.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Teenage Mutant Ninja Turtles 2 - Battle Nexus
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Action-platformer sequel letting you swap between all four turtles.
+    family_notes: Cartoon ninja combat and varied stages.
+    popularity: Preference pick; no verified sales claim
+    sources: []
+  - title: Double Dragon Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Definitive reimagining of Double Dragon with deep martial arts combos.
+    family_notes: Classic arcade street brawling; preview for younger kids.
+    popularity: Editorial selection
+    sources: []
+  - title: Final Fight One
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Faithful Capcom arcade brawler enhanced with Street Fighter Alpha extras.
+    family_notes: Arcade punching and kicking action; best for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: F-Zero - Maximum Velocity
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: High-speed futuristic launch racer with technical boost drifting.
+    family_notes: Clean sci-fi racing; fast reflexes rewarded.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: F-Zero - GP Legend
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: racing
+    reason: Story-driven F-Zero racer with accessible handling and tons of tracks.
+    family_notes: Smooth sci-fi racing easier to learn than Maximum Velocity.
+    popularity: Editorial selection
+    sources: []
+  - title: Pokemon Mystery Dungeon - Red Rescue Team
+    aliases:
+      - Pokémon Mystery Dungeon - Red Rescue Team
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Heartfelt roguelike adventure where you play as a Pokémon rescue team.
+    family_notes: Touching story and gentle turn-based dungeon crawling.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Pokemon Pinball - Ruby & Sapphire
+    aliases:
+      - Pokémon Pinball - Ruby & Sapphire
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Addictive arcade pinball packed with Pokémon-catching bonus tables.
+    family_notes: Instant pick-up-and-play fun for taking turns chasing high scores.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Mega Man Battle Network
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Inventive grid-based real-time action RPG with Battle Chips.
+    family_notes: Cyber-adventure setting with clever deck-building combat.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man Battle Network 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Expanded Battle Network sequel introducing Style Changes.
+    family_notes: Energetic grid battles and colorful sci-fi story.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man Battle Network 3 - Blue Version
+    aliases:
+      - Mega Man Battle Network 3 - White Version
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Fan-favorite Battle Network entry with Navi Customizer and postgame depth.
+    family_notes: Strategic real-time battles and engaging story.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man & Bass
+    aliases:
+      - Mega Man and Bass
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Classic-style Mega Man platformer with two distinct playable heroes.
+    family_notes: Tough old-school challenge for action fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Mega Man Zero 4
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Dramatic finale to the Zero saga with weather-changing stages.
+    family_notes: Fast action with an Easy Scenario option for newcomers.
+    popularity: Editorial selection
+    sources: []
+  - title: Tactics Ogre - The Knight of Lodis
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Richly written isometric tactical RPG from the Ogre Battle team.
+    family_notes: Deep fantasy tactics best suited for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: Dragon Ball - Advanced Adventure
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Joyful side-scrolling action-brawler retelling young Goku's journey.
+    family_notes: Upbeat martial arts adventure with tournament duels.
+    popularity: Editorial selection
+    sources: []
+  - title: Dragon Ball Z - The Legacy of Goku II
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Fast-paced action RPG covering the Android and Cell sagas.
+    family_notes: Accessible real-time anime combat and exploration.
+    popularity: Editorial selection
+    sources: []
+  - title: Dragon Ball Z - Buu's Fury
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Polished action RPG sequel with fusion transformations and equipment.
+    family_notes: Energetic anime adventure; easy to pick up.
+    popularity: Editorial selection
+    sources: []
+  - title: Street Fighter Alpha 3
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: fighter
+    reason: Remarkably complete portable Street Fighter with huge roster and modes.
+    family_notes: Classic martial arts fighting; fun for arcade fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Super Street Fighter II Turbo - Revival
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: fighter
+    reason: Updated arcade classic with new stages and crisp controls.
+    family_notes: Fast one-on-one martial arts matches.
+    popularity: Editorial selection
+    sources: []
+  - title: Metal Slug Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Expressive run-and-gun arcade action with collectible cards and vehicles.
+    family_notes: Cartoon military action; fast and punchy.
+    popularity: Editorial selection
+    sources: []
+  - title: Contra Advance - The Alien Wars EX
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: action
+    reason: High-octane Contra run-and-gun action tuned for portable play.
+    family_notes: Intense sci-fi shooter action for veteran players.
+    popularity: Editorial selection
+    sources: []
+  - title: Gradius Galaxies
+    aliases:
+      - Gradius Generation
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Crisp horizontal space shooter with classic power-up bar strategy.
+    family_notes: Clean arcade shooting with selectable difficulty.
+    popularity: Editorial selection
+    sources: []
+  - title: Ninja Five-O
+    aliases:
+      - Ninja Cop
+    play_mode: 1 player; take turns
+    genre: action
+    reason: Cult-classic grappling-hook ninja platformer blending Shinobi and Bionic Commando.
+    family_notes: Tight arcade action with hostage-rescue stages.
+    popularity: Editorial selection
+    sources: []
+  - title: River City Ransom EX
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Expanded beat-em-up RPG with shops, stat upgrades, and slapstick humor.
+    family_notes: Goofy cartoon brawling with tons of replayability.
+    popularity: Editorial selection
+    sources: []
+  - title: Klonoa - Empire of Dreams
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Charming 2D puzzle-platformer with clever enemy-grabbing mechanics.
+    family_notes: Colorful, gentle, and inventive; wonderful for family play.
+    popularity: Editorial selection
+    sources: []
+  - title: Klonoa 2 - Dream Champ Tournament
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Polished puzzle-platformer sequel with hoverboard bonus stages.
+    family_notes: Bright, welcoming stages with clever brain-teasers.
+    popularity: Editorial selection
+    sources: []
+  - title: Rayman Advance
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Hand-drawn fantasy platformer with vivid worlds and music.
+    family_notes: Whimsical cartoon art; later stages get challenging.
+    popularity: Editorial selection
+    sources: []
+  - title: Rayman 3
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Smooth 2D Rayman adventure with varied powers and isometric races.
+    family_notes: Playful cartoon platforming suitable for kids.
+    popularity: Editorial selection
+    sources: []
+  - title: Crash Bandicoot - The Huge Adventure
+    aliases:
+      - Crash Bandicoot XS
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Faithful 2D translation of Crash's crate-smashing platforming.
+    family_notes: Bright cartoon action and forgiving checkpoints.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Crash Bandicoot 2 - N-Tranced
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Varied Crash sequel adding wakeboarding and Atlasphere stages.
+    family_notes: Energetic cartoon platforming with approachable pacing.
+    popularity: Editorial selection
+    sources: []
+  - title: Spyro - Season of Ice
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Colorful isometric dragon adventure full of gems and fairies.
+    family_notes: Friendly fantasy exploration for younger players.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Spyro 2 - Season of Flame
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Improved isometric Spyro adventure with ice breath and smoother controls.
+    family_notes: Bright, family-friendly fantasy platforming.
+    popularity: Editorial selection
+    sources: []
+  - title: Sword of Mana
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Lushly illustrated action RPG remake with dual protagonists.
+    family_notes: Storybook fantasy adventure with real-time combat.
+    popularity: Editorial selection
+    sources: []
+  - title: Shining Force - Resurrection of the Dark Dragon
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: strategy
+    reason: Upgraded GBA remake of Sega's beloved tactical RPG.
+    family_notes: Accessible fantasy strategy with colorful battle scenes.
+    popularity: Editorial selection
+    sources: []
+  - title: Harvest Moon - Friends of Mineral Town
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Cozy farming and village-life classic with endless charm.
+    family_notes: Zero violence; relaxing routine for all ages.
+    popularity: Editorial selection
+    sources: []
+  - title: ChuChu Rocket!
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Frantic cat-and-mouse arrow puzzle game with thousands of stages.
+    family_notes: Silly cartoon chaos and clever brain-teasers.
+    popularity: Editorial selection
+    sources: []
+  - title: Kurukuru Kururin
+    aliases:
+      - Kuru Kuru Kururin
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Addictive spinning-stick maze game with instant one-more-try appeal.
+    family_notes: Simple controls and cheerful visuals; great for taking turns.
+    popularity: Editorial selection
+    sources: []
+  - title: Bomberman Tournament
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Classic Bomberman action paired with a Zelda-style adventure quest.
+    family_notes: Cartoon bomb puzzles and bright exploration.
+    popularity: Editorial selection
+    sources: []
+  - title: Super Puzzle Fighter II
+    aliases:
+      - Super Puzzle Fighter II Turbo
+    play_mode: 1 player; take turns
+    genre: puzzle
+    reason: Vibrant falling-gem Capcom puzzle battler with chibi fighters.
+    family_notes: Easy to grasp color-matching with exciting chain combos.
+    popularity: Editorial selection
+    sources: []
+  - title: Pac-Man Collection
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: arcade
+    reason: Four Pac-Man classics including Pac-Man and Pac-Attack on one cart.
+    family_notes: Timeless arcade fun for everyone.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Super Monkey Ball Jr.
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: arcade
+    reason: Surprisingly smooth GBA 3D marble-rolling obstacle courses.
+    family_notes: Cheerful arcade stages ideal for passing the controller.
+    popularity: Editorial selection
+    sources: []
+  - title: Tony Hawk's Pro Skater 2
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: sports
+    reason: Technical marvel bringing isometric trick combos and goals to GBA.
+    family_notes: Arcade skateboarding high-score runs.
+    popularity: Listed among platform million-sellers
+    sources:
+      - https://en.wikipedia.org/wiki/List_of_best-selling_Game_Boy_Advance_video_games
+  - title: Star Wars Episode III - Revenge of the Sith
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: brawler
+    reason: Crisp lightsaber beat-em-up with Obi-Wan and Anakin campaigns.
+    family_notes: Sci-fi sword action; great for Star Wars fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Lego Star Wars - The Video Game
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Playful Lego retelling of the Star Wars prequels with unlockable characters.
+    family_notes: Lighthearted slapstick humor; great for kids and parents.
+    popularity: Editorial selection
+    sources: []

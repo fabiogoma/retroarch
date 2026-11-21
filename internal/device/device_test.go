@@ -241,6 +241,10 @@ func TestSyncAllParallelROMsPlaylistsArtworkBezelsAndConfig(t *testing.T) {
 	if !strings.Contains(got["/config/Mupen64Plus-Next/n64.cfg"], `input_player1_analog_dpad_mode = "0"`) {
 		t.Fatalf("N64 override should disable left-stick D-pad mode: %s", got["/config/Mupen64Plus-Next/n64.cfg"])
 	}
+	if !strings.Contains(got["/config/mGBA/gba.cfg"], `input_player1_analog_dpad_mode = "1"`) ||
+		!strings.Contains(got["/config/mGBA/gba.cfg"], `aspect_ratio_index = "7"`) {
+		t.Fatalf("GBA override should enable left-stick D-pad mode and 3:2 aspect ratio: %s", got["/config/mGBA/gba.cfg"])
+	}
 	cfg := got["/config/retroarch.cfg"]
 	if !strings.Contains(cfg, `custom_keep = "yes"`) || !strings.Contains(cfg, `input_max_users = "2"`) || !strings.Contains(cfg, `input_player2_analog_dpad_mode = "1"`) {
 		t.Fatalf("merged config unexpected: %s", cfg)

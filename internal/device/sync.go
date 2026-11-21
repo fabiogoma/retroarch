@@ -429,6 +429,9 @@ func PrepareBezels(dir string) ([]struct{ Remote, Local string }, []struct{ Remo
 			"input_overlay_pointer_enable = \"false\"\n" +
 			fmt.Sprintf("input_player1_analog_dpad_mode = \"%s\"\n", analogMode) +
 			fmt.Sprintf("input_player2_analog_dpad_mode = \"%s\"\n", analogMode)
+		if c.AspectRatioIndex != "" {
+			overrideText += fmt.Sprintf("aspect_ratio_index = \"%s\"\n", c.AspectRatioIndex)
+		}
 		if err := os.WriteFile(override, []byte(overrideText), 0o644); err != nil {
 			return nil, nil, err
 		}

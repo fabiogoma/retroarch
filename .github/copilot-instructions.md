@@ -4,10 +4,10 @@ Read `README.md`, then `docs/OPERATIONS.md`. `COPILOT_HANDOFF.md` preserves hist
 
 ## Project
 
-- This is the source repository for RetroArch Apple TV setup tooling: https://github.com/fabiogoma/retroarch. ROMs, artwork, BIOS, device snapshots, exports, local configs and state must never be committed. Use the source allowlist and run `rom_library/check_repository.py` before publishing.
-- Use `download_assets.py` and an explicit local Archive manifest for new downloads. Complete sources for all consoles/artwork have not been supplied; do not invent them or bypass access denial. Known bezels may be fetched from their pinned upstream sources.
-- Active export: `AppleTV-Top40`, 40 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (240 total). `AppleTV-Top30` is historical.
-- Python 3.11+, standard library only; archive support uses system libarchive. `uv` is the documented runner. Commands run from the ROMs root.
+- This is the source repository for RetroArch Apple TV setup tooling: https://github.com/fabiogoma/retroarch. ROMs, artwork, BIOS, device snapshots, exports, local configs and state must never be committed. Use the source allowlist and run `go run . check` before publishing.
+- Use `go run . download` and an explicit local Archive manifest for new downloads. Complete sources for all consoles/artwork have not been supplied; do not invent them or bypass access denial. Known bezels may be fetched from their pinned upstream sources.
+- Active export: `ROMs/AppleTV-Top40`, 40 games for each of NES, SNES, N64, Genesis, Master System and PC Engine (240 total). `ROMs/AppleTV-Top30` is historical.
+- Go CLI (cobra + viper); every task is a subcommand (`catalog`, `playlists`, `sync`, `profile`, `download`, `bezels`, `check`). Archive support is pure Go. Commands run from the project root (ROM files live in `ROMs/`).
 - Device file server last used: `http://192.168.0.249`. It requires RetroArch to be open with its web server enabled. Availability and the IP can change.
 
 ## Preserve these decisions
@@ -26,9 +26,9 @@ Read `README.md`, then `docs/OPERATIONS.md`. `COPILOT_HANDOFF.md` preserves hist
 ## Working commands
 
 ```sh
-python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
-python3 -B rom_library/check_repository.py
-python3 -B rom_library/sync_apple_tv.py --dry-run
+go test ./...
+go run . check
+go run . sync --dry-run
 ```
 
 The full test suite includes a real PC Engine RAR fixture that can trigger iCloud download. See the runbook before exporting, uploading or installing. Make requested changes directly within scope, preserve unrelated settings, and update the handoff when material state changes.

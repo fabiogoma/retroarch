@@ -1,0 +1,11 @@
+# Project settings. Override with RETROARCH_<NAME> environment variables or command-line flags.
+# Use retroarch-tool.local.yaml via --config for personal overrides you do not want to commit.
+server: http://192.168.0.249      # RetroArch web file server on the Apple TV
+count: 40                          # games exported per console
+export_prefix: AppleTV-Top         # export folder is <prefix><count>
+device_home: "~"                   # RetroArch home alias used in playlist paths
+remote_rom_root: [downloads, ROMS] # ROM folder on the device file server
+connect_timeout: 30s
+response_timeout: 120s
+max_download_bytes: 34359738368    # per-file cap for Archive downloads (32 GiB)
+user_agent: RetroArchAppleTV/1.0

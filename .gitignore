@@ -1,6 +1,14 @@
 # Source allowlist: downloaded content and device snapshots stay local.
 /*
 !/.gitignore
+!/go.mod
+!/go.sum
+!/retroarch-tool.yaml
+!/main.go
+!/cmd/
+!/cmd/*.go
+!/internal/
+!/internal/**
 !/README.md
 !/COPILOT_HANDOFF.md
 !/RESUME_WITH_COPILOT.md
@@ -14,10 +22,8 @@
 !/docs/DOWNLOADS.md
 !/rom_library/
 /rom_library/*
-!/rom_library/*.py
 !/rom_library/README.md
 !/rom_library/consoles.json
-!/rom_library/config.json
 !/rom_library/curation.json
 !/rom_library/apple_tv_cores.json
 !/rom_library/archive_sources.example.json
@@ -35,9 +41,7 @@
 !/config/pce-six-button.opt
 
 # Also protect against accidental assets inside source directories.
-**/__pycache__/
 **/.DS_Store
-**/*.pyc
 **/*.png
 **/*.jpg
 **/*.jpeg

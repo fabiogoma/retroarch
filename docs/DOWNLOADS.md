@@ -1,6 +1,6 @@
 # Download ROMs and artwork outside Git
 
-`download_assets.py` uses the [Internet Archive metadata API](https://archive.org/developers/md-read.html)
+`go run . download` uses the [Internet Archive metadata API](https://archive.org/developers/md-read.html)
 to locate explicitly named files and their published sizes/checksums. It downloads
 from `https://archive.org/download/<item>/<file>`, preserving nested source paths in
 the URL. Local destinations are explicit, so curated labels can differ from source
@@ -9,7 +9,7 @@ filenames. There is no fuzzy artwork matching or automatic collection scraping.
 List an item's files before configuring a download:
 
 ```sh
-python3 -B rom_library/download_assets.py --list master_system
+go run . download list master_system
 ```
 
 `master_system` is the only original Archive item supplied to this project. Prior
@@ -45,8 +45,8 @@ least one checksum. Integrity checks establish consistency with the source, not
 authenticity against a preservation database. A file may be at most 32 GiB.
 
 ```sh
-python3 -B rom_library/download_assets.py --manifest archive_sources.local.json --dry-run
-python3 -B rom_library/download_assets.py --manifest archive_sources.local.json
+go run . download manifest archive_sources.local.json --dry-run
+go run . download manifest archive_sources.local.json
 ```
 
 Preview reads metadata and checks existing local destinations but writes nothing.
@@ -56,17 +56,16 @@ files stop the operation. Interrupted or rejected downloads leave no partial ROM
 The next run retries the whole unfinished file and skips completed files. HTTP
 401/403 stops immediately; there is no authentication bypass.
 
-HTTPS certificate verification stays enabled. If a macOS Python installation
-has no CA bundle, the downloader also loads `/etc/ssl/cert.pem`. Explicit
-`SSL_CERT_FILE` / `SSL_CERT_DIR` overrides are respected. Other certificate errors
-require fixing the Python/OS trust configuration, not disabling verification.
+HTTPS certificate verification stays enabled and uses the operating system trust
+store (`SSL_CERT_FILE` / `SSL_CERT_DIR` overrides are respected). Certificate errors
+require fixing the OS trust configuration, not disabling verification.
 
 Destinations must be inside a configured console folder (`nes/`, `snes/`, `n64/`,
 `genesis/`, `master system/`, `PC Engine/`, `gb/`, `gbc/`, `gba/`), `artwork/`, or
 `rom_library/bezels/<name>.png`. Absolute/traversal paths, symlinks and duplicate
-destinations are refused. `--root` selects another content root if needed.
+destinations are refused. Console and artwork destinations are resolved under `--roms`; bezels under `--root`.
 
-After downloading ROMs, run `roms.py` to build an export, then use the existing
+After downloading ROMs, run `go run . catalog` to build an export, then use the existing
 sync/playlist commands. Box art remains local until installed under the matching
 device thumbnail path. No artwork installer for arbitrary downloaded images is
 included; use the web file server or capture/restore a complete existing setup.
@@ -78,5 +77,5 @@ If the identical images are available in an Archive item, map those exact files
 to `rom_library/bezels/nes.png`, etc. through a manifest instead. The installer
 verifies against the pinned hashes regardless of the download origin.
 
-The older `download_master_system.py` remains a compatibility command for its
+The older `go run . download master-system` remains a compatibility command for its
 single source. Prefer the manifest-based downloader for new work.

@@ -1,6 +1,6 @@
 # RetroArch on Apple TV
 
-Python tools and configuration for preparing a curated cartridge library and
+A Go command-line tool (`retroarch`, built with cobra and viper) and configuration for preparing a curated cartridge library and
 managing RetroArch on Apple TV from a Mac or Linux host. The current curation
 targets 40 games each for NES, SNES, Nintendo 64, Genesis, Master System and
 PC Engine, with family/multiplayer notes and explicit core choices.
@@ -13,9 +13,15 @@ kept in place.
 
 ## Requirements
 
-- Python 3.11+ on macOS/Linux; no third-party Python packages.
-- System libarchive for archive scanning (macOS includes it; Linux needs its
-  libarchive package, such as `libarchive-dev` on Ubuntu).
+- Go 1.24+ on macOS/Linux. Archive support (ZIP, 7z, RAR, tar, tgz) is pure Go;
+  no system libraries are needed. Raw `.xz`/`.gz`/`.bz2` single-file archives
+  are not supported and are reported as catalog issues.
+- Run every command from the project root with `go run . <command>` (or build
+  once with `go build -o retroarch .`). `--root`, `--roms` and `--server` are
+  global flags; they can also be set with `RETROARCH_*` environment variables
+  or the committed `retroarch-tool.yaml` in the project root (server, count, export prefix, device home, remote ROM root, timeouts, download cap, user agent).
+- Subcommands: `catalog`, `playlists`, `sync`, `profile backup|restore`,
+  `download list|manifest|bezels|master-system`, `bezels install`, `check`.
 - RetroArch installed on Apple TV with the appropriate cores and its web file
   server running. Use the address displayed by your device with `--server`.
 - Internet access for downloads; cataloging/exporting work offline afterward.
@@ -30,7 +36,7 @@ and N64 performance depend on your RetroArch build/device.
 ```sh
 git clone https://github.com/fabiogoma/retroarch.git
 cd retroarch
-python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
+go test ./...
 ```
 
 1. **Choose content sources.** Copy the example download manifest, add explicit
@@ -38,8 +44,8 @@ python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
 
    ```sh
    cp rom_library/archive_sources.example.json archive_sources.local.json
-   python3 -B rom_library/download_assets.py --manifest archive_sources.local.json --dry-run
-   python3 -B rom_library/download_assets.py --manifest archive_sources.local.json
+   go run . download manifest archive_sources.local.json --dry-run
+   go run . download manifest archive_sources.local.json
    ```
 
    The empty example deliberately requires source configuration. Only one Archive
@@ -53,10 +59,10 @@ python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
    root, alongside any existing collection. Scan and create the curated export:
 
    ```sh
-   python3 -B rom_library/roms.py
+   go run . catalog
    ```
 
-   Review `AppleTV-Top40/summary.json` for missing games and archive issues.
+   Review `ROMs/AppleTV-Top40/summary.json` for missing games and archive issues.
    Existing originals are never moved/deleted. A full scan reads every source
    and may hydrate iCloud placeholders; it is unnecessary just to inspect an
    existing setup.
@@ -64,9 +70,9 @@ python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
 3. **Sync ROMs and generate playlists.** Keep RetroArch open and idle:
 
    ```sh
-   python3 -B rom_library/sync_apple_tv.py --server http://APPLE-TV-IP --dry-run
-   python3 -B rom_library/sync_apple_tv.py --server http://APPLE-TV-IP
-   python3 -B rom_library/apple_tv_playlists.py
+   go run . sync --server http://APPLE-TV-IP --dry-run
+   go run . sync --server http://APPLE-TV-IP
+   go run . playlists
    ```
 
    ROM sync is additive. Playlist generation writes local files under
@@ -85,9 +91,9 @@ python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
    bezel PNGs can also be fetched from their original, hash-pinned Libretro source:
 
    ```sh
-   python3 -B rom_library/download_assets.py --bezels
-   python3 -B rom_library/install_console_bezels.py --server http://APPLE-TV-IP
-   python3 -B rom_library/install_console_bezels.py --server http://APPLE-TV-IP --install
+   go run . download bezels
+   go run . bezels install --server http://APPLE-TV-IP
+   go run . bezels install --server http://APPLE-TV-IP --apply
    ```
 
    Archive-hosted bezel files can instead be mapped to the same local destinations
@@ -97,9 +103,9 @@ python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
 ## Back up and restore an existing setup
 
 ```sh
-python3 -B rom_library/sync_apple_tv.py --backup --server http://APPLE-TV-IP
-python3 -B rom_library/sync_apple_tv.py --restore --server http://NEW-APPLE-TV-IP --dry-run
-python3 -B rom_library/sync_apple_tv.py --restore --server http://NEW-APPLE-TV-IP
+go run . profile backup --server http://APPLE-TV-IP
+go run . profile restore --server http://NEW-APPLE-TV-IP --dry-run
+go run . profile restore --server http://NEW-APPLE-TV-IP
 ```
 
 The complete, hash-verified local snapshot lives in `rom_library/retroarch-profile/`
@@ -117,6 +123,6 @@ Cloning this repository does not recreate an excluded device snapshot.
   installation; its ignored state files/content are unavailable in a fresh clone.
 
 ```sh
-python3 -B rom_library/check_repository.py
-python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
+go run . check
+go test ./...
 ```

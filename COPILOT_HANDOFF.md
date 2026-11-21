@@ -22,7 +22,7 @@ Prefer USA, then World, then Europe ROMs, with explicitly reviewed Japanese exce
 
 | Area | State at handoff | Evidence / remaining check |
 | --- | --- | --- |
-| Local export | `AppleTV-Top40`, six consoles × 40 = 240 games | Current manifests; local hash results in snapshot |
+| Local export | `ROMs/AppleTV-Top40`, six consoles × 40 = 240 games | Current manifests; local hash results in snapshot |
 | ROM upload | Earlier sync added 60 ROMs and skipped 180; second run uploaded zero | Prior chat result; equal name/size idempotency, not remote hash checking |
 | Device playlists | Replaced old 30-entry lists with six 40-entry lists | Prior device verification; local `.lpl` files also have 40 each |
 | Box art | Matching box art for all 240 device playlist entries was verified in earlier work | Prior chat result; visual display for every entry has not been confirmed |
@@ -41,21 +41,21 @@ Device RetroArch version recorded during CRT work: **1.22.2**. Last file server:
 | Path | Role |
 | --- | --- |
 | `nes/`, `snes/`, `n64/`, `genesis/`, `master system/`, `PC Engine/` | Original input collections, including nested archives |
-| `AppleTV-Top40/` | Active generated export; each console has ROMs, `TOP40.md`, `selection.json`; root has `summary.json` |
-| `AppleTV-Top30/` | Historical 180-game export; do not mistake it for the current set |
+| `ROMs/AppleTV-Top40/` | Active generated export; each console has ROMs, `TOP40.md`, `selection.json`; root has `summary.json` |
+| `ROMs/AppleTV-Top30/` | Historical 180-game export; do not mistake it for the current set |
 | `retroarch.cfg` | Latest local main configuration; hash matches the CRT/bezel installation baseline at handoff |
-| `rom_library/roms.py` | Recursive scan, archive handling, SQLite/CSV catalog, curated export; defaults to 40 |
+| `internal/library` (`go run . catalog`) | Recursive scan, archive handling, SQLite/CSV catalog, curated export; defaults to 40 |
 | `rom_library/curation.json` | Ordered editorial selection, aliases, language exceptions, family and multiplayer notes, evidence |
 | `rom_library/consoles.json` | Console names, folder aliases and cartridge extensions |
-| `rom_library/sync_apple_tv.py` | Additive upload of manifest-listed ROMs, defaulting to Top 40 |
-| `rom_library/apple_tv_playlists.py` | Generates device-path playlists; does not upload them |
-| `rom_library/install_console_bezels.py` | Preview/install artwork and folder overrides; stops on differing existing files |
-| `rom_library/download_master_system.py` | Optional source downloader; previous missing-game attempts returned 401/403 |
-| `rom_library/test_*.py` | Archive safety/export and sync idempotency/conflict tests |
+| `internal/device` (`sync`, `profile`) | Additive upload of manifest-listed ROMs, defaulting to Top 40 |
+| `go run . playlists` | Generates device-path playlists; does not upload them |
+| `go run . bezels install` | Preview/install artwork and folder overrides; stops on differing existing files |
+| `go run . download master-system` | Optional source downloader; previous missing-game attempts returned 401/403 |
+| `*_test.go` (`go test ./...`) | Archive safety/export and sync idempotency/conflict tests |
 | `rom_library/state/` | CSV snapshots, extraction cache, backups, playlists, investigation and installation records |
 | `rom_library/bezels/` | Six original 2560×1440 PNGs, overlay configs, overrides, source hashes/license and README |
 
-Python 3.11+ with no third-party Python dependencies; system libarchive is required for archives. `uv` is the documented runner. Sync uses `fcntl`, so the current tooling assumes a Unix-like host. Artwork preparation used Pillow previously; installing the bundled images needs only the standard library.
+The tooling was rewritten from Python to a Go CLI (cobra + viper, module `github.com/fabiogoma/retroarch`); all Python was removed. Archives are read in pure Go (no libarchive). Locking uses `flock`, so a Unix-like host is assumed. Artwork preparation used Pillow previously; installing the bundled images needs no extra tools.
 
 ## Important corrections to older documentation
 

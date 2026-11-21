@@ -6,42 +6,35 @@ the dated evidence snapshot below are local-only and are not included in Git.
 The following device records describe the original installation, not the state
 of a newly configured Apple TV.
 
-Run commands from the ROMs workspace root. Read `COPILOT_HANDOFF.md` before making changes. All commands below are existing project commands, except the explicit read-only `curl` examples. No remote operation was run while creating this handoff.
+Run commands from the project root (ROM files live in `ROMs/`). Read `COPILOT_HANDOFF.md` before making changes. All commands below are existing project commands, except the explicit read-only `curl` examples. No remote operation was run while creating this handoff.
 
 ## Inspect and test
 
-Start with `AppleTV-Top40/summary.json`, its six `selection.json` files, and `rom_library/state/apple-tv-playlists/*.lpl`. Use `docs/handoff-snapshot.json` for dated file hashes and local export validation. CSV source paths may contain the old workspace root; the SQLite catalog was absent at handoff.
+Start with `ROMs/AppleTV-Top40/summary.json`, its six `selection.json` files, and `rom_library/state/apple-tv-playlists/*.lpl`. Use `docs/handoff-snapshot.json` for dated file hashes and local export validation. CSV source paths may contain the old workspace root; the SQLite catalog was absent at handoff.
 
 ```sh
-python3 --version
-python3 -B -m unittest discover -s rom_library -p 'test_*.py' -v
+go version
+go test ./...
 ```
 
-Python 3.11+ is required. Tests cover single-ROM ZIP retention, nested extraction, traversal rejection, region selection/stale catalog entries, failed-export preservation, the real outer-RAR detection regression, repeat sync and remote conflicts. The real RAR fixture can trigger an iCloud download. Tests use temporary outputs, not a complete real-library rebuild.
+Go 1.24+ is required. Tests cover single-ROM ZIP retention, nested extraction, traversal rejection, region selection/stale catalog entries, failed-export preservation, the real outer-RAR detection regression (set `RETROARCH_TEST_RAR` to a RAR path to enable it; skipped otherwise), repeat sync and remote conflicts. Tests use temporary outputs, not a complete real-library rebuild.
 
-Equivalent documented runner:
-
-```sh
-uv run --no-project python -m unittest discover -s rom_library -p 'test_*.py' -v
-```
-
-In a restricted environment with the Python interpreter already installed, prefix a `uv` command with `UV_CACHE_DIR=/private/tmp/roms-uv-cache` and use `uv run --offline --no-project ...`.
 
 ## Rebuild a selection when requested
 
 Edit `rom_library/curation.json` to change picks. Do not edit a generated selection manually and expect it to survive rebuilding.
 
 ```sh
-uv run --no-project rom_library/roms.py
+go run . catalog
 ```
 
-This performs a full recursive source scan, refreshes catalog outputs and rebuilds `AppleTV-Top40`. It can hydrate many iCloud files and take substantial time. Original ROMs remain in place. The last generated export is retained at `rom_library/state/previous-export`; a subsequent successful rebuild replaces that backup. Keep personal files outside managed exports/cache directories.
+This performs a full recursive source scan, refreshes catalog outputs and rebuilds `ROMs/AppleTV-Top40`. It can hydrate many iCloud files and take substantial time. Original ROMs remain in place. The last generated export is retained at `rom_library/state/previous-export`; a subsequent successful rebuild replaces that backup. Keep personal files outside managed exports/cache directories.
 
 Optional modes:
 
 ```sh
-uv run --no-project rom_library/roms.py --unzip-export
-uv run --no-project rom_library/roms.py --count 30
+go run . catalog --unzip-export
+go run . catalog --count 30
 ```
 
 The second example intentionally generates a separate Top 30 export. Normal operation defaults to 40. A single recognized ROM in a ZIP stays compressed; collection ZIPs and RAR/7z bundles are safely extracted to managed cache. Preserve path/link rejection, nesting/size limits and forced outer-format selection. SHA-256 checks consistency, not preservation-DAT authenticity. Disc sets, arcade ZIPs and BIOS workflows need separate profile support.
@@ -67,8 +60,8 @@ curl --fail --silent --show-error --connect-timeout 5 --max-time 15 --get --data
 ## Sync ROMs
 
 ```sh
-uv run --no-project rom_library/sync_apple_tv.py --dry-run
-uv run --no-project rom_library/sync_apple_tv.py
+go run . sync --dry-run
+go run . sync
 ```
 
 Optional: `--server http://NEW_ADDRESS` or `--export AppleTV-TopN`.
@@ -80,7 +73,7 @@ This command does **not** install playlists, thumbnails, shaders, controller opt
 ## Regenerate playlists
 
 ```sh
-uv run --no-project rom_library/apple_tv_playlists.py
+go run . playlists
 ```
 
 This writes local `.lpl` files and `generation.json` in `rom_library/state/apple-tv-playlists/`. Default export is Top 40. Optional arguments: `--export`, `--output`, `--device-home` (default `~`). It does not upload.
@@ -102,9 +95,9 @@ Current global shader is `/config/global.slangp`; the local copy is `rom_library
 The bundled bezel installer can preview device differences and install missing matching assets:
 
 ```sh
-python3 -B rom_library/download_assets.py --bezels
-python3 -B rom_library/install_console_bezels.py
-python3 -B rom_library/install_console_bezels.py --install
+go run . download bezels
+go run . bezels install
+go run . bezels install --apply
 ```
 
 Preview performs device reads and rewrites the local generated bezel configs/overrides, but does not upload. It requires automatic overrides and 4:3 to be enabled, checks playlist ROM directories, and refuses unexpected overrides or differing destinations. `--install` backs up the main config and uploads/byte-verifies PNGs, presets, provenance/license and six directory overrides. It verifies that the main config stayed unchanged. Reload a game to activate.

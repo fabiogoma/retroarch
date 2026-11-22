@@ -268,8 +268,13 @@ func TestCurationCoversUpToTop100(t *testing.T) {
 	}
 	for _, c := range Consoles {
 		entries := lib.Curated[c.Folder]
-		if len(entries) < 100 {
-			t.Errorf("%s has %d curated entries, want at least 100", c.Folder, len(entries))
+		minEntries := 100
+		if c.Folder == "32x" {
+			// Sega 32X had only 34 commercial cartridge releases.
+			minEntries = 34
+		}
+		if len(entries) < minEntries {
+			t.Errorf("%s has %d curated entries, want at least %d", c.Folder, len(entries), minEntries)
 		}
 		seen := map[string]bool{}
 		for _, e := range entries {
@@ -279,6 +284,35 @@ func TestCurationCoversUpToTop100(t *testing.T) {
 			}
 			seen[key] = true
 		}
+	}
+}
+
+func Test32XExportAndPlaylist(t *testing.T) {
+	root := t.TempDir()
+	dataDir := filepath.Join(root, "config")
+	stateDir := filepath.Join(root, "state")
+	romsDir := filepath.Join(root, "ROMs")
+	if err := os.MkdirAll(filepath.Join(romsDir, "32x"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(dataDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	os.WriteFile(filepath.Join(dataDir, "consoles.yaml"), []byte("32x:\n  extensions: [.32x]\n  folder_aliases: [32x, sega 32x]\n"), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "apple_tv_cores.yaml"), []byte("- system: Sega - 32X\n  core_path: :/Frameworks/picodrive.libretro.framework\n  core_name: Sega - MS/GG/MD/CD/32X (PicoDrive)\n"), 0o644)
+	os.WriteFile(filepath.Join(dataDir, "curation.yaml"), []byte("32x:\n  - title: Knuckles' Chaotix\n    aliases: []\n    play_mode: 2 players; simultaneous co-op\n    genre: platform\n    reason: Flagship 32X Sonic-universe platformer\n    family_notes: \"\"\n    popularity: \"\"\n    sources: []\n"), 0o644)
+	os.WriteFile(filepath.Join(romsDir, "32x", "Knuckles' Chaotix (Japan, USA) (En).32x"), []byte("32x-rom"), 0o644)
+
+	if err := Build(BuildOptions{DataDir: dataDir, StateDir: stateDir, ROMsDir: romsDir, Counts: []int{10}}); err != nil {
+		t.Fatalf("Build 32X failed: %v", err)
+	}
+	plRaw, err := os.ReadFile(filepath.Join(romsDir, "AppleTV-Top10", "playlists", "Sega - 32X.lpl"))
+	if err != nil {
+		t.Fatalf("missing 32X playlist: %v", err)
+	}
+	if !strings.Contains(string(plRaw), "~/Library/Caches/RetroArch/downloads/ROMS/32x/Knuckles' Chaotix.32x") ||
+		!strings.Contains(string(plRaw), ":/Frameworks/picodrive.libretro.framework") {
+		t.Fatalf("unexpected 32X playlist content: %s", plRaw)
 	}
 }
 

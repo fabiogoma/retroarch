@@ -6249,3 +6249,279 @@ gba:
     family_notes: Lighthearted slapstick humor; great for kids and parents.
     popularity: Editorial selection
     sources: []
+32x:
+  - title: Knuckles' Chaotix
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: platform
+    reason: Flagship 32X Sonic-universe platformer with elastic ring-tether co-op physics.
+    family_notes: Bright, colorful stages and forgiving 2-player co-op.
+    popularity: Editorial selection
+    sources: []
+  - title: Virtua Racing Deluxe
+    aliases: []
+    play_mode: 2 players; split-screen
+    genre: racing
+    reason: Smooth 32-bit arcade polygon racer with extra cars and tracks over the Genesis original.
+    family_notes: Accessible arcade racing with 2-player split-screen.
+    popularity: Editorial selection
+    sources: []
+  - title: Virtua Fighter
+    aliases: []
+    play_mode: 2 players; versus
+    genre: fighter
+    reason: Landmark 3D arcade fighting game faithfully converted to the 32X.
+    family_notes: Martial arts bouts without gore; great head-to-head.
+    popularity: Editorial selection
+    sources: []
+  - title: Star Wars Arcade
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: shooter
+    reason: Fast 3D X-Wing space combat recreating Death Star trench runs.
+    family_notes: Exciting Star Wars action; 2-player pilot/gunner co-op.
+    popularity: Editorial selection
+    sources: []
+  - title: After Burner Complete
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Super-scaler arcade jet fighter port running at crisp speed and color.
+    family_notes: Short, high-energy arcade missions; easy to pass the controller.
+    popularity: Editorial selection
+    sources: []
+  - title: Space Harrier
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Faithful home conversion of Sega's surreal super-scaler arcade classic.
+    family_notes: Fast fantasy shooting with vibrant retro visuals.
+    popularity: Editorial selection
+    sources: []
+  - title: Doom
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Iconic 3D first-person shooter showcasing the 32X hardware.
+    family_notes: Sci-fi horror and pixel blood; best for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: Mortal Kombat II
+    aliases: []
+    play_mode: 2 players; versus
+    genre: fighter
+    reason: Enhanced 32X port with richer colors, larger sprites, and arcade-closer sound.
+    family_notes: Classic 90s fighting violence and fatalities; preview before family play.
+    popularity: Editorial selection
+    sources: []
+  - title: NBA Jam - Tournament Edition
+    aliases: []
+    play_mode: 2 players; co-op or versus
+    genre: sports
+    reason: Over-the-top 2-on-2 arcade basketball with big dunks and secret players.
+    family_notes: Instant party favorite for 2 players on the couch.
+    popularity: Editorial selection
+    sources: []
+  - title: Kolibri
+    aliases: []
+    play_mode: 2 players; simultaneous co-op
+    genre: shooter
+    reason: Lush, unique hummingbird shoot-em-up from the creators of Ecco the Dolphin.
+    family_notes: Gorgeous nature visuals and gentle fantasy atmosphere.
+    popularity: Editorial selection
+    sources: []
+  - title: Tempo
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Vibrant, musical cartoon platformer with expressive 32X sprite animation.
+    family_notes: Playful cartoon style and upbeat soundtrack; family-friendly.
+    popularity: Editorial selection
+    sources: []
+  - title: Blackthorne
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Cinematic action-platformer by Blizzard with enhanced 32X graphics and extra levels.
+    family_notes: Dark sci-fi gunplay; suited for older players.
+    popularity: Editorial selection
+    sources: []
+  - title: Stellar Assault
+    aliases:
+      - Shadow Squadron
+    play_mode: 2 players; simultaneous co-op
+    genre: shooter
+    reason: Acclaimed 3D polygon space-combat sim exclusive to the 32X.
+    family_notes: Sci-fi dogfighting with optional 2-player pilot/gunner co-op.
+    popularity: Editorial selection
+    sources: []
+  - title: Pitfall - The Mayan Adventure
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: platform
+    reason: Fluid hand-drawn jungle platformer with bonus original Atari Pitfall hidden inside.
+    family_notes: Classic adventure tone; some tricky platforming jumps.
+    popularity: Editorial selection
+    sources: []
+  - title: WWF WrestleMania - The Arcade Game
+    aliases: []
+    play_mode: 2 players; co-op or versus
+    genre: sports
+    reason: Fast, exaggerated Midway arcade wrestling with over-the-top signature moves.
+    family_notes: Cartoonish arcade wrestling action; great 2-player fun.
+    popularity: Editorial selection
+    sources: []
+  - title: Zaxxon's Motherbase 2000
+    aliases:
+      - Motherbase
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Isometric 3D polygon shooter where you can hijack enemy mechs mid-flight.
+    family_notes: Classic sci-fi arcade shooting.
+    popularity: Editorial selection
+    sources: []
+  - title: Amazing Spider-Man, The - Web of Fire
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: adventure
+    reason: Rare late-era 32X Spider-Man action platformer with pre-rendered sprites.
+    family_notes: Superhero action with comic-book villains.
+    popularity: Editorial selection
+    sources: []
+  - title: Primal Rage
+    aliases: []
+    play_mode: 2 players; versus
+    genre: fighter
+    reason: Stop-motion giant dinosaurs and apes battling in a prehistoric arcade fighter.
+    family_notes: Arcade monster combat; some pixelated blood.
+    popularity: Editorial selection
+    sources: []
+  - title: Metal Head
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: First-person 3D urban mech action game built specifically for the 32X.
+    family_notes: Sci-fi robot combat with mission briefings.
+    popularity: Editorial selection
+    sources: []
+  - title: Darxide
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: shooter
+    reason: Impressive texture-mapped 3D space shooter by Frontier Developments.
+    family_notes: Pure sci-fi asteroid and alien ship combat.
+    popularity: Editorial selection
+    sources: []
+  - title: FIFA Soccer 96
+    aliases: []
+    play_mode: 2 players; co-op or versus
+    genre: sports
+    reason: 3D Virtual Stadium soccer featuring real player names and 2-player matches.
+    family_notes: Family-friendly sports competition.
+    popularity: Editorial selection
+    sources: []
+  - title: WWF Raw
+    aliases: []
+    play_mode: 2 players; co-op or versus
+    genre: sports
+    reason: Feature-packed 90s wrestling roster with tag-team and Royal Rumble modes.
+    family_notes: Classic arcade wrestling matches for 2 players.
+    popularity: Editorial selection
+    sources: []
+  - title: T-MEK
+    aliases: []
+    play_mode: 2 players; split-screen
+    genre: shooter
+    reason: Arena hover-tank combat port of Atari's 3D arcade game.
+    family_notes: Sci-fi vehicle arena battles with 2-player split-screen.
+    popularity: Editorial selection
+    sources: []
+  - title: Cosmic Carnage
+    aliases: []
+    play_mode: 2 players; versus
+    genre: fighter
+    reason: Sci-fi 2D weapon fighter with breakable armor and dynamic camera zoom.
+    family_notes: Intense sci-fi fighting action.
+    popularity: Editorial selection
+    sources: []
+  - title: BC Racers
+    aliases: []
+    play_mode: 2 players; split-screen
+    genre: racing
+    reason: Prehistoric kart-style motorcycle racing with wacky caveman racers.
+    family_notes: Lighthearted cartoon racing with 2-player split-screen.
+    popularity: Editorial selection
+    sources: []
+  - title: Star Trek - Starfleet Academy - Starship Bridge Simulator
+    aliases: []
+    play_mode: 2 players; versus
+    genre: adventure
+    reason: Tactical Starfleet bridge command simulator with 3D starship combat.
+    family_notes: Reading and strategy-heavy; great for Star Trek fans.
+    popularity: Editorial selection
+    sources: []
+  - title: Golf Magazine Presents - 36 Great Holes Starring Fred Couples
+    aliases: []
+    play_mode: 2 players; alternating turns
+    genre: sports
+    reason: Relaxed 3D-rendered golf simulation with 36 courses and turn-based play.
+    family_notes: Calm, accessible turn-based sports game for all ages.
+    popularity: Editorial selection
+    sources: []
+  - title: World Series Baseball Starring Deion Sanders
+    aliases: []
+    play_mode: 2 players; versus
+    genre: sports
+    reason: Crisp 32X baseball with behind-the-batter perspective and MLB rosters.
+    family_notes: Family-friendly head-to-head baseball.
+    popularity: Editorial selection
+    sources: []
+  - title: RBI Baseball '95
+    aliases: []
+    play_mode: 2 players; versus
+    genre: sports
+    reason: Pick-up-and-play arcade baseball with classic RBI controls.
+    family_notes: Easy-to-learn 2-player baseball.
+    popularity: Editorial selection
+    sources: []
+  - title: NFL Quarterback Club
+    aliases: []
+    play_mode: 2 players; co-op or versus
+    genre: sports
+    reason: Feature-rich 90s football with quarterback skill challenges and full seasons.
+    family_notes: Classic 2-player sports competition.
+    popularity: Editorial selection
+    sources: []
+  - title: Toughman Contest
+    aliases: []
+    play_mode: 2 players; versus
+    genre: sports
+    reason: Arcade-style behind-the-boxer fighting game with colorful characters.
+    family_notes: Cartoonish boxing bouts; fun 2-player versus mode.
+    popularity: Editorial selection
+    sources: []
+  - title: Motocross Championship
+    aliases: []
+    play_mode: 2 players; split-screen
+    genre: racing
+    reason: Road Rash-style dirt bike racing with jumps and 2-player split-screen.
+    family_notes: Fast arcade dirt-bike racing.
+    popularity: Editorial selection
+    sources: []
+  - title: Brutal - Above the Claw
+    aliases: []
+    play_mode: 2 players; versus
+    genre: fighter
+    reason: Anthropomorphic animal martial arts fighter with learnable move sets.
+    family_notes: Cartoon animal martial arts; family-accessible fighter.
+    popularity: Editorial selection
+    sources: []
+  - title: Sangokushi IV
+    aliases: []
+    play_mode: 1 player; take turns
+    genre: rpg
+    reason: Koei's deep Romance of the Three Kingdoms historical strategy game on 32X.
+    family_notes: Japanese menus and text-heavy strategy.
+    popularity: Editorial selection
+    sources: []
+    allow_japanese: true

@@ -47,3 +47,10 @@ gba:
   git_blob_sha1: a0eeed0de6c8bc8577ec67c3534928adfb0c1be9
   sha256: fee1497c0a5624aa556b6b97900955a24a594c4ac69ae0dcc6a2cafb972a5576
   modified: false
+32x:
+  author: Nosh01
+  collection: Nosh01 1440 Plain
+  source: https://raw.githubusercontent.com/libretro/overlay-borders/master/16x9%20Collections/Nosh01%201440%20Plain/Sega-32X-Bezel-16x9-2560x1440.png
+  git_blob_sha1: f8d9c553404367932074215e06c559b9be8b3e9f
+  sha256: dc5cde7b438d62c20e8511d117a280c9923586c67a268647ff28a105a7af0b9b
+  modified: false

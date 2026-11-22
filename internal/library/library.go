@@ -32,6 +32,7 @@ var Consoles = []ConsoleInfo{
 	{Slug: "pc-engine", Folder: "PC Engine", Core: "Beetle PCE Fast", System: "NEC - PC Engine - TurboGrafx 16", LibretroRepo: "NEC_-_PC_Engine_-_TurboGrafx_16", DPadOnly: true},
 	{Slug: "n64", Folder: "n64", Core: "Mupen64Plus-Next", System: "Nintendo - Nintendo 64", LibretroRepo: "Nintendo_-_Nintendo_64", DPadOnly: false},
 	{Slug: "gba", Folder: "gba", Core: "mGBA", System: "Nintendo - Game Boy Advance", LibretroRepo: "Nintendo_-_Game_Boy_Advance", DPadOnly: true, AspectRatioIndex: "7"},
+	{Slug: "32x", Folder: "32x", Core: "PicoDrive", System: "Sega - 32X", LibretroRepo: "Sega_-_32X", DPadOnly: true},
 }
 
 // ConsoleByFolder looks up console metadata by its ROM folder name.

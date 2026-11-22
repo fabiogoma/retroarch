@@ -65,3 +65,10 @@ gb:
   folder_aliases:
     - gb
     - game boy
+32x:
+  extensions:
+    - .32x
+  folder_aliases:
+    - 32x
+    - sega 32x
+    - sega32x

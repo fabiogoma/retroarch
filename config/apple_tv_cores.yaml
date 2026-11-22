@@ -19,3 +19,6 @@
 - system: Nintendo - Game Boy Advance
   core_path: :/Frameworks/mgba.libretro.framework
   core_name: Nintendo - Game Boy Advance (mGBA)
+- system: Sega - 32X
+  core_path: :/Frameworks/picodrive.libretro.framework
+  core_name: Sega - MS/GG/MD/CD/32X (PicoDrive)
